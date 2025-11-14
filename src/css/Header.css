@@ -1,0 +1,34 @@
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* (★) 로고 h1을 감싼 Link 태그 스타일 */
+.logo a {
+  text-decoration: none; /* 밑줄 제거 */
+  color: #000; /* 검은색 */
+}
+.logo a h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* (★) 로그인 버튼 Link 태그 스타일 */
+.auth-nav .nav-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #FF9800; /* 주황색 (테마색) */
+  color: white;
+  border: 1px solid #FF9800;
+  text-decoration: none; /* 밑줄 제거 */
+  font-weight: bold;
+}
+.auth-nav .nav-btn:hover {
+  background-color: #F57C00;
+}

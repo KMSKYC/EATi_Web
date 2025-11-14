@@ -1,0 +1,21 @@
+.category-view {
+  padding: 16px; /* main-content와 별도로 안쪽 여백 추가 */
+  background-color: #fff;
+  border-radius: 12px;
+}
+.category-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 모바일 기본 (2열) */
+  gap: 12px;
+}
+.category-btn {
+  padding: 20px;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+.category-btn:hover {
+  background-color: #eee;
+}
