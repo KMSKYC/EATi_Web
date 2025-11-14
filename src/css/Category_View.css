@@ -1,21 +1,36 @@
-.category-view {
-  padding: 16px; /* main-content와 별도로 안쪽 여백 추가 */
+/* (★ 1. 탭 바 래퍼 ★)
+   Flex + overflow-x-auto로 가로 스크롤 구현 */
+.category-filter-bar {
+  display: flex;
+  overflow-x: auto; /* 자식들이 넘치면 가로 스크롤 */
+  padding: 10px 16px; /* 좌우 여백 */
   background-color: #fff;
-  border-radius: 12px;
+  
+  /* (★) 스크롤바 숨기기 (디자인 트릭) */
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
 }
-.category-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* 모바일 기본 (2열) */
-  gap: 12px;
+.category-filter-bar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
-.category-btn {
-  padding: 20px;
-  font-size: 18px;
+
+/* (★ 2. 탭 버튼 (기본) ★) */
+.category-filter-btn {
+  padding: 8px 16px;
+  border-radius: 20px; /* 둥근(Pill) 모양 */
   border: 1px solid #ddd;
-  border-radius: 8px;
   background-color: #f9f9f9;
+  font-size: 14px;
   cursor: pointer;
+  
+  margin-right: 10px; /* 버튼 사이 간격 */
+  white-space: nowrap; /* 줄바꿈 방지 */
 }
-.category-btn:hover {
-  background-color: #eee;
+
+/* (★ 3. '선택된' 탭 버튼 스타일 ★) */
+.category-filter-btn.selected {
+  background-color: #4A90E2; /* 스크린샷의 파란색 (예시) */
+  color: white;
+  border-color: #4A90E2;
+  font-weight: bold;
 }

@@ -9,14 +9,19 @@ function AICard(props) {
   }
 
   return (
-    <div className="aiCard">
-      <h2>오늘은 [{restaurant.menu}] 어떠세요?</h2>
-      <p>🤖 AI 추천 이유: 날씨 (비)</p> 
-      <p>📍 [{restaurant.name}]</p>
-      <p>💸 {restaurant.price}원</p>
+<div className="aiCard">
+      <img 
+        src={restaurant.imageUrl} 
+        alt={restaurant.menu}      
+        className="ai-card-image"  
+      />
+      <div className="ai-card-content">
+        <span className="ai-card-category">{restaurant.category}</span>
+        <h3>{restaurant.menu}</h3> 
+        <p>{restaurant.description}</p>
+      </div> 
     </div>
   );
 }
 
-// 이 컴포넌트를 다른 파일에서 쓸 수 있게 '수출'합니다.
 export default AICard;

@@ -1,25 +1,32 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // (★ 1. 'Link'를 import ★)
-import '../css/Header.css'
+// (★) 'a' 태그 대신 'Link' 태그를 씁니다.
+import { Link } from 'react-router-dom'; 
+import '../css/Header.css'; // (CSS 파일 import)
 
-// (★ 2. 'props'가 더 이상 필요 없음 ★)
 function Header() {
   return (
     <header className="site-header">
       <div className="logo">
-        {/* (★ 3. 로고도 '홈(/)'으로 가는 'Link'로 ★) */}
-        <Link to="/" style={{textDecoration: 'none', color: 'black'}}>
-          <h1>런치 메이트</h1>
+        <Link to="/">
+          <h1>EATI</h1> 
         </Link>
       </div>
-      <nav className="auth-nav">
-        {/* (★ 4. 'button'을 'Link'로 변경 ★) */}
-        <Link to="/login" className="nav-btn">
-          로그인
+      <nav className="main-nav">
+        <Link to="/" className="nav-link">
+          홈
+        </Link>
+        <Link to="/searchpage" className="nav-link">
+          메뉴 찾기
+        </Link>
+        <Link to="/eattogether" className="nav-link">
+          같이 먹기
+        </Link>
+        <Link to="/mypage" className="nav-link">
+          마이페이지
         </Link>
       </nav>
+
     </header>
   );
 }
-
 export default Header;

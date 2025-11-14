@@ -1,14 +1,35 @@
 .aiCard {
-  border: 1px solid #e0e0e0;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  margin: 16px 0;
   background-color: #ffffff;
+  overflow: hidden; /* (★) 이미지가 둥근 모서리를 뚫고 나가지 않게 */
+  margin-bottom: 16px; /* (★) 그리드 간격을 위해 추가 */
 }
 
-/* styles.title 에 해당 */
-.title {
-  margin-top: 0;
-  color: orange;
+.ai-card-image {
+  width: 100%; /* 카드 너비에 꽉 차게 */
+  height: 180px; /* 이미지 높이 고정 */
+  object-fit: cover; /* 이미지가 찌그러지지 않고 꽉 차게 (중요) */
+}
+
+.ai-card-content {
+  padding: 16px; /* 이미지 외 텍스트 영역에만 패딩 */
+}
+
+.card-grid {
+  display: grid;
+  
+  /* (★) 모바일(기본): 2열 그리드 */
+  grid-template-columns: 1fr 1fr;
+  
+  gap: 16px; /* 카드 사이의 간격 */
+  margin-top: 20px; /* 카테고리 필터와의 간격 */
+}
+
+/* (★) 768px 이상 PC 화면일 때 */
+@media (min-width: 768px) {
+  .card-grid {
+    /* (★) PC: 4열 그리드 */
+    grid-template-columns: repeat(4, 1fr);
+  }
 }

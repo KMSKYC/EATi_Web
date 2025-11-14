@@ -1,34 +1,48 @@
+/* === 헤더 (Header.js) 스타일 === */
 .site-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  padding: 10px 32px; /* 패딩 조정 */
   background-color: #ffffff;
   border-bottom: 1px solid #e0e0e0;
 }
 
-/* (★) 로고 h1을 감싼 Link 태그 스타일 */
+/* 1. 로고 */
 .logo a {
-  text-decoration: none; /* 밑줄 제거 */
-  color: #000; /* 검은색 */
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
 }
 .logo a h1 {
   margin: 0;
   font-size: 24px;
 }
 
-/* (★) 로그인 버튼 Link 태그 스타일 */
-.auth-nav .nav-btn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  background-color: #FF9800; /* 주황색 (테마색) */
-  color: white;
-  border: 1px solid #FF9800;
-  text-decoration: none; /* 밑줄 제거 */
-  font-weight: bold;
+/* (★☆★☆★ 2. 메인 내비게이션 탭 ★☆★☆★) */
+.main-nav {
+  display: flex; /* 탭들을 가로로 배치 */
+  align-items: center;
+  gap: 24px; /* 탭 사이의 간격 */
 }
-.auth-nav .nav-btn:hover {
-  background-color: #F57C00;
+
+.nav-link {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333; /* 기본 글자색 */
+  text-decoration: none;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent; /* 밑줄 효과 (평소엔 투명) */
+  transition: border-color 0.2s;
 }
+
+.nav-link:hover {
+  color: plum; /* 마우스 올리면 색상 변경 */
+}
+
+/* (★) 나중에 '현재 활성화된 탭'을 꾸밀 때 사용할 수 있습니다.
+.nav-link.active {
+  color: #FF9800;
+  border-bottom: 2px solid #FF9800;
+}
+*/

@@ -1,0 +1,51 @@
+.list-item-card {
+  display: flex; /* (★) 핵심: 이미지와 컨텐츠를 가로로 배치 */
+  align-items: center; /* 세로 중앙 정렬 */
+  padding: 16px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0; /* 리스트 구분선 */
+  position: relative; /* Badge의 위치 기준 */
+}
+
+.list-item-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-right: 16px; /* 이미지와 텍스트 사이 간격 */
+}
+
+.list-item-content {
+  flex: 1; /* (★) 텍스트 영역이 남은 공간을 모두 차지 */
+}
+
+.list-item-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #333;
+}
+
+.list-item-category {
+  font-size: 14px;
+  color: #888;
+  margin: 0 0 8px 0;
+}
+
+.list-item-info {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+  gap: 8px; /* 별점과 거리 사이 간격 */
+}
+
+.list-item-badge {
+  position: absolute; /* (★) 카드 우측 상단에 고정 */
+  top: 16px;
+  right: 16px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #4CAF50; /* 영업중(녹색) */
+  /* (★) 상태에 따라 색상을 바꿀 수 있습니다. */
+}
