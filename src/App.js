@@ -18,12 +18,12 @@ function App() {
     <Routes>
       <Route path="/" element={<MainLayout/>}>
       <Route index element={<HomePage />} />
-      <Route path="/searchpage" element={<SearchPage />} />
-      <Route path="/searchpage/map" element={<SearchMapPage />} />
+      <Route path="/menu" element={<SearchPage />} />
+      <Route path="/menu/map" element={<SearchMapPage />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
-      <Route path="/eattogether" element={<EatTogether />} />
+      <Route path="/together" element={<EatTogether />} />
       </Route>
     </Routes>  
     // <main className="main-content">

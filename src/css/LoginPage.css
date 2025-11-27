@@ -57,3 +57,23 @@
 .signup-link-btn:hover {
   text-decoration: underline; /* 호버 시 밑줄 */
 }
+
+.input-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 4px;
+  margin-top: 10px;
+  font-weight: 500;
+  display: block; /* 줄바꿈 */
+}
+
+/* 폼 내부의 첫 번째 라벨은 위쪽 여백 제거 */
+.input-label:first-child {
+  margin-top: 0;
+}
+
+.divider-small {
+  border: none;
+  border-top: 1px dashed #eee;
+  margin: 15px 0;
+}

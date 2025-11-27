@@ -12,7 +12,7 @@ function SearchPage() {
       </p>
 
       <div className="search-options-grid">
-        <Link to="/searchpage/map" className="search-option-card map-card">
+        <Link to="/menu/map" className="search-option-card map-card">
           <div className="icon-placeholder">
             <span role="img" aria-label="map">🗺️</span> 
           </div>
@@ -20,7 +20,7 @@ function SearchPage() {
           <p>주변 맛집을 지도에서 확인하고 선택하세요</p>
         </Link>
 
-        <Link to="/search/category" className="search-option-card category-card">
+        <Link to="/menu/category" className="search-option-card category-card">
           <div className="icon-placeholder">
             <span role="img" aria-label="category">🍱</span>
           </div>
