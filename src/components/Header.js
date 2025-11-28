@@ -9,6 +9,15 @@ function Header() {
   const navigate = useNavigate(); // (★) 이동 도구
   const withAuth = useRequireAuth();
 
+  const handleEatTogetherClick = (e) => {
+    // 만약 로그인이 '안 되어' 있다면?
+    if (!user) {
+      e.preventDefault(); // (★핵심) Link의 원래 기능(페이지 이동)을 강제로 막습니다.
+      withAuth(); // 그리고 로그인 유도 팝업을 띄웁니다.
+    }
+    // 로그인이 되어 있다면? -> 아무것도 안 함 (Link가 알아서 페이지를 이동시킴)
+  };
+
   return (
     <header className="site-header">
       <div className="logo">
@@ -23,7 +32,7 @@ function Header() {
         <Link to="/menu" className="nav-link">
           메뉴 찾기
         </Link>
-        <Link  className="nav-link" onClick={() => withAuth(() => navigate('/together'))}>
+        <Link  to="/together" className="nav-link" onClick={handleEatTogetherClick}>
           같이 먹기
         </Link>
         {user ? (
