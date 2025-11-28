@@ -68,3 +68,34 @@
   justify-content: space-evenly; /* 버튼 사이에 균등한 간격 */
   margin-top: 20px;
 }
+.popup-box {
+  /* (★) 이 팝업 박스를 기준으로 X 버튼의 위치를 잡습니다. */
+  position: relative; 
+  /* 기존 스타일 유지: background: white; padding: 20px; 등 */
+}
+
+.close-x-btn {
+  position: absolute; /* 팝업 박스에 고정 */
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  font-weight: 200;
+  cursor: pointer;
+  color: #666;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.close-x-btn:hover {
+  color: #333;
+}
+.popup-overlay {
+    /* 다른 요소 위에 확실히 띄우기 */
+    z-index: 1000; 
+}
+.popup-box {
+    /* 팝업 박스 자체도 높은 z-index 설정 */
+    z-index: 1001; 
+}

@@ -7,12 +7,15 @@ function AIPopup(props) {
 
   return (
     <div className="popup-overlay" onClick={onClose}>
-      <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+      <div className="popup-box" > 
+        <button className="close-x-btn" onClick={onClose}>
+            &times;
+        </button>
         
         <h3>✨ AI가 추천하는 오늘의 메뉴! ✨</h3>
         <AICard restaurant={restaurant} />
         
-         <div className="popup-buttons">
+        <div className="popup-buttons">
           <button className="popup-btn-like" onClick={onLike}>
             좋아요 👍
           </button>

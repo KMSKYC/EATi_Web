@@ -1,0 +1,197 @@
+/* HomePage.css */
+
+.home-container {
+  max-width: 1200px; /* 전체 컨테이너 최대 너비 */
+  margin: 0 auto;
+  padding: 0 20px; /* 좌우 패딩 */
+  font-family: 'Pretendard', sans-serif; /* 폰트 설정 */
+}
+
+/* === 1. 메인 배너 영역 === */
+.main-banner {
+  background: linear-gradient(135deg, #6a11cb 0%, #2577fc 100%); /* 그라데이션 배경 */
+  color: white;
+  text-align: center;
+  padding: 80px 20px; /* 상하 여백 늘림 */
+  border-radius: 20px; /* 둥근 모서리 */
+  margin-top: 30px;
+  position: relative; /* 화살표 위치 기준 */
+  overflow: hidden; /* 자식 요소 삐져나감 방지 */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+}
+
+.main-banner::before { /* 배경 패턴 (선택 사항) */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0 30v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 30v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 6h4V4H2V0H0v4h4v2H0v4h2V6zm0 30h4v-2H2v-4H0v4h4v2H0v4h2v-6zM2 0h4V0H2V0H0v4h4V2H0V0zm0 30h4v-2H2v-4H0v4h4v2H0v4h2v-6zm0 30h4v-2H2v-4H0v4h4v2H0v4h2v-6zM58 6h4V4h-2V0h-2v4h4v2h-4V4zm0 30h4v-2h-2v-4h-2v4h4v2h-4v-6zm0 30h4v-2h-2v-4h-2v4h4v2h-4v-6zM58 0h4V0h-2V0h-2v4h4V2h-4V0z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.banner-title {
+  font-size: 3.2em; /* 폰트 크기 키움 */
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+}
+
+.banner-description {
+  font-size: 1.1em;
+  font-weight: 300;
+  margin-bottom: 40px;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+
+.ai-recommend-btn {
+  background-color: #f7f7f7; /* 밝은 배경 */
+  color: #6a11cb; /* 보라색 텍스트 */
+  border: none;
+  padding: 18px 35px;
+  border-radius: 50px; /* 아주 둥근 모서리 */
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+.ai-recommend-btn:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-3px); /* 살짝 뜨는 효과 */
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-down-indicator { /* 스크롤 다운 애니메이션 */
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.scroll-down-indicator:hover {
+  border-color: white;
+  transform: translateX(-50%) translateY(2px);
+}
+
+.arrow-down {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(45deg);
+  animation: bounce 1.5s infinite; /* 바운스 애니메이션 */
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0) rotate(45deg);
+  }
+  40% {
+    transform: translateY(-5px) rotate(45deg);
+  }
+  60% {
+    transform: translateY(-2px) rotate(45deg);
+  }
+}
+
+
+/* === 2. 카테고리 필터 === */
+.category-filter-section {
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.category-tabs {
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  flex-wrap: wrap; /* 모바일에서 넘치면 줄바꿈 */
+  gap: 10px; /* 버튼 간 간격 */
+}
+
+.category-tab-btn {
+  background: #f0f2f5; /* 밝은 회색 배경 */
+  color: #555;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px; /* 둥근 모양 */
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.category-tab-btn:hover {
+  background-color: #e0e2e6;
+  color: #333;
+}
+
+.category-tab-btn.active {
+  background: linear-gradient(135deg, #6a11cb 0%, #2577fc 100%); /* 활성화된 버튼 색상 */
+  color: white;
+  box-shadow: 0 4px 10px rgba(106, 17, 203, 0.3);
+}
+
+/* === 3. 추천 메뉴 카드 리스트 === */
+.recommendation-cards-section {
+  padding: 0 20px 50px 20px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 15px;
+}
+
+/* === 모바일 반응형 === */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 0 15px;
+  }
+  .main-banner {
+    padding: 60px 15px;
+    margin-top: 20px;
+  }
+  .banner-title {
+    font-size: 2.2em;
+  }
+  .banner-description {
+    font-size: 1em;
+  }
+  .ai-recommend-btn {
+    padding: 15px 30px;
+    font-size: 1em;
+  }
+  .category-filter-section {
+    margin-top: 40px;
+  }
+  .category-tab-btn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 25px; /* 모바일에서는 1열 */
+  }
+}

@@ -56,15 +56,18 @@
 
 /* 회원가입 버튼 (강조) */
 .signup-btn {
-  background-color: #FF9800; /* 주황색 배경 */
-  color: white !important;   /* 글자색 흰색 (중요) */
-  border-radius: 20px;       /* 둥근 모서리 */
+  background-color: #2577fc; /* 메인 배너 그라데이션의 파란색 */
+  color: white !important;
+  border-radius: 20px;
   padding: 8px 16px;
-  border: 1px solid #FF9800;
+  border: none; /* 테두리 제거 */
+  font-weight: 600; /* 좀 더 두껍게 */
   transition: background-color 0.2s;
+  box-shadow: 0 4px 10px rgba(37, 119, 252, 0.3); /* 은은한 그림자 */
 }
 
 .signup-btn:hover {
-  background-color: #F57C00;
+  background-color: #1a5ac9; /* hover 시 약간 어둡게 */
   color: white;
+  transform: translateY(-2px); /* 살짝 뜨는 효과 */
 }
