@@ -44,3 +44,14 @@ body {
 .hero-btn:hover {
   background-color: #3a7bc8;
 }
+
+.main-content {
+  max-width: 1200px; /* 헤더와 동일 */
+  width: 95%;        /* 모바일 여백 */
+  margin: 0 auto;    /* 중앙 정렬 */
+  padding: 20px 0;   /* 위아래 간격 */
+  
+  /* (선택사항) 내용물도 박스처럼 보이게 하려면 배경색 추가 */
+  /* background-color: #fff; */
+  /* border-radius: 20px; */
+}

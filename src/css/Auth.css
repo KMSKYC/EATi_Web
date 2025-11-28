@@ -1,0 +1,199 @@
+/* === 로그인/회원가입 페이지 전체 래퍼 (화면 중앙 정렬용) === */
+.auth-wrapper {
+  min-height: 80vh; /* 화면 높이의 80% 확보 */
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  justify-content: center; /* 수직 중앙 정렬 */
+  align-items: center; /* 수평 중앙 정렬 */
+  padding: 20px;
+}
+
+/* === 1. 로고 (박스 바깥쪽) === */
+.auth-logo {
+  margin-bottom: 30px; /* 박스와의 간격 */
+  text-align: center;
+}
+
+.auth-logo a {
+  text-decoration: none;
+  font-size: 40px; /* 로고 크기 키움 */
+  font-weight: 900;
+  color: #7442eb; /* 브랜드 컬러 */
+  letter-spacing: -1px;
+}
+
+.auth-logo a:hover {
+  opacity: 0.9;
+}
+
+/* === 2. 흰색 박스 (폼 컨테이너) === */
+.page-container {
+  width: 100%;
+  max-width: 420px; /* 너비 고정 */
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 20px; /* 둥근 모서리 */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+  border: 1px solid #f0f0f0;
+}
+
+.page-container h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: #333;
+  font-size: 24px;
+}
+
+/* === 3. 입력 폼 스타일 === */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 4px;
+  margin-top: 10px;
+  font-weight: 500;
+  display: block;
+}
+.input-label:first-child {
+  margin-top: 0;
+}
+
+.login-form input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none; /* 포커스 시 기본 테두리 제거 */
+  transition: border-color 0.2s;
+}
+.login-form input:focus {
+  border-color: #7442eb; /* 포커스 시 보라색 테두리 */
+}
+
+/* (★ 사용자님 수정) 그라데이션 버튼 적용! */
+.login-form .login-btn {
+  padding: 14px; /* 버튼 높이 살짝 키움 */
+  font-size: 16px;
+  font-weight: 700; /* 글자 굵게 */
+  background: linear-gradient(135deg, #6a11cb 0%, #2577fc 100%); /* 보라-파랑 그라데이션 */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px; /* 위쪽 간격 추가 */
+  transition: transform 0.1s, box-shadow 0.2s;
+}
+.login-form .login-btn:hover {
+  transform: translateY(-2px); /* 살짝 뜨는 효과 */
+  box-shadow: 0 4px 12px rgba(106, 17, 203, 0.3); /* 그림자 추가 */
+}
+.login-form .login-btn:active {
+  transform: translateY(0);
+}
+
+/* === 4. 기타 요소 === */
+.divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 24px 0;
+}
+
+.divider-small {
+  border: none;
+  border-top: 1px dashed #eee;
+  margin: 15px 0;
+}
+
+/* (★ 사용자님 수정) 파란색 링크 텍스트 */
+.signup-link-btn {
+  display: block;
+  text-align: center;
+  background: none;
+  border: none;
+  color: #2577fc; /* 파란색 */
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+}
+.signup-link-btn:hover {
+  text-decoration: underline;
+}
+.small-btn {
+  padding: 0 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap; /* 줄바꿈 방지 */
+}
+.small-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.mypage-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-item-btn {
+  background: none;
+  border: 1px solid #eee;
+  padding: 15px;
+  text-align: left;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #333;
+  transition: background-color 0.2s;
+}
+.menu-item-btn:hover {
+  background-color: #f9f9f9;
+}
+
+/* 로그아웃 버튼 (빨간색 강조) */
+.logout-action-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: #fff0f0; /* 연한 빨강 배경 */
+  color: #d32f2f; /* 빨강 글씨 */
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.logout-action-btn:hover {
+  background-color: #ffe0e0;
+}
+.menu-item-btn {
+  background-color: #f9f9f9; /* (★) 아주 연한 회색 배경 */
+  border: 1px solid #eee;    /* 테두리는 연하게 */
+  padding: 16px 20px;        /* 안쪽 여백 넉넉하게 */
+  text-align: left;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
+  
+  /* (★) 아이콘과 텍스트 정렬 */
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+}
+
+.menu-item-btn:hover {
+  background-color: #f0f0f0; /* 호버 시 진해짐 */
+  transform: translateX(5px); /* (★) 오른쪽으로 살짝 움직이는 애니메이션 */
+  border-color: #ccc;
+}

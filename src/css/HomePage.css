@@ -1,9 +1,7 @@
 /* HomePage.css */
 
 .home-container {
-  max-width: 1200px; /* 전체 컨테이너 최대 너비 */
   margin: 0 auto;
-  padding: 0 20px; /* 좌우 패딩 */
   font-family: 'Pretendard', sans-serif; /* 폰트 설정 */
 }
 

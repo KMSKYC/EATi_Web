@@ -1,16 +1,15 @@
-/*
-이 페이지는 메인 헤더(Header.js) 없이,
-페이지 자체가 꽉 차는 것을 기준으로 합니다.
-(App.js에서 Header를 숨기는 로직이 필요할 수 있습니다)
-*/
 .search-map-container {
-  width: 100%;
-  height: 100vh; /* (★) 화면 전체 높이 */
+  max-width: 1200px; /* 헤더와 동일 */
+       /* 모바일 여백 */
+  height: 85vh;      
+  margin: 20px auto; /* 중앙 정렬 (헤더와 간격 20px) */
   display: flex;
-  flex-direction: column; /* 세로로 쌓기 */
+  flex-direction: column;
   background: #fff;
-  /* (★) 페이지 자체가 스크롤되지 않도록 고정 */
-  overflow: hidden; 
+  border-radius: 20px; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  overflow: hidden; /* 둥근 모서리 밖으로지도 삐져나감 방지 */
 }
 
 /* === 1. '헤더' (뒤로가기 + 제목) === */

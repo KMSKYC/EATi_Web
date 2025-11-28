@@ -1,45 +1,41 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 // import { authApi } from '../api/authApi'; 
 
-// 1. 방송국 채널 생성 (빈 껍데기)
 const AuthContext = createContext(null);
 
-// 2. 방송국 건물 (Provider) 만들기
 export function AuthProvider({ children }) {
-  // 'user' 상태: 로그인하면 객체가 들어가고, 로그아웃하면 null이 됨
   const [user, setUser] = useState(null);
 
   // (★) 로그인 함수
-  const login = async (email, password) => {
+const login = async (userId, password) => {
     try {
-      console.log(`[AuthContext] 로그인 시도: ${email}`);
+      console.log(`[AuthContext] 로그인 시도: ${userId} / ${password}`);
+      if (userId === 'kmins97' && password === '1234') {
+        const mockUser = {
+          id: 1,
+          userId: userId,
+          email: 'kmins97@naver.com',
+          nickname: '욘뚱', // 마이페이지에서 보여줄 닉네임
+          profileImage: '', // 가짜 프로필 사진
+          region: '서울 강남구'
+        };
+        setUser(mockUser);
 
-      // --- [1. 나중에 백엔드 API 연동 시 사용할 코드] ---
-      // const response = await authApi.login(email, password);
-      // const userData = response.user; // 백엔드에서 준 유저 정보
-      // const token = response.token;   // 백엔드에서 준 토큰
-      // localStorage.setItem('token', token); // 토큰 저장
+        // 4. '새로고침' 해도 로그인 유지되게 브라우저 저장소에 저장
+        localStorage.setItem('user', JSON.stringify(mockUser));
+        // localStorage.setItem('token', 'fake-jwt-token'); // 토큰도 가짜로 저장
+        console.log("✅ 로그인 성공!");
+        return true; // LoginPage에게 성공 알림
+      } 
       
-      // --- [2. 지금 사용할 테스트용 가짜 코드] ---
-      // (백엔드가 없으니 무조건 성공한다고 가정하고 가짜 정보를 만듭니다)
-      const mockUser = { 
-        id: 1, 
-        email: email, 
-        nickname: '런치왕', // (가짜 닉네임)
-        region: '서울' 
-      };
-      
-      // 상태 업데이트 (앱에 알림)
-      setUser(mockUser);
-      
-      // '새로고침' 해도 안 날아가게 브라우저 창고(LocalStorage)에 저장
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      
-      return true; // "로그인 성공!"
+      else {
+        console.warn("❌ 로그인 실패: 아이디 또는 비번 불일치");
+        return false; // LoginPage에게 실패 알림
+      }
 
     } catch (error) {
       console.error("로그인 에러:", error);
-      return false; // "로그인 실패..."
+      return false;
     }
   };
 
@@ -51,17 +47,14 @@ export function AuthProvider({ children }) {
     console.log("[AuthContext] 로그아웃 되었습니다.");
   };
 
-  // (★) 앱이 처음 켜질 때 '로그인 복구' (새로고침 대비)
+
   useEffect(() => {
-    // 창고(LocalStorage)를 뒤져봅니다.
     const storedUser = localStorage.getItem('user');
-    
     if (storedUser) {
-      // "어? 저장된 사람이 있네?" -> 복구!
       setUser(JSON.parse(storedUser));
-      console.log("[AuthContext] 로그인 정보가 복구되었습니다.");
+      console.log("🔄 로그인 정보 복구됨");
     }
-  }, []); // [] : 앱 켜질 때 딱 한 번만 실행
+  }, []);
 
   // 3. 방송 송출 (값들을 자식 컴포넌트들에게 내려보냄)
   return (

@@ -1,22 +1,32 @@
 /* === 헤더 (Header.js) 스타일 === */
 .site-header {
+max-width: 1200px; /* HomePage의 너비와 일치시킴 */
+  width: 95%; /* 모바일에서 꽉 차지 않게 약간의 여백 */
+  margin: 20px auto 0 auto; /* 위쪽 20px 띄우고, 좌우 중앙 정렬 */
+
+  /* 2. "박스" 느낌 내기 (핵심!) */
+  background-color: #ffffff;
+  border-radius: 20px; /* 모서리를 둥글게 */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 그림자로 입체감 주기 */
+  border: 1px solid #f0f0f0; /* 옅은 테두리로 경계선 명확히 */
+
+  /* 3. 내부 정렬 (Flexbox) */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 32px; /* 패딩 조정 */
-  background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 15px 30px; /* 안쪽 여백을 넉넉하게 */
 }
 
 /* 1. 로고 */
 .logo a {
-  text-decoration: none;
+text-decoration: none;
   color: #000;
-  font-weight: bold;
+  font-weight: 900; /* 로고를 더 굵게 */
+  letter-spacing: -1px;
 }
 .logo a h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 26px;
 }
 
 /* (★☆★☆★ 2. 메인 내비게이션 탭 ★☆★☆★) */
@@ -27,47 +37,45 @@
 }
 
 .nav-link {
-  font-size: 16px;
-  font-weight: 500;
-  color: #333; /* 기본 글자색 */
+font-size: 16px;
+  font-weight: 600; /* 글자 두께 올림 */
+  color: #555;
   text-decoration: none;
   padding: 8px 0;
-  border-bottom: 2px solid transparent; /* 밑줄 효과 (평소엔 투명) */
-  transition: border-color 0.2s;
+  transition: color 0.2s;
+  position: relative;
 }
 
 .nav-link:hover {
-  color: plum; /* 마우스 올리면 색상 변경 */
+ color: #7442eb;
 }
 
-/* (★) 나중에 '현재 활성화된 탭'을 꾸밀 때 사용할 수 있습니다.
-.nav-link.active {
-  color: #FF9800;
-  border-bottom: 2px solid #FF9800;
-}
-*/
-/* 로그아웃 버튼 (링크처럼 보이게) */
 .logout-btn {
   background: none;
   border: none;
   cursor: pointer;
-  font-family: inherit; /* 폰트 상속 */
+  font-family: inherit;
+  font-weight: 600;
+  color: #777;
+}
+.logout-btn:hover {
+  color: #333;
 }
 
 /* 회원가입 버튼 (강조) */
 .signup-btn {
-  background-color: #2577fc; /* 메인 배너 그라데이션의 파란색 */
+  background-color: #2577fc; /* 파란색 */
   color: white !important;
-  border-radius: 20px;
-  padding: 8px 16px;
-  border: none; /* 테두리 제거 */
-  font-weight: 600; /* 좀 더 두껍게 */
-  transition: background-color 0.2s;
-  box-shadow: 0 4px 10px rgba(37, 119, 252, 0.3); /* 은은한 그림자 */
+  border-radius: 50px; /* 완전 둥근 버튼 */
+  padding: 10px 24px; /* 크기 키움 */
+  border: none;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(37, 119, 252, 0.3);
+  transition: all 0.2s;
 }
 
 .signup-btn:hover {
-  background-color: #1a5ac9; /* hover 시 약간 어둡게 */
-  color: white;
-  transform: translateY(-2px); /* 살짝 뜨는 효과 */
+  background-color: #1a5ac9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(37, 119, 252, 0.4);
 }

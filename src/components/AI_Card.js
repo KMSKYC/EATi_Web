@@ -1,18 +1,15 @@
 import React from 'react';
-// (★) 이 CSS 파일에 고퀄리티 디자인이 정의되어 있습니다.
+import { Link } from 'react-router-dom'
 import '../css/AI_Card.css'; 
 
-function AICard(props) {
-  const { restaurant } = props;
+function AICard({restaurant}) {
 
   if (!restaurant) {
     return null;
   }
 
   return (
-    // (★) 1. 외곽 래퍼 클래스를 'ai-card-item'으로 변경 (그림자/애니메이션 기준)
-    <div className="ai-card-item">
-      {/* (★) 2. 이미지와 뱃지를 담을 래퍼 (비율, 오버플로우 관리) */}
+    <Link to={`/restaurant/${restaurant.id}`}className="ai-card-item">
       <div className="ai-card-image-wrapper">
         <img 
           src={restaurant.imageUrl} 
@@ -29,7 +26,7 @@ function AICard(props) {
         <h3 className="ai-card-title">{restaurant.menu}</h3> 
         <p className="ai-card-description">{restaurant.description}</p>
       </div> 
-    </div>
+    </Link>
   );
 }
 

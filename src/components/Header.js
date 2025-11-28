@@ -30,9 +30,9 @@ function Header() {
             <Link to="/mypage" className="nav-link">
               마이페이지
             </Link>
-            <button className="nav-link logout-btn" onClick={logout}>
+            {/* <button className="nav-link logout-btn" onClick={logout}>
               로그아웃
-            </button>
+            </button> */}
           </>
         ) : (
           // [CASE 2] 비로그인 상태일 때 (user가 없음) -> 로그인, 회원가입
