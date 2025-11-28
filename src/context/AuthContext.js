@@ -10,12 +10,12 @@ export function AuthProvider({ children }) {
 const login = async (userId, password) => {
     try {
       console.log(`[AuthContext] 로그인 시도: ${userId} / ${password}`);
-      if (userId === 'kmins97' && password === '1234') {
+      if (userId === 'admin' && password === '1234') {
         const mockUser = {
           id: 1,
           userId: userId,
-          email: 'kmins97@naver.com',
-          nickname: '욘뚱', // 마이페이지에서 보여줄 닉네임
+          email: 'admin@eati.com',
+          nickname: 'eati', // 마이페이지에서 보여줄 닉네임
           profileImage: '', // 가짜 프로필 사진
           region: '서울 강남구'
         };
