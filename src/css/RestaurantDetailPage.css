@@ -1,98 +1,180 @@
+/* === 전체 페이지 배경 === */
 body {
   background-color: #f4f4f4;
 }
 
+/* === 상세 페이지 컨테이너 === */
 .detail-page-container {
+  max-width: 1200px;
+  width: 95%; 
+  margin: 20px auto; 
+  
   background-color: #fff;
-  min-height: 100vh;
+  min-height: 80vh;
   position: relative;
+  
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  overflow: hidden; 
+  
+  display: flex;
+  flex-direction: column; 
 }
 
-/* 헤더 (이미지 위에 뜸) */
+/* 1. 상단 헤더 (뒤로가기 버튼) */
 .detail-header {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 16px;
+  padding: 20px;
   z-index: 10;
+  display: flex;
+  justify-content: space-between;
 }
-.detail-header .back-btn {
-  background: rgba(255, 255, 255, 0.8);
+
+.back-btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0,0,0,0.1);
   font-size: 20px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s, background-color 0.2s;
+  color: #333;
+}
+.back-btn:hover {
+  background-color: #fff;
+  transform: scale(1.05);
+  color: #7442eb; /* (★) 호버 시 브랜드 컬러 */
 }
 
-/* 이미지 */
+/* 2. 대표 이미지 */
 .detail-image-wrapper {
   width: 100%;
-  height: 300px; /* 이미지 높이 */
+  height: 400px; 
+  background-color: #eee;
 }
+
 .detail-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* 컨텐츠 박스 (위로 살짝 올라오게) */
+/* 3. 컨텐츠 박스 */
 .detail-content {
-  background: white;
-  border-radius: 24px 24px 0 0; /* 위쪽만 둥글게 */
-  margin-top: -24px; /* 이미지 위로 겹침 */
-  padding: 24px;
   position: relative;
-  min-height: 500px;
+  background: white;
+  margin-top: -30px; 
+  border-radius: 30px 30px 0 0;
+  padding: 40px; 
+  flex-grow: 1; 
 }
 
+/* (★ 수정) 카테고리 뱃지 - 테마 컬러 적용 */
 .detail-category {
-  color: #FF9800;
-  font-weight: bold;
+  display: inline-block;
+  background-color: #f0f2ff; /* 연한 보라색 배경 */
+  color: #7442eb; /* (★) 브랜드 보라색 */
+  font-weight: 700;
   font-size: 14px;
-}
-.detail-title {
-  margin: 8px 0;
-  font-size: 24px;
-}
-.detail-description {
-  color: #666;
-  line-height: 1.5;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
 }
 
+/* 식당 이름 */
+.detail-title {
+  margin: 0 0 12px 0;
+  font-size: 32px;
+  font-weight: 800;
+  color: #222;
+  letter-spacing: -0.5px;
+}
+
+/* 설명글 */
+.detail-description {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* 정보 행 */
 .detail-info-row {
   display: flex;
   gap: 16px;
-  margin-top: 16px;
-  color: #333;
-  font-weight: 500;
+  padding: 24px;
+  background-color: #f8f9fa; /* 아주 연한 회색 */
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #444;
+  align-items: center;
+  justify-content: space-around; 
+}
+.detail-info-row span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
+/* 구분선 */
+.divider {
+  border: none;
+  height: 1px;
+  background-color: #eee;
+  margin: 40px 0;
+}
+
+/* 4. 하단 액션 버튼들 */
 .action-buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 30px;
+  gap: 16px;
 }
 
 .action-btn {
-  padding: 16px;
+  width: 100%;
+  padding: 18px; 
   border-radius: 12px;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 18px; 
+  font-weight: 700;
   border: none;
   cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.action-btn:active {
+  transform: translateY(0);
+}
+
+/* (★ 수정) 메인 버튼 - 테마 그라데이션 적용 */
 .action-btn.primary {
-  background-color: #FF9800;
+  /* EATI 브랜드 그라데이션 */
+  background: linear-gradient(135deg, #6a11cb 0%, #2577fc 100%);
   color: white;
+  box-shadow: 0 4px 15px rgba(37, 119, 252, 0.3);
 }
+
 .action-btn.secondary {
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: #f0f2f5;
+  color: #555;
+}
+.action-btn.secondary:hover {
+  background-color: #e4e6eb;
 }

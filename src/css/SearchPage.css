@@ -1,77 +1,110 @@
 /* === SearchPage (메뉴 찾기) 스타일 === */
 .search-page-container {
-  max-width: 800px; /* 페이지 컨텐츠 너비 제한 */
-  margin: 40px auto; /* 중앙 정렬 */
-  padding: 0 16px; /* 좌우 패딩 */
+  /* (★ 수정) 헤더와 똑같은 1200px로 넓힘 */
+  max-width: 1200px;
+  width: 95%;
+  margin: 40px auto; /* 위쪽 여백도 조금 더 줌 */
+  padding: 0; /* 좌우 패딩 제거 (꽉 차게) */
 }
 
 .search-page-title {
-  font-size: 28px;
-  margin-bottom: 8px;
-  color: #333;
+  font-size: 32px; /* 제목도 키움 */
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #222;
+  padding-left: 10px; /* 살짝 들여쓰기 */
 }
 
 .search-page-description {
-  font-size: 16px;
+  font-size: 18px;
   color: #666;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  padding-left: 10px;
 }
 
-/* 1. 옵션 카드들을 위한 그리드 */
+/* 1. 옵션 카드 그리드 */
 .search-options-grid {
   display: grid;
-  grid-template-columns: 1fr; /* (★) 모바일 기본: 1열 */
-  gap: 20px; /* 카드 사이 간격 */
+  grid-template-columns: 1fr; /* 모바일: 1열 */
+  gap: 30px; /* 간격 넓힘 */
 }
 
-/* 2. 각 옵션 카드 스타일 */
+/* 2. 각 옵션 카드 스타일 (대폭 확대) */
 .search-option-card {
   display: flex;
-  flex-direction: column; /* 내용물을 세로로 쌓기 */
-  justify-content: center; /* 세로 중앙 정렬 */
-  align-items: flex-start; /* 왼쪽 정렬 */
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   
-  padding: 30px;
-  border-radius: 12px;
-  text-decoration: none; /* Link 태그의 밑줄 제거 */
-  color: white; /* 텍스트 색상 */
+  /* (★ 수정) 카드 크기 키움 */
+  padding: 50px; 
+  border-radius: 24px; /* 둥근 정도도 키움 */
+  min-height: 250px; /* 기본 높이 키움 */
   
-  min-height: 180px; /* 최소 높이 */
-  transition: transform 0.2s ease-in-out; /* 호버 애니메이션 */
+  text-decoration: none;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* 그림자 진하게 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
+
 .search-option-card:hover {
-  transform: translateY(-5px); /* 살짝 위로 뜨는 효과 */
+  transform: translateY(-8px); /* 더 많이 떠오름 */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
 }
 
+/* 아이콘 크기 확대 */
 .search-option-card .icon-placeholder {
-  font-size: 48px; /* 아이콘 크기 */
-  margin-bottom: 15px;
+  font-size: 80px; /* 아이콘 엄청 크게 */
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.2); /* 아이콘 배경 원 */
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+/* 제목 크기 확대 */
 .search-option-card h3 {
-  font-size: 22px;
+  font-size: 36px;
+  font-weight: 800;
   margin-top: 0;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
+
+/* 설명글 크기 확대 */
 .search-option-card p {
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 18px;
+  line-height: 1.6;
   margin: 0;
+  opacity: 0.9;
+  max-width: 80%; /* 글자가 너무 길어지지 않게 */
 }
 
-/* 3. 특정 카드 배경색 (스크린샷 참고) */
+/* 3. 카드 배경색 (그라데이션 강화) */
 .search-option-card.map-card {
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); /* 보라-파랑 */
-}
-.search-option-card.category-card {
-  background: linear-gradient(135deg, #fc6767 0%, #ec008c 100%); /* 핑크-보라 (스크린샷은 좀 더 보라색) */
+  background: linear-gradient(135deg, #536976 0%, #292E49 100%); /* (예시) 고급진 다크 블루 */
+  /* 또는 기존 유지: background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 보라-파랑 */
 }
 
-/* (★) 768px 이상 PC 화면일 때 */
+.search-option-card.category-card {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); 
+  /* 또는 기존 유지 */
+  background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); /* 핑크-레드 */
+}
+
+/* (★) PC 화면 (768px 이상) */
 @media (min-width: 768px) {
   .search-options-grid {
-    grid-template-columns: 1fr 1fr; /* (★) PC에서는 2열 */
+    grid-template-columns: 1fr 1fr; /* 2열 배치 */
   }
+  
   .search-option-card {
-    min-height: 200px; /* PC에서 카드 높이 좀 더 키움 */
+    /* PC에서는 높이를 더 시원하게 */
+    min-height: 400px; 
   }
 }

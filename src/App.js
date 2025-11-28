@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom'; 
 import MyPage from './pages/MyPage';
-import Header from './components/Header';
+// import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -13,6 +13,7 @@ import MainLayout from './layouts/MainLayout';
 import EatTogether from './pages/EatTogether';
 import SearchCategoryPage from './pages/SearchCategoryPage';
 
+
 function App() {
   
   return (
@@ -21,7 +22,7 @@ function App() {
       <Route index element={<HomePage />} />
       <Route path="/menu" element={<SearchPage />} />
       <Route path="/mypage" element={<MyPage />} />
-      <Route path="/together" element={<EatTogether />} />
+      <Route path="/together" element={<EatTogether />}/>
       </Route>
       <Route path="/restaurant/:id" element={<RestaurantDetailPage />} />
        <Route path="/menu/category" element={<SearchCategoryPage />} />

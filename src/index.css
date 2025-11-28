@@ -55,3 +55,16 @@ body {
   /* background-color: #fff; */
   /* border-radius: 20px; */
 }
+
+
+/* SweetAlert2 커스텀 스타일 */
+div:where(.swal2-container) div:where(.swal2-popup) {
+  border-radius: 20px !important; /* 팝업 둥글게 */
+  padding: 30px !important;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled) {
+  border-radius: 12px !important; /* 버튼 둥글게 */
+  font-weight: bold !important;
+  font-size: 15px !important;
+}

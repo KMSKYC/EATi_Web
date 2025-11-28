@@ -1,11 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 import {useAuth } from '../context/AuthContext'
-import '../css/Header.css'; // (CSS 파일 import)
-
+import { useRequireAuth } from '../hooks/useRequireAuth';
+import '../css/Header.css'; 
 function Header() {
 
   const { user, logout } = useAuth();
+  const navigate = useNavigate(); // (★) 이동 도구
+  const withAuth = useRequireAuth();
 
   return (
     <header className="site-header">
@@ -21,7 +23,7 @@ function Header() {
         <Link to="/menu" className="nav-link">
           메뉴 찾기
         </Link>
-        <Link to="/together" className="nav-link">
+        <Link  className="nav-link" onClick={() => withAuth(() => navigate('/together'))}>
           같이 먹기
         </Link>
         {user ? (

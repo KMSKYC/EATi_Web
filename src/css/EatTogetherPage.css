@@ -1,0 +1,133 @@
+/* 페이지 컨테이너 */
+.eat-together-container {
+  /* (★) 메인 컨텐츠 규격 따르기 */
+  /* max-width 등은 App.js의 main-content가 이미 잡아주지만,
+     여기서는 내부 여백과 정렬을 담당합니다. */
+}
+
+/* 헤더 */
+.eat-header {
+  margin-bottom: 24px;
+}
+.eat-header h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+.eat-header p {
+  color: #666;
+}
+
+/* 글쓰기 버튼 */
+.create-post-wrapper {
+  margin-bottom: 20px;
+  text-align: right;
+}
+.create-post-btn {
+  background-color: #2577fc; /* 파란색 */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(37, 119, 252, 0.3);
+  transition: transform 0.2s;
+}
+.create-post-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* 그리드 레이아웃 */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 반응형 그리드 */
+  gap: 20px;
+}
+
+/* 게시글 카드 */
+.post-card {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* 마감된 카드 스타일 */
+.post-card.closed {
+  background-color: #f9f9f9;
+  opacity: 0.7;
+}
+
+/* 카드 헤더 */
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.status-badge {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.status-badge.recruiting {
+  background-color: #e3f2fd;
+  color: #2577fc;
+}
+.status-badge.closed {
+  background-color: #eee;
+  color: #888;
+}
+.post-time {
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+}
+
+/* 카드 내용 */
+.post-title {
+  font-size: 18px;
+  margin: 0 0 8px 0;
+  color: #333;
+}
+.post-restaurant {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 20px 0;
+}
+
+/* 카드 푸터 (인원수) */
+.post-footer {
+  margin-top: auto; /* 하단 고정 */
+}
+.participant-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 6px;
+}
+.host-name { font-weight: 600; }
+
+/* 게이지 바 */
+.progress-bar-bg {
+  width: 100%;
+  height: 8px;
+  background-color: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background-color: #FF9800; /* 오렌지색 게이지 */
+  border-radius: 4px;
+}

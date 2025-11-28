@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // (★) URL의 :id를 가져오는 훅
 import { mockCards } from '../data/mockCards'; // (★) 데이터 가져오기
+import { useRequireAuth } from '../hooks/useRequireAuth';
 import '../css/RestaurantDetailPage.css';
 
 function RestaurantDetailPage() {
   const { id } = useParams(); // URL에서 'id'를 꺼냅니다.
   const navigate = useNavigate();
   const [restaurant, setRestaurant] = useState(null);
+  const withAuth = useRequireAuth();
+
+  const gotoEatTogether = () => {
+    navigate('/together');
+  };
 
   useEffect(() => {
     const found = mockCards.find(r => r.id === parseInt(id));
@@ -48,7 +54,7 @@ function RestaurantDetailPage() {
 
         {/* 4. 액션 버튼들 */}
         <div className="action-buttons">
-          <button className="action-btn primary">
+          <button className="action-btn primary" onClick={()=>withAuth(gotoEatTogether)}>
             같이 먹기 모집하기 🍚
           </button>
           <button className="action-btn secondary">
