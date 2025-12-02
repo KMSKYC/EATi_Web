@@ -42,7 +42,6 @@
 
 애플리케이션을 **기능(Feature)과 재사용성(Reusability)**을 기준으로 계층화하여 설계했습니다.
 
-```mermaid
 graph TD
     User[User Client] -->|Access| Pages[Pages Layer]
     Pages -->|Compose| Components[Components Layer]
@@ -61,8 +60,10 @@ API Layer (/api): 백엔드 서버와의 통신 규약 정의 및 Axios 설정
 
 Hooks Layer (/hooks): 공통 로직 모듈화 (useRequireAuth 등)
 
-📱 주요 기능 및 UI
-1. 🤖 AI 메뉴 추천 (Home)
+---
+
+##📱 주요 기능 및 UI
+*1. 🤖 AI 메뉴 추천 (Home)
 일 1회 스마트 팝업: 하루 한 번, 접속 시 AI가 추천 메뉴를 팝업으로 제안합니다.
 
 쿠키 기반 제어: js-cookie를 활용하여 사용자 경험을 해치지 않도록 팝업 노출을 제어합니다.
@@ -86,7 +87,7 @@ PC: 가로 분할 (좌측 리스트, 우측 지도)
 
 로그인 상태 유지: LocalStorage와 Context를 연동하여 새로고침 시에도 로그인이 유지됩니다.
 
-📂 프로젝트 구조
+##📂 프로젝트 구조
 Bash
 
 src/
@@ -109,12 +110,11 @@ src/
 │   ├── RestaurantDetailPage.js
 │   └── css/         # 페이지별 스타일
 └── data/            # Mock Data (개발용 데이터)
-🚀 실행 방법
+
+##🚀 실행 방법
 사전 요구사항
 Node.js 18+
-
 npm
-
 설치 및 실행
 프로젝트 클론
 
@@ -131,8 +131,7 @@ npm install
 
 코드 스니펫
 
-# 백엔드 API 주소 (친구 서버 IP)
-VITE_API_BASE_URL=[http://134.185.96.179/api](http://134.185.96.179/api)
+# 백엔드 API 주소
 개발 서버 실행
 
 Bash
