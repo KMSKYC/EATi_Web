@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../css/RestaurantListItem.css'; // (★) 새로 만들 CSS 파일 import
+import './css/RestaurantListItem.css'; // (★) 새로 만들 CSS 파일 import
 
 function RestaurantListItem({ restaurant }) {
   if (!restaurant) return null;

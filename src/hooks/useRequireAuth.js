@@ -9,7 +9,6 @@ export const useRequireAuth = () => {
  const withAuth = (action) => {
     if (!user) {
       Swal.fire({
-        // (★ 수정 1) 아이콘을 'warning' 대신 'info'나 'question'으로, 색상은 브랜드 컬러로!
         icon: 'info', 
         iconColor: '#7442eb', // 보라색 아이콘
         

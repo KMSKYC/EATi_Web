@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import RestaurantListItem from '../components/RestaurantListItem';
-import '../css/SearchMapPage.css';
+import './css/SearchMapPage.css';
 
 const mockMapResults = [
   { 

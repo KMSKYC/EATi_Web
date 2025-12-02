@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../css/SearchCategoryPage.css'; // (★) CSS import 확인
+import './css/SearchCategoryPage.css'; // (★) CSS import 확인
 
 function SearchCategoryPage() {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import '../css/EatTogetherPage.css'; 
+import './css/EatTogetherPage.css'; 
 
 const mockPosts = [
   { id: 1, title: '12시 김치찌개 드실 분!', restaurant: '맛있는 김치찌개', current: 3, max: 4, time: '12:00', host: '런치왕', status: 'recruiting' },

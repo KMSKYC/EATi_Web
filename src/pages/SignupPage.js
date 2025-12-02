@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
-import '../css/Auth.css'; 
+import './css/Auth.css'; 
 import { authApi } from '../api/authApi'
 
 function SignupPage() {
@@ -9,8 +9,7 @@ function SignupPage() {
   
   const [formData, setFormData] = useState({
       email: '',
-      emailCode: '',
-      userid: '',
+      emailCode:'',
       password: '',
       confirmPassword: '', // 비번 확인용 (DB엔 안 보냄)
       nickname: '',
@@ -19,10 +18,8 @@ function SignupPage() {
       region: ''           // (추가) 지역
     });
   
-  const [userIdCheckMessage, setUserIdCheckMessage] = useState(''); // 화면에 띄울 메시지
-  const [isUserIdAvailable, setIsUserIdAvailable] = useState(false); // 사용 가능 여부 (true여야 가입 가능)
-
-  // (이메일 인증용)
+  const [emailCheckMessage, setEmailCheckMessage] = useState(''); // 화면에 띄울 메시지
+  const [isEmailAvailable, setIsEmailAvailable] = useState(false); // 사용 가능 여부 (true여야 가입 가능)
   const [isEmailSent, setIsEmailSent] = useState(false); // 인증번호 발송 여부
   const [isEmailVerified, setIsEmailVerified] = useState(false); // 인증 완료 여부
 
@@ -33,47 +30,54 @@ function SignupPage() {
         [name]: value
       });
 
-      if (name === 'userid') {
-      setIsUserIdAvailable(false);
-      setUserIdCheckMessage('');
-      }
       if (name === 'email') {
+      setIsEmailAvailable(false);
       setIsEmailSent(false);
       setIsEmailVerified(false);
-    }
+      setEmailCheckMessage('');
+      }
     };
 
-    const handleCheckUserId = async () => {
-    if (!formData.userid) {
-      alert("아이디을 입력해주세요.");
+    const handleCheckEmail = async () => {
+    if (!formData.email) {
+      alert("이메일을 입력해주세요.");
       return;
     }
     try {
-      // API 호출
-      // const isDuplicate = await authApi.checkEmailDuplicate(formData.userid);
-      const isDuplicate = formData.userid === 'admin';
+      const isDuplicate = formData.email === 'admin@eati.com';
 
       if (isDuplicate) {
-        setIsUserIdAvailable(false);
-        setUserIdCheckMessage('❌ 이미 사용 중인 아이디입니다.');
+        setIsEmailAvailable(false);
+        setEmailCheckMessage('❌ 이미 가입된 이메일입니다.');
       } else {
-        setIsUserIdAvailable(true);
-        setUserIdCheckMessage('✅ 사용 가능한 아이디입니다.');
+        setIsEmailAvailable(true);
+        setEmailCheckMessage('✅ 사용 가능한 이메일입니다. 인증번호를 요청하세요');
       }
     } catch (error) {
       alert("중복 확인 중 오류가 발생했습니다.");
     }
   };
 
-  // 5. 이메일 인증번호 발송 함수
-  const handleSendEmail = () => {
-    if (!formData.email) {
-      alert("이메일을 입력해주세요.");
+const handleSendEmail = () => {
+    // (★ 수정) 중복확인을 안 했으면 막지만, '재전송'은 막지 않습니다.
+    // (!isEmailAvailable) 조건만 남기고, (isEmailSent) 체크는 삭제합니다.
+    if (!isEmailAvailable) {
+      alert("먼저 이메일 중복 확인을 해주세요.");
       return;
     }
-    // (가짜 API 호출)
-    alert(`[가상] ${formData.email}로 인증번호 '1234'를 발송했습니다!`);
-    setIsEmailSent(true); // 인증번호 입력칸 보여주기
+
+    // (★) 재전송임을 알리기 위해 메시지를 조금 다르게 할 수도 있습니다.
+    const message = isEmailSent 
+      ? `[재전송] ${formData.email}로 인증번호 '1234'를 다시 보냈습니다!`
+      : `[가상] ${formData.email}로 인증번호 '1234'를 발송했습니다!`;
+
+    alert(message);
+    
+    setIsEmailSent(true); // 입력칸 보이기
+    setEmailCheckMessage('✅ 인증번호가 발송되었습니다. 이메일을 확인해주세요.');
+    
+    // (선택 사항) 재전송 시 입력칸 초기화
+    setFormData(prev => ({ ...prev, emailCode: '' }));
   };
 
   // 6. 이메일 인증번호 확인 함수
@@ -86,41 +90,46 @@ function SignupPage() {
     }
   };
 
+  // 4. 이메일 수정하기 (초기화 버튼)
+  const handleResetEmail = () => {
+    setIsEmailAvailable(false);
+    setIsEmailSent(false);
+    setIsEmailVerified(false);
+    setEmailCheckMessage('');
+    setFormData({ ...formData, email: '' }); // 입력창 비우기
+  };
+
 
     const handleSignupSubmit = async () => {
-    if (!formData.userid || !formData.password || !formData.nickname) {
-      alert("필수 항목(아이디, 비밀번호, 닉네임)을 모두 입력해주세요!");
+      if (!isEmailVerified) {
+          alert("이메일 인증을 완료해주세요.");
+          return;
+    }
+    if (!formData.email || !formData.password || !formData.nickname) {
+      alert("필수 항목(이메일, 비밀번호, 닉네임)을 모두 입력해주세요!");
       return;
     }
     if (formData.password !== formData.confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    if (!isUserIdAvailable) {
-      alert("아이디 중복 확인을 해주세요.");
+    if (!isEmailAvailable) {
+      alert("이메일 중복 확인을 해주세요.");
       return;
     }
-    // (★) 이메일 인증 확인
-    if (!isEmailVerified) {
-      alert("이메일 인증을 완료해주세요.");
-      return;
-    }
-
 
     try {
       const dataToSend = {
-        userId:formData.userid,
         email: formData.email,
         password: formData.password,
         nickname: formData.nickname,
         birthdate: formData.birthdate || null,
         gender: formData.gender || null,
         region: formData.region || null,
-        // status는 보통 백엔드에서 기본값('ACTIVE')으로 처리합니다.
       };
 
       
-      alert("회원가입 성공! 로그인 해주세요.");
+      alert("회원가입 성공!");
       navigate('/login'); // 로그인 페이지로 이동
 
     } catch (error) {
@@ -137,70 +146,70 @@ function SignupPage() {
     <div className="page-container">
       <h2>회원가입</h2>
       <div className="login-form">
-        <label className="input-label">아이디 (필수)</label>
-        
-        {/* (★ 4. 이메일 입력 + 버튼 UI 구성 ★) */}
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <input 
-            type="text" name="userid" 
-            placeholder="아이디입력"
-            value={formData.userid} onChange={handleChange} 
-            style={{ flex: 1 }} // 입력창이 남은 공간 차지
-          />
-          <button 
-            className="small-btn"
-            type="button" // form submit 방지
-            onClick={handleCheckUserId}
-          >
-            중복확인
-          </button>
-        </div>
-        {/* (★) 메시지 출력 공간 */}
-        {userIdCheckMessage && (
-          <p style={{ 
-            fontSize: '12px', 
-            marginTop: '4px', 
-            color: isUserIdAvailable ? 'green' : 'red' 
-          }}>
-            {userIdCheckMessage}
-          </p>
-        )}
-
-        {/* === 2. 이메일 입력 (인증번호 발송) === */}
-          <label className="input-label">이메일 인증 (필수)</label>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <input 
-              type="email" name="email" 
-              placeholder="example@email.com"
-              value={formData.email} onChange={handleChange} 
-              disabled={isEmailVerified} // 인증되면 수정 불가
-              style={{ flex: 1 }}
-            />
-            <button 
-              type="button" 
-              className="small-btn"
-              onClick={handleSendEmail}
-              disabled={isEmailVerified}
-            >
-              {isEmailSent ? '재전송' : '인증번호'}
-            </button>
-          </div>
-
-          {/* === 3. 인증번호 입력 (발송 후에만 보임) === */}
-          {isEmailSent && !isEmailVerified && (
-            <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-              <input 
-                type="text" name="emailCode" 
-                placeholder="인증번호 4자리"
-                value={formData.emailCode} onChange={handleChange} 
-                style={{ flex: 1 }}
-              />
-              <button type="button" className="small-btn" onClick={handleVerifyEmail}>
-                확인
-              </button>
-            </div>
-          )}
-          {isEmailVerified && <p style={{color:'green', fontSize:'12px', marginTop:'4px'}}>✅ 이메일 인증 완료</p>}
+          <label className="input-label">이메일 (아이디)</label>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <input 
+                        type="email" name="email" 
+                        placeholder="example@email.com"
+                        value={formData.email} onChange={handleChange} 
+                        // disabled={isEmailAvailable || isEmailSent}
+                        disabled={isEmailVerified}
+                        style={{ flex: 1 }}
+                      />
+                      
+                      {/* (★) 상태에 따라 버튼이 바뀝니다! */}
+                      {!isEmailAvailable ? (
+                        // 1단계: 중복확인 버튼
+                        <button type="button" className="small-btn" onClick={handleCheckEmail}>
+                          중복확인
+                        </button>
+                      ) : (
+                        // 2단계: 인증번호 전송 버튼 (중복확인 통과 시 등장)
+                        <button 
+                          type="button" 
+                          className="small-btn" 
+                          onClick={handleSendEmail}
+                          disabled={isEmailVerified} // 인증 완료되면 비활성
+                          style={{ backgroundColor: isEmailSent ? '#fff' : '#2577fc;', color: isEmailSent ? '#333' : '#fff' }}
+                        >
+                          {isEmailSent ? '재전송' : '인증번호 받기'}
+                        </button>
+                      )}
+                    </div>
+                      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                          {/* (★ 수정) 인증 완료되지 않았을 때만 메시지 보여주기 */}
+                          {!isEmailVerified && emailCheckMessage && (
+                            <p style={{ fontSize: '12px', marginTop: '4px', color: emailCheckMessage.includes('❌') ? 'red' : 'green' }}>
+                              {emailCheckMessage}
+                            </p>
+                          )}
+                          {/* 인증 완료 메시지 (★ 신규 추가) */}
+                          {isEmailVerified && (
+                            <p style={{ fontSize: '12px', marginTop: '4px', color: 'green', fontWeight: 'bold' }}>
+                              ✅ 이메일 인증이 완료되었습니다.
+                            </p>
+                          )}
+                          {/* 이메일 잘못 썼을 때 되돌리는 버튼 */}
+                          {isEmailAvailable && !isEmailVerified && (
+                            <span onClick={handleResetEmail} style={{fontSize:'12px', color:'#999', cursor:'pointer', textDecoration:'underline'}}>
+                              이메일 수정
+                            </span>
+                          )}
+                        </div>
+                      {/* 인증번호 입력칸 */}
+                                {isEmailSent && !isEmailVerified && (
+                                  <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                                    <input 
+                                      type="text" name="emailCode" 
+                                      placeholder="인증번호 4자리"
+                                      value={formData.emailCode} onChange={handleChange} 
+                                      style={{ flex: 1 }}
+                                    />
+                                    <button type="button" className="small-btn" onClick={handleVerifyEmail}>
+                                      확인
+                                    </button>
+                                  </div>
+                                )}
 
 
         <label className="input-label">비밀번호 (필수)</label>
@@ -224,7 +233,6 @@ function SignupPage() {
 
         <hr className="divider-small" />
         
-        {/* ... (나머지 생년월일, 성별, 지역 코드는 그대로 유지) ... */}
         <label className="input-label">생년월일 (선택)</label>
         <input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} />
 

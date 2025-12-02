@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
 import {useAuth } from '../context/AuthContext'
 import { useRequireAuth } from '../hooks/useRequireAuth';
-import '../css/Header.css'; 
+import './css/Header.css'; 
 function Header() {
 
   const { user, logout } = useAuth();

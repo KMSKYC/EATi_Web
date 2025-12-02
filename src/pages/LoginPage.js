@@ -1,21 +1,18 @@
 import React, {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
 import { useAuth } from '../context/AuthContext';
-import '../css/Auth.css'
+import './css/Auth.css'
 
 function LoginPage() {
-  const [userId, setUserId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
   const navigate = useNavigate();
   const { login } = useAuth(); 
 
   const handleLogin = async () => {
-    // (디버깅용 로그) 여기서 입력값이 제대로 찍히는지 확인해보세요!
-    console.log("입력된 값:", userId, password);
-
     // Context의 login 함수 실행
-    const success = await login(userId, password);
+    const success = await login(email, password);
 
     if (success) {
       navigate('/'); 
@@ -34,9 +31,9 @@ function LoginPage() {
       <div className="login-form">
         <input 
           type="text" 
-          placeholder="아이디" 
-          value={userId} 
-          onChange={(e) => setUserId(e.target.value)}
+          placeholder="이메일" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input 
           type="password" 

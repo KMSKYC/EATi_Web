@@ -1,62 +1,59 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-// import { authApi } from '../api/authApi'; 
+import Cookies from 'js-cookie';
+import { authApi } from '../api/authApi'; // (★) 주석 해제! 진짜 API 사용
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  // (★) 로그인 함수
-const login = async (userId, password) => {
+  // (★) 진짜 로그인 함수
+  const login = async (email, password) => {
     try {
-      console.log(`[AuthContext] 로그인 시도: ${userId} / ${password}`);
-      if (userId === 'admin' && password === '1234') {
-        const mockUser = {
-          id: 1,
-          userId: userId,
-          email: 'admin@eati.com',
-          nickname: 'eati', // 마이페이지에서 보여줄 닉네임
-          profileImage: '', // 가짜 프로필 사진
-          region: '서울 강남구'
-        };
-        setUser(mockUser);
+      console.log(`[AuthContext] 서버로 로그인 요청: ${email}`);
 
-        // 4. '새로고침' 해도 로그인 유지되게 브라우저 저장소에 저장
-        localStorage.setItem('user', JSON.stringify(mockUser));
-        // localStorage.setItem('token', 'fake-jwt-token'); // 토큰도 가짜로 저장
-        console.log("✅ 로그인 성공!");
-        return true; // LoginPage에게 성공 알림
-      } 
-      
-      else {
-        console.warn("❌ 로그인 실패: 아이디 또는 비번 불일치");
-        return false; // LoginPage에게 실패 알림
+      // 1. 진짜 API 호출!
+      const data = await authApi.login(email, password);
+      console.log("서버 응답 성공:", data);
+
+      const token = data.accessToken || data.token; 
+      const userData = data.member || data.user || { email: email, nickname: '사용자' }; 
+
+      // 2. 토큰 저장 (API 요청 때마다 쓰기 위해)
+      if (token) {
+        localStorage.setItem('accessToken', token);
       }
 
+      // 3. 상태 업데이트 & 쿠키 저장 (로그인 유지용)
+      setUser(userData);
+      Cookies.set('user', JSON.stringify(userData), { expires: 1 }); // 1일 유지
+
+      return true; // 성공
+
     } catch (error) {
-      console.error("로그인 에러:", error);
+      console.error("❌ 로그인 실패:", error);
+      // 에러 메시지 띄우기 (옵션)
+      alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
       return false;
     }
   };
 
-  // (★) 로그아웃 함수
+  // (★) 로그아웃
   const logout = () => {
-    setUser(null); // 상태 비우기
-    localStorage.removeItem('user'); // 창고에서 삭제
-    localStorage.removeItem('token'); // 토큰도 삭제
-    console.log("[AuthContext] 로그아웃 되었습니다.");
+    setUser(null);
+    Cookies.remove('user'); // 유저 정보 삭제
+    localStorage.removeItem('accessToken'); // 토큰 삭제
+    console.log("👋 로그아웃");
   };
 
-
+  // (★) 앱 켤 때 복구
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = Cookies.get('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
-      console.log("🔄 로그인 정보 복구됨");
     }
   }, []);
 
-  // 3. 방송 송출 (값들을 자식 컴포넌트들에게 내려보냄)
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
       {children}
@@ -64,5 +61,4 @@ const login = async (userId, password) => {
   );
 }
 
-// 4. 방송 수신기 (Hook) - 다른 파일에서 'useAuth()'로 쉽게 쓰기 위함
 export const useAuth = () => useContext(AuthContext);

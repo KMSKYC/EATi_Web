@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
-import '../css/SearchPage.css'; 
+import './css/SearchPage.css'; 
 
 function SearchPage() {
     

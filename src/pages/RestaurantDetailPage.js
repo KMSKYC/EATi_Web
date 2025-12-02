@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // (★) URL의 :id를 가져오는 훅
 import { mockCards } from '../data/mockCards'; // (★) 데이터 가져오기
 import { useRequireAuth } from '../hooks/useRequireAuth';
-import '../css/RestaurantDetailPage.css';
+import './css/RestaurantDetailPage.css';
 
 function RestaurantDetailPage() {
   const { id } = useParams(); // URL에서 'id'를 꺼냅니다.

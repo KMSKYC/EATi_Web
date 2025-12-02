@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/Category_View.css'
+import './css/Category_View.css'
 
 function CategoryView(props) {
 const { selectedCategory, onSelectCategory } = props;

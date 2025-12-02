@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import '../css/AI_Card.css'; 
+import './css/AI_Card.css'; 
 
 function AICard({restaurant}) {
 

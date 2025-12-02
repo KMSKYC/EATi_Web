@@ -1,6 +1,6 @@
 import React from 'react';
 import AICard from './AI_Card'; // (경로 맞게 수정)
-import '../css/AI_Popup.css'
+import './css/AI_Popup.css'
 
 function AIPopup(props) {
   const { restaurant, onClose, onLike } = props;
