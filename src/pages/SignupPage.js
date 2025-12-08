@@ -128,9 +128,6 @@ const handleSendEmail = () => {
       };
 
     try {
-
-      console.log("가입 요청 보냄", dataToSend)
-
       
       alert("회원가입 성공!");
       navigate('/login'); // 로그인 페이지로 이동
