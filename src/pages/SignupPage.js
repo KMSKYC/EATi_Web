@@ -44,8 +44,7 @@ function SignupPage() {
       return;
     }
     try {
-      const isDuplicate = formData.email === 'admin@eati.com';
-
+      const isDuplicate = await authApi.checkEmailDuplicate(formData.email);
       if (isDuplicate) {
         setIsEmailAvailable(false);
         setEmailCheckMessage('❌ 이미 가입된 이메일입니다.');
@@ -54,6 +53,7 @@ function SignupPage() {
         setEmailCheckMessage('✅ 사용 가능한 이메일입니다. 인증번호를 요청하세요');
       }
     } catch (error) {
+      console.log("머지?", error)
       alert("중복 확인 중 오류가 발생했습니다.");
     }
   };
@@ -101,10 +101,10 @@ const handleSendEmail = () => {
 
 
     const handleSignupSubmit = async () => {
-    //   if (!isEmailVerified) {
-    //       alert("이메일 인증을 완료해주세요.");
-    //       return;
-    // }
+      if (!isEmailVerified) {
+          alert("이메일 인증을 완료해주세요.");
+          return;
+    }
     if (!formData.email || !formData.password || !formData.nickname) {
       alert("필수 항목(이메일, 비밀번호, 닉네임)을 모두 입력해주세요!");
       return;
@@ -128,13 +128,17 @@ const handleSendEmail = () => {
       };
 
     try {
-      
-      alert("회원가입 성공!");
-      navigate('/login'); // 로그인 페이지로 이동
+
+      await authApi.signup(dataToSend);
+  
+    alert("🎉 회원가입 성공! 로그인 페이지로 이동합니다.");
+      navigate('/login');
 
     } catch (error) {
       console.error("가입 실패:", error);
-      alert("회원가입 중 오류가 발생했습니다.");
+      // 서버가 주는 에러 메시지 보여주기
+      const serverMsg = error.response?.data?.message || "회원가입 중 오류가 발생했습니다.";
+      alert(`❌ 실패: ${serverMsg}`);
     }
   };
 
@@ -239,8 +243,8 @@ const handleSendEmail = () => {
         <label className="input-label">성별 (선택)</label>
         <select name="gender" value={formData.gender} onChange={handleChange} style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ddd' }}>
           <option value="">선택 안 함</option>
-          <option value="M">남성</option>
-          <option value="F">여성</option>
+          <option value="MALE">남성</option>
+          <option value="FEMALE">여성</option>
         </select>
 
         <label className="input-label">지역 (선택)</label>
