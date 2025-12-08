@@ -13,6 +13,7 @@ export const authApi = {
     //   gender: userData.gender || null,
     //   region: userData.region || null,
     // }
+    
     const response = await api.post('/auth/signup', userData);
     return response.data;
   },
