@@ -25,5 +25,8 @@ export const authApi = {
     const response = await api.post('/auth/login', requestBody);
     return response.data;
   }
+  // checkEmailDuplicate: async (email) => {
+  //   return false; // 무조건 통과 (나중에 API 나오면 연결)
+  // }
 
 };

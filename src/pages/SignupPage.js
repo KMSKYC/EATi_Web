@@ -101,10 +101,10 @@ const handleSendEmail = () => {
 
 
     const handleSignupSubmit = async () => {
-      if (!isEmailVerified) {
-          alert("이메일 인증을 완료해주세요.");
-          return;
-    }
+    //   if (!isEmailVerified) {
+    //       alert("이메일 인증을 완료해주세요.");
+    //       return;
+    // }
     if (!formData.email || !formData.password || !formData.nickname) {
       alert("필수 항목(이메일, 비밀번호, 닉네임)을 모두 입력해주세요!");
       return;
@@ -118,8 +118,7 @@ const handleSendEmail = () => {
       return;
     }
 
-    try {
-      const dataToSend = {
+    const dataToSend = {
         email: formData.email,
         password: formData.password,
         nickname: formData.nickname,
@@ -127,6 +126,10 @@ const handleSendEmail = () => {
         gender: formData.gender || null,
         region: formData.region || null,
       };
+
+    try {
+
+      console.log("가입 요청 보냄", dataToSend)
 
       
       alert("회원가입 성공!");

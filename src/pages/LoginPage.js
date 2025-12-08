@@ -4,20 +4,34 @@ import { useAuth } from '../context/AuthContext';
 import './css/Auth.css'
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
   
   const navigate = useNavigate();
   const { login } = useAuth(); 
 
-  const handleLogin = async () => {
-    // Context의 login 함수 실행
-    const success = await login(email, password);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+const handleLoginSubmit = async (e) => {
+    if (e) e.preventDefault(); 
+
+    if (!formData.email || !formData.password) {
+      alert("이메일과 비밀번호를 모두 입력해주세요.");
+      return;
+    }
+    const success = await login(formData.email, formData.password);
 
     if (success) {
-      navigate('/'); 
+      alert("로그인 성공! 환영합니다. 👋");
+      navigate('/'); // 홈으로 이동
     } else {
-      alert("로그인 실패!");
     }
   };
   return (
@@ -28,21 +42,23 @@ function LoginPage() {
     <div className="page-container">
       <h2>로그인</h2>
       
-      <div className="login-form">
+      <form className="login-form" onSubmit={handleLoginSubmit}>
         <input 
-          type="text" 
+          type="email" 
+          name="email"
           placeholder="이메일" 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email} 
+          onChange={handleChange}
         />
         <input 
           type="password" 
+          name="password"
           placeholder="비밀번호" 
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleChange}
         />
-        <button className="login-btn" onClick={handleLogin}>로그인</button>
-      </div>
+        <button type="submit" className="login-btn">로그인</button>
+      </form>
       
       <hr className="divider" />
       <Link to="/signup" className="signup-link-btn">

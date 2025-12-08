@@ -7,19 +7,16 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  // (★) 진짜 로그인 함수
   const login = async (email, password) => {
     try {
       console.log(`[AuthContext] 서버로 로그인 요청: ${email}`);
 
-      // 1. 진짜 API 호출!
       const data = await authApi.login(email, password);
       console.log("서버 응답 성공:", data);
 
       const token = data.accessToken || data.token; 
-      const userData = data.member || data.user || { email: email, nickname: '사용자' }; 
+      const userData = data.user || { email: email, nickname: '사용자' }; 
 
-      // 2. 토큰 저장 (API 요청 때마다 쓰기 위해)
       if (token) {
         localStorage.setItem('accessToken', token);
       }
