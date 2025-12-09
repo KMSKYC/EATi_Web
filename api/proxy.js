@@ -2,7 +2,6 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = (req, res) => {
-  // Vercel 환경변수에서 진짜 주소 가져오기
   const target = process.env.REAL_API_URL;
 
   if (!target) {
@@ -15,11 +14,11 @@ module.exports = (req, res) => {
     target: target,
     changeOrigin: true,
     pathRewrite: {
-      "^/api": "" // /api를 떼고 백엔드로 보냄
+      "^/api": "" 
     },
+    // [핵심 해결책] Vercel에서도 로컬호스트인 척 거짓말을 해야 합니다!
     onProxyReq: (proxyReq) => {
-      // (옵션) 친구 서버가 localhost:3000을 허용했다면
-      // proxyReq.setHeader('Origin', 'http://localhost:3000');
+      proxyReq.setHeader('Origin', 'http://localhost:3000');
     }
   })(req, res);
 };
