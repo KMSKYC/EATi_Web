@@ -9,11 +9,7 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      console.log(`[AuthContext] 서버로 로그인 요청: ${email}`);
-
       const data = await authApi.login(email, password);
-      console.log("서버 응답 성공:", data);
-
       const token = data.accessToken || data.token; 
       const userData = data.user || { email: email, nickname: '사용자' }; 
 

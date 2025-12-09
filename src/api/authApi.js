@@ -27,8 +27,6 @@ export const authApi = {
   checkEmailDuplicate: async (email) => {
     // const response = await api.get(`/auth/check-email?email=${email}`);
     // return response.data; // (true면 중복, false면 사용가능)
-
-    console.log(`[임시] 이메일 중복 확인 통과: ${email}`);
     return false; // 무조건 통과 (나중에 API 나오면 연결)
   }
 
