@@ -7,7 +7,7 @@
 .env
 # testing
 /coverage
-/setupProxy.js
+src/setupProxy.js
 # production
 /build
 
