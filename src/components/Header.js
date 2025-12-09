@@ -1,12 +1,13 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom'; 
+// import React from 'react';
+import { Link } from 'react-router-dom'; 
 import {useAuth } from '../context/AuthContext'
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import './css/Header.css'; 
 function Header() {
 
-  const { user, logout } = useAuth();
-  const navigate = useNavigate(); // (★) 이동 도구
+// const { user, logout } = useAuth();
+  const { user } = useAuth();
+  // const navigate = useNavigate(); // (★) 이동 도구
   const withAuth = useRequireAuth();
 
   const handleEatTogetherClick = (e) => {

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import AICard from '../components/AI_Card';
 import './css/HomePage.css';
-import CategoryView from '../components/Category_View';
 import AIPopup from '../components/AI_Popup';
 import { mockCards } from '../data/mockCards';
 
