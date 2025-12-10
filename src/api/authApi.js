@@ -25,9 +25,10 @@ export const authApi = {
   },
 
   checkEmailDuplicate: async (email) => {
-    // const response = await api.get(`/auth/check-email?email=${email}`);
-    // return response.data; // (true면 중복, false면 사용가능)
-    return false; // 무조건 통과 (나중에 API 나오면 연결)
+    // [수정] 주소 뒤에 직접 ?email= 하고 변수를 붙입니다.
+    // const response = await api.post(`/auth/check-email?email=${email}`);
+    const response = await api.post('/auth/check-email', { email: email });
+    return response.data;
   }
 
 };

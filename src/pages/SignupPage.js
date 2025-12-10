@@ -22,8 +22,14 @@ function SignupPage() {
   const [isEmailAvailable, setIsEmailAvailable] = useState(false); // 사용 가능 여부 (true여야 가입 가능)
   const [isEmailSent, setIsEmailSent] = useState(false); // 인증번호 발송 여부
   const [isEmailVerified, setIsEmailVerified] = useState(false); // 인증 완료 여부
+  const [passwordValid, setPasswordValid] = useState({
+    length: false,  // 8자 이상
+    letter: false,  // 영문 포함
+    number: false,  // 숫자 포함
+    special: false  // 특수문자 포함
+  });
 
-    const handleChange = (e) => {
+    const handleChange = (e) => { //회원가입 작성
       const { name, value } = e.target;
       setFormData({
         ...formData,
@@ -36,6 +42,14 @@ function SignupPage() {
       setIsEmailVerified(false);
       setEmailCheckMessage('');
       }
+      if (name === 'password') {
+      setPasswordValid({
+        length: value.length >= 8,
+        letter: /[a-zA-Z]/.test(value), // 영문 포함 확인
+        number: /[0-9]/.test(value),    // 숫자 포함 확인
+        special: /[!@#$%^&*(),.?":{}|<>]/.test(value) // 특수문자 포함 확인
+      });
+    }
     };
 
     const handleCheckEmail = async () => {
@@ -44,28 +58,35 @@ function SignupPage() {
       return;
     }
     try {
-      const isDuplicate = await authApi.checkEmailDuplicate(formData.email);
-      if (isDuplicate) {
-        setIsEmailAvailable(false);
-        setEmailCheckMessage('❌ 이미 가입된 이메일입니다.');
-      } else {
+      const response = await authApi.checkEmailDuplicate(formData.email);
+      
+      if (response.available === true) {
         setIsEmailAvailable(true);
-        setEmailCheckMessage('✅ 사용 가능한 이메일입니다. 인증번호를 요청하세요');
+        setEmailCheckMessage(`✅ ${response.message || '사용 가능한 이메일입니다. 인증번호를 요청하세요'}`);
+      } else {
+        setIsEmailAvailable(false);
+        setEmailCheckMessage(`❌ ${response.message}`);
       }
     } catch (error) {
-      console.log("머지?", error)
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+        if (errorData.available === false) {
+           setIsEmailAvailable(false);
+           setEmailCheckMessage(`❌ ${errorData.message}`);
+           return;
+        }
+      }
       alert("중복 확인 중 오류가 발생했습니다.");
+      setIsEmailAvailable(false);
     }
   };
 
-const handleSendEmail = () => {
-    // (★ 수정) 중복확인을 안 했으면 막지만, '재전송'은 막지 않습니다.
-    // (!isEmailAvailable) 조건만 남기고, (isEmailSent) 체크는 삭제합니다.
+
+const handleSendEmail = () => { //이메일 인증번호
     if (!isEmailAvailable) {
       alert("먼저 이메일 중복 확인을 해주세요.");
       return;
     }
-
     // (★) 재전송임을 알리기 위해 메시지를 조금 다르게 할 수도 있습니다.
     const message = isEmailSent 
       ? `[재전송] ${formData.email}로 인증번호 '1234'를 다시 보냈습니다!`
@@ -105,6 +126,18 @@ const handleSendEmail = () => {
           alert("이메일 인증을 완료해주세요.");
           return;
     }
+
+    const isPasswordSafe = 
+    passwordValid.length && 
+    passwordValid.letter && 
+    passwordValid.number && 
+    passwordValid.special;
+
+  if (!isPasswordSafe) {
+    alert("비밀번호 조건을 모두 충족해주세요. (영문, 숫자, 특수문자 포함 8자 이상 20자리 이하)");
+    return;
+  }
+
     if (!formData.email || !formData.password || !formData.nickname) {
       alert("필수 항목(이메일, 비밀번호, 닉네임)을 모두 입력해주세요!");
       return;
@@ -222,6 +255,20 @@ const handleSendEmail = () => {
           placeholder="비밀번호"
           value={formData.password} onChange={handleChange} 
         />
+        <div style={{ display: 'flex', gap: '10px', fontSize: '12px', marginTop: '5px', marginBottom: '10px' }}>
+            <span style={{ color: passwordValid.length ? '#28a745' : '#ccc' }}>
+              {passwordValid.length ? '✔' : '•'} 8자 이상
+            </span>
+            <span style={{ color: passwordValid.letter ? '#28a745' : '#ccc' }}>
+              {passwordValid.letter ? '✔' : '•'} 영문
+            </span>
+            <span style={{ color: passwordValid.number ? '#28a745' : '#ccc' }}>
+              {passwordValid.number ? '✔' : '•'} 숫자
+            </span>
+            <span style={{ color: passwordValid.special ? '#28a745' : '#ccc' }}>
+              {passwordValid.special ? '✔' : '•'} 특수문자
+            </span>
+          </div>
         <input 
           type="password" name="confirmPassword" 
           placeholder="비밀번호 확인"
