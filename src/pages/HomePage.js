@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { foodApi } from '../api/foodApi';
 // import { useAuth } from '../context/AuthContext'; 
@@ -21,39 +21,62 @@ function HomePage() {
   const [menus, setMenus] = useState([]); //메뉴 리스트
   const [isAiPopupOpen, setIsAiPopupOpen] = useState(false); //AI 추천 서비스 팝업
   const [todayRecommendation, setTodayRecommendation] = useState(null);
+  const curationRef = useRef(null);
+
+  // 큐레이션 슬라이더 스크롤
+  const scrollCuration = (direction) => {
+    if (curationRef.current) {
+      const scrollAmount = 300;
+      curationRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
 
 
   //메뉴를 가져오는 함수
   const fetchMenus = async (categoryId) => {
     try {
+      setLoading(true);
       const menuData = await foodApi.getMenus(categoryId);
-      setMenus(menuData); // 받아온 메뉴로 화면 갱신
+      setMenus(menuData);
     } catch (error) {
       console.error("메뉴 불러오기 실패:", error);
+      setMenus([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-    // 3. 화면 켜지면 '카테고리'랑 '전체 메뉴' 가져오기
+  // 화면 켜지면 '카테고리'랑 '전체 메뉴' 가져오기
   useEffect(() => {
     const initData = async () => {
-      // (1) 카테고리 로딩
-      const catData = await foodApi.getCategories();
-      const formattedCats = catData.map(c => ({ id: c.categoryId, name: c.categoryName }));
-      setCategories([{ id: 'all', name: '전체' }, ...formattedCats]);
+      try {
+        // (1) 카테고리 로딩
+        const catData = await foodApi.getCategories();
+        const formattedCats = catData.map(c => ({ id: c.categoryId, name: c.categoryName }));
+        setCategories([{ id: 'all', name: '전체' }, ...formattedCats]);
 
-      // (2) 초기 메뉴 로딩 (전체)
-      fetchMenus('all'); 
+        // (2) 초기 메뉴 로딩 (전체)
+        await fetchMenus('all');
+      } catch (error) {
+        console.error("초기 데이터 로딩 실패:", error);
+      }
     };
     initData();
   }, []);
 
-  // ✅ 4. 카테고리 버튼 클릭 핸들러 수정
-  const handleCategoryClick = (category) => {
-    // (1) 탭 활성화 (색깔 바꾸기용)
-    setActiveCategory(category.name); 
-    
-    // (2) 진짜 데이터 교체 요청 (id를 보냄)
-    fetchMenus(category.id); 
+  // 카테고리 버튼 클릭 핸들러
+  const handleCategoryClick = async (category) => {
+    // 같은 카테고리 클릭 시 무시
+    if (activeCategory === category.name) return;
+
+    // (1) 탭 활성화
+    setActiveCategory(category.name);
+
+    // (2) 해당 카테고리 메뉴 로딩
+    await fetchMenus(category.id);
   };
 
   // 3. AI 팝업 관련
@@ -77,8 +100,8 @@ function HomePage() {
         <section className="top-grid-section">
           <div className="hero-card">
             <div className="hero-text-overlay">
-              <span className="badge-today">Today's Pick ✨</span>
-              <h1>{recommendation ? (recommendation.name || recommendation.menuName) : "오늘은 바질 파스타 어때요?"}</h1>
+              <span className="badge-today">Today's AI Pick ✨</span>
+              <h1>{recommendation ? (recommendation.name || recommendation.menuName) : "오늘은 \"바질 파스타\" 어때요?"}</h1>
               <p>{recommendation?.description || "비 오는 날엔 따뜻하고 크리미한 소스가 위로가 되죠."}</p>
               <button className="btn-detail" onClick={() => navigate(`/restaurant/${recommendation?.id || 1}`)}>
                 보러 가기 →
@@ -96,7 +119,7 @@ function HomePage() {
             
             {/* 퀵 버튼 3개 */}
             <div className="quick-access-box">
-              <h3>Quick Access</h3>
+              <h3>바로가기</h3>
               <div className="quick-icons">
                 <div className="q-btn" onClick={() => navigate('/random')}>
                   <span className="q-icon">🎲</span>
@@ -113,15 +136,136 @@ function HomePage() {
               </div>
             </div>
 
-            {/* 트렌드 카드 */}
+            {/* 트렌드 카드 - 검색어 순위 스타일 */}
             <div className="trend-box">
-              <div className="trend-text">
-                <span className="trend-label">HOT TREND 🔥</span>
-                <h4>마라 로제 떡볶이</h4>
-                <p>20대 검색 급상승 1위</p>
+              <div className="trend-header">
+                <span className="trend-label">실시간 인기 메뉴</span>
               </div>
-              <div className="trend-img">🌶️</div>
+              <ul className="trend-rank-list">
+                <li className="trend-rank-item">
+                  <span className="rank-number rank-1">1</span>
+                  <span className="rank-name">마라 로제 떡볶이</span>
+                  <span className="rank-change up">▲</span>
+                </li>
+                <li className="trend-rank-item">
+                  <span className="rank-number rank-2">2</span>
+                  <span className="rank-name">크림 파스타</span>
+                  <span className="rank-change down">▼</span>
+                </li>
+                <li className="trend-rank-item">
+                  <span className="rank-number rank-3">3</span>
+                  <span className="rank-name">치킨</span>
+                  <span className="rank-change up">▲</span>
+                </li>
+                <li className="trend-rank-item">
+                  <span className="rank-number">4</span>
+                  <span className="rank-name">삼겹살</span>
+                  <span className="rank-change stay">-</span>
+                </li>
+                <li className="trend-rank-item">
+                  <span className="rank-number">5</span>
+                  <span className="rank-name">초밥</span>
+                  <span className="rank-change new">NEW</span>
+                </li>
+              </ul>
             </div>
+          </div>
+        </section>
+
+        {/* 상황별 추천 큐레이션 */}
+        <section className="curation-section">
+          <div className="curation-header">
+            <h2>상황별 추천</h2>
+            <button className="view-all-btn" onClick={() => navigate('/curation')}>
+              전체보기 →
+            </button>
+          </div>
+          <div className="curation-slider">
+            <button className="slider-btn slider-btn-left" onClick={() => scrollCuration('left')}>
+              ‹
+            </button>
+            <div className="curation-track" ref={curationRef}>
+              <div className="curation-card" onClick={() => navigate('/curation/stress')}>
+                <div className="curation-icon">😤</div>
+                <div className="curation-info">
+                  <h4>스트레스 타파</h4>
+                  <p>매운맛으로 스트레스 날리기</p>
+                </div>
+              </div>
+              <div className="curation-card" onClick={() => navigate('/curation/light')}>
+                <div className="curation-icon">🥗</div>
+                <div className="curation-info">
+                  <h4>가벼운 한 끼</h4>
+                  <p>부담없이 건강하게</p>
+                </div>
+              </div>
+              <div className="curation-card" onClick={() => navigate('/curation/alone')}>
+                <div className="curation-icon">🍜</div>
+                <div className="curation-info">
+                  <h4>혼밥하기 좋은</h4>
+                  <p>나만의 맛있는 시간</p>
+                </div>
+              </div>
+              <div className="curation-card" onClick={() => navigate('/curation/date')}>
+                <div className="curation-icon">💑</div>
+                <div className="curation-info">
+                  <h4>데이트 코스</h4>
+                  <p>분위기 좋은 맛집</p>
+                </div>
+              </div>
+              <div className="curation-card" onClick={() => navigate('/curation/gathering')}>
+                <div className="curation-icon">🎉</div>
+                <div className="curation-info">
+                  <h4>회식/모임</h4>
+                  <p>단체로 가기 좋은 곳</p>
+                </div>
+              </div>
+              <div className="curation-card" onClick={() => navigate('/curation/late')}>
+                <div className="curation-icon">🌙</div>
+                <div className="curation-info">
+                  <h4>야식 땡길 때</h4>
+                  <p>늦은 밤 든든하게</p>
+                </div>
+              </div>
+              <div className="curation-card" onClick={() => navigate('/curation/hangover')}>
+                <div className="curation-icon">🍲</div>
+                <div className="curation-info">
+                  <h4>해장이 필요해</h4>
+                  <p>속 풀어주는 따뜻한 국물</p>
+                </div>
+              </div>
+              <div className="curation-card" onClick={() => navigate('/curation/budget')}>
+                <div className="curation-icon">💰</div>
+                <div className="curation-info">
+                  <h4>가성비 甲</h4>
+                  <p>저렴하고 맛있게</p>
+                </div>
+              </div>
+              <div className="curation-card" onClick={() => navigate('/curation/special')}>
+                <div className="curation-icon">🎂</div>
+                <div className="curation-info">
+                  <h4>특별한 날</h4>
+                  <p>기념일 & 생일 맛집</p>
+                </div>
+              </div>
+              <div className="curation-card" onClick={() => navigate('/curation/quick')}>
+                <div className="curation-icon">⚡</div>
+                <div className="curation-info">
+                  <h4>빠르게 한 끼</h4>
+                  <p>시간 없을 때 후딱</p>
+                </div>
+              </div>
+              <div className="curation-card" onClick={() => navigate('/curation/comfort')}>
+                <div className="curation-icon">🏠</div>
+                <div className="curation-info">
+                  <h4>집밥 느낌</h4>
+                  <p>엄마가 해준 것 같은</p>
+                </div>
+              </div>
+            </div>
+            <button className="slider-btn slider-btn-right" onClick={() => scrollCuration('right')}>
+              ›
+            </button>
           </div>
         </section>
 
@@ -144,18 +288,20 @@ function HomePage() {
               </div>
            </div>
 
-          <div className="menu-grid-web">
-            {menus.map((item) => (
-               <AICard 
-                 key={item.id}
-                 restaurant={{
-                   ...item,
-                   // 이미지 없을 때를 대비해 랜덤 음식 이미지 URL 사용
-                   imageUrl: item.imageUrl || `https://source.unsplash.com/featured/?food,${item.id}`
-                 }}
-               />
-            ))}
-          </div>
+          {menus.length > 0 ? (
+            <div className="menu-grid-web">
+              {menus.map((item) => (
+                <AICard
+                  key={item.id}
+                  restaurant={item}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="empty-menu-message">
+              <p>해당 카테고리에 등록된 메뉴가 없습니다.</p>
+            </div>
+          )}
         </section>
 
       </main>

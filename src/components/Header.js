@@ -31,7 +31,7 @@ function Header() {
         
         {/* (1) 로고 영역 */}
         <div className="brand-logo" onClick={() => navigate('/')}>
-          EATi
+          <img src="/EATi.png" alt="EATi" className="logo-img" />
         </div>
 
         {/* (2) 메뉴 네비게이션 */}
@@ -39,16 +39,17 @@ function Header() {
           <Link to="/" className={`nav-link ${isActive('/')}`}>
             홈
           </Link>
-          <Link to="/menu" className={`nav-link ${isActive('/menu')}`}>
-            메뉴 찾기
+          <Link to="/" className={`nav-link ${isActive('/recommend')}`}>
+            메뉴추천
           </Link>
-          {/* <Link to="/ranking" className={`nav-link ${isActive('/ranking')}`}> */}
-           <Link to="" className={`nav-link ${isActive('/ranking')}`}>
+          <Link to="/menu" className={`nav-link ${isActive('/menu')}`}>
+            메뉴찾기
+          </Link>
+          <Link to="/ranking" className={`nav-link ${isActive('/ranking')}`}>
             랭킹
           </Link>
-          {/* 같이 먹기는 클릭 시 검사 함수 실행 */}
           <Link to="/together" className={`nav-link ${isActive('/together')}`} onClick={handleEatTogetherClick}>
-            같이 먹기
+            같이먹기
           </Link>
         </nav>
 
@@ -60,9 +61,9 @@ function Header() {
 
           {user ? (
             // [로그인 상태] -> 프로필 표시 (누르면 마이페이지)
-            <div 
-              className="user-profile" 
-              onClick={() => navigate('/mypage')} 
+            <div
+              className="user-profile"
+              onClick={() => navigate('/mypage')}
               style={{ cursor: 'pointer' }}
             >
               <div className="avatar">👤</div>
@@ -70,18 +71,16 @@ function Header() {
             </div>
           ) : (
             // [비로그인 상태] -> 로그인, 회원가입 버튼 표시
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button 
-                className="nav-link" 
+            <div className="auth-buttons">
+              <button
+                className="login-btn"
                 onClick={() => navigate('/login')}
-                style={{ fontSize: '14px' }}
               >
                 로그인
               </button>
-              <button 
-                className="btn-primary" 
+              <button
+                className="signup-btn"
                 onClick={() => navigate('/signup')}
-                style={{ padding: '8px 16px', fontSize: '14px', borderRadius: '20px' }}
               >
                 회원가입
               </button>

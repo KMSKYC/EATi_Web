@@ -62,22 +62,44 @@ font-size: 16px;
   color: #333;
 }
 
+/* 로그인/회원가입 버튼 영역 */
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 로그인 버튼 */
+.login-btn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  padding: 8px 14px;
+  transition: color 0.2s;
+}
+.login-btn:hover {
+  color: #1a1a1a;
+}
+
 /* 회원가입 버튼 (강조) */
 .signup-btn {
-  background-color: #2577fc; /* 파란색 */
-  color: white !important;
-  border-radius: 50px; /* 완전 둥근 버튼 */
-  padding: 10px 24px; /* 크기 키움 */
+  background: #1a1a1a;
+  color: white;
+  border-radius: 6px;
+  padding: 9px 18px;
   border: none;
-  font-weight: 700;
-  box-shadow: 0 4px 10px rgba(37, 119, 252, 0.3);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
   transition: all 0.2s;
+  letter-spacing: -0.2px;
 }
 
 .signup-btn:hover {
-  background-color: #1a5ac9;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(37, 119, 252, 0.4);
+  background: #CC1213;
 }
 /*/////////////////////////////////////*/
 .web-header {
@@ -85,54 +107,91 @@ font-size: 16px;
   top: 0;
   left: 0;
   width: 100%;
-  height: 70px;
-  background: white;
-  border-bottom: 1px solid #eee;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #f0f0f0;
   z-index: 1000;
   display: flex;
   justify-content: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
 }
 
 .header-inner {
   width: 100%;
-  max-width: 1200px; /* 컨텐츠 최대 너비 제한 */
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 24px;
 }
 
 .brand-logo {
-  font-size: 24px;
-  font-weight: 900;
-  color: #CC1213;
   cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  transition: opacity 0.2s;
+}
+
+.brand-logo:hover .logo-img {
+  opacity: 0.8;
 }
 
 .web-nav {
   display: flex;
-  gap: 30px;
+  align-items: center;
+  gap: 44px;
+  margin-right: auto;
+  margin-left: 60px;
 }
 
-.nav-link {
+.web-nav .nav-link {
   background: none;
   border: none;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
   color: #555;
   cursor: pointer;
   transition: color 0.2s;
+  text-decoration: none;
+  padding: 8px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  line-height: 1;
 }
 
-.nav-link:hover, .nav-link.active {
+.web-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #CC1213;
+  transition: width 0.2s;
+}
+
+.web-nav .nav-link:hover,
+.web-nav .nav-link.active {
   color: #CC1213;
+}
+
+.web-nav .nav-link:hover::after,
+.web-nav .nav-link.active::after {
+  width: 100%;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .ai-chat-btn {
@@ -140,26 +199,64 @@ font-size: 16px;
   color: white;
   border: none;
   padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: bold;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
-.ai-chat-btn:hover { background: #555; }
+.ai-chat-btn:hover {
+  background: #555;
+}
 
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 600;
+  gap: 10px;
+  font-weight: 500;
+  font-size: 14px;
   color: #333;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.user-profile:hover {
+  background: #f5f5f5;
 }
 .avatar {
   width: 32px;
   height: 32px;
-  background: #eee;
-  border-radius: 50%;
+  background: #f0f0f0;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 16px;
+}
+
+/* 모바일 헤더 반응형 */
+@media (max-width: 768px) {
+  .web-header {
+    height: 56px;
+  }
+  .header-inner {
+    padding: 0 16px;
+  }
+  .brand-logo {
+    font-size: 20px;
+  }
+  .web-nav {
+    display: none;
+  }
+  .auth-buttons {
+    gap: 4px;
+  }
+  .login-btn {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  .signup-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
 }
