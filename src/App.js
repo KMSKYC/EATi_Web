@@ -12,7 +12,7 @@ import SearchMapPage from './pages/SearchMapPage';
 import MainLayout from './layouts/MainLayout';
 import EatTogether from './pages/EatTogether';
 import SearchCategoryPage from './pages/SearchCategoryPage';
-
+import RandomPickPage from './components/RandomPickPage';
 
 function App() {
   
@@ -24,11 +24,12 @@ function App() {
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/together" element={<EatTogether />}/>
       </Route>
-      <Route path="/restaurant/:id" element={<RestaurantDetailPage />} />
+       <Route path="/restaurant/:id" element={<RestaurantDetailPage />} />
        <Route path="/menu/category" element={<SearchCategoryPage />} />
        <Route path="/menu/map" element={<SearchMapPage />} />
        <Route path="/login" element={<LoginPage />} />
        <Route path="/signup" element={<SignupPage />} />
+       <Route path="/random" element={<RandomPickPage />} />
     </Routes>  
     
     // <main className="main-content">

@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
 
       // 3. 상태 업데이트 & 쿠키 저장 (로그인 유지용)
       setUser(userData);
-      Cookies.set('user', JSON.stringify(userData), { expires: 1 }); // 1일 유지
+      Cookies.set('user', JSON.stringify(userData)); // 1일 유지
 
       return true; // 성공
 
@@ -42,7 +42,9 @@ export function AuthProvider({ children }) {
   // (★) 앱 켤 때 복구
   useEffect(() => {
     const storedUser = Cookies.get('user');
-    if (storedUser) {
+    const storedToken = sessionStorage.getItem('accessToken');
+
+    if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
     }
   }, []);

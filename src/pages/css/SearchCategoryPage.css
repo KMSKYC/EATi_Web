@@ -1,144 +1,103 @@
-/* === 전체 배경 (회색) === */
-body {
-  background-color: #f4f4f4;
-}
-
-/* === 페이지 컨테이너 (1200px 박스) === */
+/* 전체 레이아웃: 주변 맛집 탐색과 너비/여백 통일 */
 .category-page-container {
-  /* (★ 핵심) 헤더와 똑같은 1200px 너비로 고정 */
-  max-width: 1200px;
-  width: 95%;        /* 모바일에서는 좌우 여백 남김 */
-  margin: 20px auto; /* 중앙 정렬 (헤더와 라인 일치) */
-  
-  /* 박스 디자인 (흰색, 둥근 모서리, 그림자) */
-  background-color: #ffffff;
-  min-height: 80vh;  /* 적당한 높이 확보 */
-  padding: 40px;     /* 안쪽 여백 넉넉하게 */
-  
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f0f0f0;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Pretendard', sans-serif;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-/* 1. 헤더 영역 (뒤로가기 + 제목) */
-.category-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+/* 1. 헤더 영역 */
+.category-header-section { margin-bottom: 30px; }
+
+.header-top-row {
+  display: flex; align-items: center; gap: 15px;
 }
 
-.back-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #f4f4f4;
-  border: 1px solid rgba(0,0,0,0.05);
-  font-size: 20px;
-  cursor: pointer;
-  margin-right: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
+/* (★중요) 뒤로가기 버튼: SearchMapPage와 100% 동일하게 디자인 통일 */
+.back-btn-unified {
+  width: 44px; height: 44px; 
+  border-radius: 50%; border: none;
+  background: #f0f0f0; 
+  color: #333; font-size: 24px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+  padding-bottom: 2px; flex-shrink: 0;
 }
-.back-btn:hover {
-  background-color: #e0e0e0;
-  transform: scale(1.05);
-}
+.back-btn-unified:hover { background: #e0e0e0; transform: translateX(-2px); }
 
-.header-title {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 800;
-  color: #333;
-}
+/* 제목 텍스트 그룹 */
+.header-text-group { display: flex; flex-direction: column; }
+.header-title { font-size: 24px; font-weight: 800; color: #333; margin: 0 0 4px 0; }
+.header-subtitle { font-size: 14px; color: #888; margin: 0; }
 
-.category-description {
-  color: #666;
-  font-size: 16px;
-  margin-bottom: 40px; /* 그리드와의 간격 */
-  margin-left: 5px;
-}
 
-/* 2. 카테고리 그리드 레이아웃 */
-.category-list-grid {
+/* 2. 그리드 레이아웃 */
+.category-grid-wrapper {
   display: grid;
-  /* 모바일: 2열 */
-  grid-template-columns: repeat(2, 1fr); 
+  grid-template-columns: repeat(4, 1fr); /* PC: 한 줄에 4개 */
   gap: 20px;
 }
 
-/* 3. 이미지 카드 디자인 */
-.category-img-card {
+/* 3. 카테고리 카드 디자인 */
+.category-card {
   position: relative;
-  height: 180px; /* 카드 높이 적당히 */
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  aspect-ratio: 4 / 3; /* 가로세로 비율 고정 (직사각형) */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
 }
+.category-card:hover { transform: translateY(-5px); }
 
-.category-img-card:hover {
-  transform: translateY(-5px); /* 호버 시 둥실 뜨는 효과 */
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+/* 배경 이미지 영역 */
+.cat-img-box {
+  width: 100%; height: 100%;
+  position: relative;
 }
+.cat-bg-img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.3s;
+}
+/* 카드 호버 시 이미지 살짝 확대 */
+.category-card:hover .cat-bg-img { transform: scale(1.05); }
 
-/* 배경 이미지 */
-.category-bg-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-.category-img-card:hover .category-bg-image {
-  transform: scale(1.1); /* 호버 시 이미지 확대 */
-}
-
-/* 그라데이션 오버레이 */
-.category-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* 텍스트가 잘 보이게 아래쪽만 어둡게 */
-  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0) 100%);
+/* 그라데이션 오버레이 (글자 잘 보이게) */
+.cat-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(0,0,0,0.8) 100%);
 }
 
 /* 텍스트 내용 */
-.category-text-content {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  z-index: 1;
-  color: white;
-  text-align: left;
+.cat-text-content {
+  position: absolute; bottom: 20px; left: 20px;
+  color: white; z-index: 10;
 }
-
-.category-name {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 800;
-  margin-bottom: 4px;
+.cat-name {
+  font-size: 22px; font-weight: 800; margin: 0 0 5px 0;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
-
-.category-count {
-  font-size: 14px;
-  opacity: 0.9;
-  font-weight: 500;
+.cat-count {
+  font-size: 13px; opacity: 0.9; font-weight: 500;
+  background: rgba(255,255,255,0.2);
+  padding: 4px 8px; border-radius: 10px;
+  backdrop-filter: blur(4px);
 }
 
-/* (★) PC 화면 (768px 이상) */
-@media (min-width: 768px) {
-  .category-list-grid {
-    /* PC에서는 4열로 시원하게 배치 */
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 24px;
+/* 📱 모바일 반응형 */
+@media (max-width: 1024px) {
+  .category-grid-wrapper {
+    grid-template-columns: repeat(3, 1fr); /* 태블릿: 3개 */
   }
-  
-  .category-img-card {
-    height: 220px; /* PC에서는 카드 높이 좀 더 키움 */
+}
+
+@media (max-width: 768px) {
+  .category-grid-wrapper {
+    grid-template-columns: repeat(2, 1fr); /* 모바일: 2개 */
+    gap: 15px;
   }
+  .header-title { font-size: 20px; }
+  .cat-name { font-size: 18px; }
 }

@@ -1,66 +1,70 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { foodApi } from '../api/foodApi';
+// import { useAuth } from '../context/AuthContext'; 
+import './css/HomPage.css'; // (★) CSS 파일 이름 변경 확인!
 import AICard from '../components/AI_Card';
-import './css/HomePage.css';
 import AIPopup from '../components/AI_Popup';
-import { mockCards } from '../data/mockCards';
 
 const POPUP_CLOSED_KEY = 'aiPopupClosed';
 
 function HomePage() {
-  const [isAiPopupOpen, setIsAiPopupOpen] = useState(false);
-  const [todayRecommendation, setTodayRecommendation] = useState(null);
+  const navigate = useNavigate();
+  // const { user } = useAuth();
+  const user = { nickname: '관리자' }; 
+
+  const [recommendation, setRecommendation] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState('전체');
+  
+  const [categories, setCategories] = useState([{id: 'all', name: '전체'}]); 
+  const [activeCategory, setActiveCategory] = useState('전체'); //카테고리 메뉴
+  const [menus, setMenus] = useState([]); //메뉴 리스트
+  const [isAiPopupOpen, setIsAiPopupOpen] = useState(false); //AI 추천 서비스 팝업
+  const [todayRecommendation, setTodayRecommendation] = useState(null);
 
-  // 목업 데이터 (API 실패 시 사용)
-  const mockRecommendation = mockCards[0];
 
-  // (★) 선택된 카테고리에 따라 필터링된 카드 리스트
-  const filteredCards = activeCategory === '전체'
-    ? mockCards
-    : mockCards.filter(card => card.category === activeCategory);
+  //메뉴를 가져오는 함수
+  const fetchMenus = async (categoryId) => {
+    try {
+      const menuData = await foodApi.getMenus(categoryId);
+      setMenus(menuData); // 받아온 메뉴로 화면 갱신
+    } catch (error) {
+      console.error("메뉴 불러오기 실패:", error);
+    }
+  };
 
-useEffect(() => {
-    // 1. (데이터 로딩 역할) API 호출 및 상태 설정 로직
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-            // (실제 API 호출 주석 처리)
-            // const data = await restaurantApi.getTodayRecommendation();
-            // setTodayRecommendation(data);
-            setTodayRecommendation(mockRecommendation); // 목업 데이터 사용
-        } catch (err) {
-            console.error("데이터 로딩 실패:", err);
-            // setError("데이터 로딩에 실패했습니다."); // 에러 상태가 있다면 처리
-            setTodayRecommendation(mockRecommendation);
-        } finally {
-            setLoading(false);
-        }
+    // 3. 화면 켜지면 '카테고리'랑 '전체 메뉴' 가져오기
+  useEffect(() => {
+    const initData = async () => {
+      // (1) 카테고리 로딩
+      const catData = await foodApi.getCategories();
+      const formattedCats = catData.map(c => ({ id: c.categoryId, name: c.categoryName }));
+      setCategories([{ id: 'all', name: '전체' }, ...formattedCats]);
+
+      // (2) 초기 메뉴 로딩 (전체)
+      fetchMenus('all'); 
     };
-    // 데이터 로드 실행
-    fetchData(); 
+    initData();
+  }, []);
 
-    // 2. (팝업 확인 역할) 로컬 스토리지 체크 로직
-    const hasClosed = localStorage.getItem(POPUP_CLOSED_KEY);
-    // 닫은 기록이 없으면 팝업 상태를 준비합니다.
-    if (!hasClosed) {
-        // setIsAiPopupOpen(true); // 버튼 클릭 유도이므로 주석 처리된 상태 유지
-    }
+  // ✅ 4. 카테고리 버튼 클릭 핸들러 수정
+  const handleCategoryClick = (category) => {
+    // (1) 탭 활성화 (색깔 바꾸기용)
+    setActiveCategory(category.name); 
     
-}, []);
+    // (2) 진짜 데이터 교체 요청 (id를 보냄)
+    fetchMenus(category.id); 
+  };
 
+  // 3. AI 팝업 관련
   const openAiPopup = () => {
-    if (!localStorage.getItem(POPUP_CLOSED_KEY)) {
-      setIsAiPopupOpen(true);
-    } else {
-      alert("오늘은 이미 AI 추천을 받았습니다.");
-    }
-  }
-  const closeAiPopup = () => {
+    if (!localStorage.getItem(POPUP_CLOSED_KEY)) setIsAiPopupOpen(true);
+    else alert("오늘은 이미 AI 추천을 받았습니다.");
+  };
+  const closeAiPopup = () => { //팝업 닫기
     setIsAiPopupOpen(false);
     localStorage.setItem(POPUP_CLOSED_KEY, 'true');
-  }
-
+  };
   const handleAiLike = () => {
     console.log("좋아요 처리 로직 실행");
     closeAiPopup(); 
@@ -68,57 +72,97 @@ useEffect(() => {
 
 
   return (
-    <div className="home-container">
-      {/* 1. 메인 배너 영역 */}
-      <section className="main-banner">
-        <h2 className="banner-title">오늘의 점심, AI가 추천해드려요</h2>
-        <p className="banner-description">
-          당신의 취향을 학습하고, 기분에 맞는 완벽한 점심 메뉴를 찾아드립니다
-        </p>
-        <button className="ai-recommend-btn" onClick={openAiPopup}>
-          ✨ AI 추천 받기
-        </button>
-        <div className="scroll-down-indicator">
-          <span className="arrow-down"></span>
-        </div>
-      </section>
-
-      {/* 2. 카테고리 필터 */}
-      <section className="category-filter-section">
-        <div className="category-tabs">
-          {['전체', '한식', '일식', '중식', '양식', '기타'].map(category => (
-            <button
-              key={category}
-              className={`category-tab-btn ${activeCategory === category ? 'active' : ''}`}
-              onClick={() => setActiveCategory(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* 3. 추천 메뉴 카드 리스트 */}
-      <section className="recommendation-cards-section">
-        <div className="card-grid">
-          {filteredCards.map(card => (
-            <AICard 
-              // key={card.id} 
-              // title={card.title} 
-              // category={card.category} 
-              // description={card.description} 
-              // imageUrl={card.imageUrl}
-              key={card.id}
-              restaurant={card}
+    <div className="web-container">
+      <main className="main-content">
+        <section className="top-grid-section">
+          <div className="hero-card">
+            <div className="hero-text-overlay">
+              <span className="badge-today">Today's Pick ✨</span>
+              <h1>{recommendation ? (recommendation.name || recommendation.menuName) : "오늘은 바질 파스타 어때요?"}</h1>
+              <p>{recommendation?.description || "비 오는 날엔 따뜻하고 크리미한 소스가 위로가 되죠."}</p>
+              <button className="btn-detail" onClick={() => navigate(`/restaurant/${recommendation?.id || 1}`)}>
+                보러 가기 →
+              </button>
+            </div>
+            <img 
+              src={recommendation?.imageUrl || "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80"} 
+              alt="Hero" 
+              className="hero-bg-img"
             />
-          ))}
-        </div>
-      </section>
+          </div>
 
-     {isAiPopupOpen && (
+          {/* 오른쪽: 퀵 메뉴 + 인사이트 (사이드바 느낌) */}
+          <div className="side-widgets">
+            
+            {/* 퀵 버튼 3개 */}
+            <div className="quick-access-box">
+              <h3>Quick Access</h3>
+              <div className="quick-icons">
+                <div className="q-btn" onClick={() => navigate('/random')}>
+                  <span className="q-icon">🎲</span>
+                  <span>랜덤</span>
+                </div>
+                <div className="q-btn" onClick={() => navigate('/menu/map')}>
+                  <span className="q-icon">📍</span>
+                  <span>내 주변</span>
+                </div>
+                <div className="q-btn" onClick={() => navigate('/ranking')}>
+                  <span className="q-icon">🏆</span>
+                  <span>랭킹</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 트렌드 카드 */}
+            <div className="trend-box">
+              <div className="trend-text">
+                <span className="trend-label">HOT TREND 🔥</span>
+                <h4>마라 로제 떡볶이</h4>
+                <p>20대 검색 급상승 1위</p>
+              </div>
+              <div className="trend-img">🌶️</div>
+            </div>
+          </div>
+        </section>
+
+        {/* 하단: 메뉴 리스트 */}
+        <section className="menu-list-container">
+           <div className="section-header">
+              <h2><span className="highlight">{activeCategory}</span> 맛집 리스트</h2>
+              
+              {/* 카테고리 탭을 우측 상단으로 이동 */}
+              <div className="category-pills">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    className={`pill-btn ${activeCategory === cat.name ? 'active' : ''}`}
+                    onClick={() => handleCategoryClick(cat)}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
+           </div>
+
+          <div className="menu-grid-web">
+            {menus.map((item) => (
+               <AICard 
+                 key={item.id}
+                 restaurant={{
+                   ...item,
+                   // 이미지 없을 때를 대비해 랜덤 음식 이미지 URL 사용
+                   imageUrl: item.imageUrl || `https://source.unsplash.com/featured/?food,${item.id}`
+                 }}
+               />
+            ))}
+          </div>
+        </section>
+
+      </main>
+
+    {isAiPopupOpen && (
       <AIPopup 
           restaurant={todayRecommendation}
-          // isOpen={isAiPopupOpen} 
           onClose={closeAiPopup} // 'X'나 '싫어요' 버튼 클릭 시
           onLike={handleAiLike} 
         />

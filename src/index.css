@@ -51,9 +51,6 @@ body {
   margin: 0 auto;    /* 중앙 정렬 */
   padding: 20px 0;   /* 위아래 간격 */
   
-  /* (선택사항) 내용물도 박스처럼 보이게 하려면 배경색 추가 */
-  /* background-color: #fff; */
-  /* border-radius: 20px; */
 }
 
 

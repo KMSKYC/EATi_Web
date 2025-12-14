@@ -5,15 +5,6 @@ import api from './axiosConfig';
 export const authApi = {
 
   signup: async (userData) => { //회원가입
-    // const requestBody ={
-    //   email : userData.eamil,
-    //   password: userData.password,
-    //   nickname: userData.nickname,
-    //   birthdate: userData.birthdate || null,
-    //   gender: userData.gender || null,
-    //   region: userData.region || null,
-    // }
-    
     const response = await api.post('/auth/signup', userData);
     return response.data;
   },
@@ -22,6 +13,19 @@ export const authApi = {
     const requestBody = {email, password}
     const response = await api.post('/auth/login', requestBody);
     return response.data;
+  },
+
+  logout: async () =>{
+      try {
+      await api.post('/auth/logout'); 
+    } catch (error) {
+      console.error("로그아웃 에러", error);
+    } finally {
+      document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      
+      // 3. 로그인 페이지로 이동 및 상태 초기화
+      window.location.href = '/login';
+    }
   },
 
   checkEmailDuplicate: async (email) => {

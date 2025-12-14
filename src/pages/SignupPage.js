@@ -57,6 +57,15 @@ function SignupPage() {
       alert("이메일을 입력해주세요.");
       return;
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!emailRegex.test(formData.email)) {
+      setIsEmailAvailable(false);
+      setEmailCheckMessage('❌ 올바른 이메일 형식이 아닙니다.');
+      return; // 형식이 틀리면 서버로 보내지 않고 여기서 멈춥니다!
+    }
+
     try {
       const response = await authApi.checkEmailDuplicate(formData.email);
       
@@ -76,7 +85,7 @@ function SignupPage() {
            return;
         }
       }
-      alert("중복 확인 중 오류가 발생했습니다.");
+      alert("현재 오류가 발생했습니다. 고객센터로 문의주세요.");
       setIsEmailAvailable(false);
     }
   };

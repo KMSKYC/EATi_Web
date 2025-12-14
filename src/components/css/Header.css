@@ -47,7 +47,7 @@ font-size: 16px;
 }
 
 .nav-link:hover {
- color: #7442eb;
+ color: #CC1213;
 }
 
 .logout-btn {
@@ -78,4 +78,88 @@ font-size: 16px;
   background-color: #1a5ac9;
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(37, 119, 252, 0.4);
+}
+/*/////////////////////////////////////*/
+.web-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: white;
+  border-bottom: 1px solid #eee;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.header-inner {
+  width: 100%;
+  max-width: 1200px; /* 컨텐츠 최대 너비 제한 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.brand-logo {
+  font-size: 24px;
+  font-weight: 900;
+  color: #CC1213;
+  cursor: pointer;
+}
+
+.web-nav {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: #CC1213;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.ai-chat-btn {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.ai-chat-btn:hover { background: #555; }
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #333;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  background: #eee;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

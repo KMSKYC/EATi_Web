@@ -1,0 +1,113 @@
+/* 전체 페이지 컨테이너 */
+.menu-search-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Pretendard', sans-serif;
+  min-height: 80vh; /* 화면 꽉 차게 */
+}
+
+/* 상단 텍스트 */
+.page-header-group {
+  margin-bottom: 40px;
+}
+.page-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 10px;
+}
+.page-subtitle {
+  font-size: 16px;
+  color: #888;
+  margin: 0;
+}
+
+/* 카드 컨테이너 (가로 배치) */
+.search-card-container {
+  display: flex;
+  gap: 30px; /* 카드 사이 간격 */
+  justify-content: center;
+}
+
+/* 공통 카드 스타일 */
+.search-card {
+  flex: 1; /* 너비 균등 분배 */
+  height: 320px; /* 카드 높이 */
+  border-radius: 24px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* 왼쪽 정렬 */
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 마우스 올렸을 때 효과 */
+.search-card:hover {
+  transform: translateY(-5px); /* 살짝 위로 뜸 */
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+/* 1. 지도로 찾기 (파란색 그라데이션) */
+.map-card {
+  background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+}
+
+/* 2. 카테고리로 찾기 (분홍색 그라데이션) */
+.category-card {
+  background: linear-gradient(135deg, #FF9966 0%, #FF5E62 100%);
+}
+
+/* 내부 아이콘 동그라미 */
+.icon-circle {
+  background: rgba(255, 255, 255, 0.2); /* 반투명 흰색 */
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  backdrop-filter: blur(5px);
+}
+
+/* 카드 내부 텍스트 */
+.card-content h3 {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+}
+.card-content p {
+  font-size: 16px;
+  opacity: 0.9;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 📱 모바일 반응형 (화면 좁아지면 세로로 쌓기) */
+@media (max-width: 768px) {
+  .search-card-container {
+    flex-direction: column;
+  }
+  .search-card {
+    width: 100%;
+    height: 200px; /* 모바일에서는 높이를 좀 줄임 */
+    flex-direction: row; /* 아이콘과 텍스트를 가로로 배치 */
+    align-items: center;
+    gap: 20px;
+  }
+  .icon-circle {
+    margin-bottom: 0;
+    width: 60px;
+    height: 60px;
+  }
+  .icon-circle span {
+    font-size: 30px !important;
+  }
+}

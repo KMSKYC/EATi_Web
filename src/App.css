@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+:root {
+  --header-height-pc: 70px;
+  --header-height-mobile: 60px;
+}
+
+body {
+  padding-top: var(--header-height-pc);
+  /* 모바일에서 가로 스크롤 생기는 것 방지 */
+  overflow-x: hidden; 
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: var(--header-height-mobile);
+  }
+}

@@ -10,7 +10,7 @@ export const useRequireAuth = () => {
     if (!user) {
       Swal.fire({
         icon: 'info', 
-        iconColor: '#7442eb', // 보라색 아이콘
+        iconColor: '#CC1213', // 보라색 아이콘
         
         title: '로그인이 필요해요!',
         html: '해당 기능을 사용하려면<br/>먼저 로그인해주세요.', // 줄바꿈 추가
@@ -19,7 +19,7 @@ export const useRequireAuth = () => {
         
         // (★ 수정 2) 버튼 텍스트와 색상 조정
         confirmButtonText: '로그인 하러가기',
-        confirmButtonColor: '#7442eb', // 브랜드 보라색
+        confirmButtonColor: '#CC1213', // 브랜드 보라색
         
         cancelButtonText: '나중에 할게요', // 좀 더 부드러운 말투
         cancelButtonColor: '#9e9e9e',  // (★) 취소는 회색으로 (로그인 버튼 강조)

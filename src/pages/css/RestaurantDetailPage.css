@@ -52,7 +52,7 @@ body {
 .back-btn:hover {
   background-color: #fff;
   transform: scale(1.05);
-  color: #7442eb; /* (★) 호버 시 브랜드 컬러 */
+  color: #CC1213; /* (★) 호버 시 브랜드 컬러 */
 }
 
 /* 2. 대표 이미지 */
@@ -82,7 +82,7 @@ body {
 .detail-category {
   display: inline-block;
   background-color: #f0f2ff; /* 연한 보라색 배경 */
-  color: #7442eb; /* (★) 브랜드 보라색 */
+  color: #CC1213; /* (★) 브랜드 보라색 */
   font-weight: 700;
   font-size: 14px;
   padding: 6px 12px;
@@ -178,3 +178,4 @@ body {
 .action-btn.secondary:hover {
   background-color: #e4e6eb;
 }
+
