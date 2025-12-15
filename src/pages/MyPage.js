@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import './css/MyPage.css';
 
 function MyPage() {
   const { user, logout } = useAuth();

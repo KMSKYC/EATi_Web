@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRequireAuth } from '../hooks/useRequireAuth';
-import './css/RestaurantDetailPage1.css';
+import './css/RestaurantDetailPage.css';
 
 function RestaurantDetailPage() {
   const { id } = useParams();

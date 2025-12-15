@@ -13,23 +13,30 @@ import MainLayout from './layouts/MainLayout';
 import EatTogether from './pages/EatTogether';
 import SearchCategoryPage from './pages/SearchCategoryPage';
 import RandomPickPage from './components/RandomPickPage';
+import CurationPage from './components/CurationPage';
+import CurationDetailPage from './components/CurationDetailPage';
+import RankingPage from './pages/RankingPage';
 
 function App() {
   
   return (
     <Routes>
       <Route path="/" element={<MainLayout/>}>
-      <Route index element={<HomePage />} />
-      <Route path="/menu" element={<SearchPage />} />
-      <Route path="/mypage" element={<MyPage />} />
-      <Route path="/together" element={<EatTogether />}/>
-      </Route>
-       <Route path="/restaurant/:id" element={<RestaurantDetailPage />} />
-       <Route path="/menu/category" element={<SearchCategoryPage />} />
-       <Route path="/menu/map" element={<SearchMapPage />} />
+        <Route index element={<HomePage />} />
+        <Route path="/menu" element={<SearchPage />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/together" element={<EatTogether />}/>
+        <Route path="/curation" element={<CurationPage/>} />
+        <Route path="/curation/:id" element={<CurationDetailPage />} />
+        <Route path="/ranking" element={< RankingPage/>} />
+        <Route path="/restaurant/:id" element={<RestaurantDetailPage />} />
+        <Route path="/menu/category" element={<SearchCategoryPage />} />
+        <Route path="/menu/map" element={<SearchMapPage />} />
+       </Route>
        <Route path="/login" element={<LoginPage />} />
        <Route path="/signup" element={<SignupPage />} />
        <Route path="/random" element={<RandomPickPage />} />
+       {/* <Route path="/curation" elemen={<CurationPage/>} /> */}
     </Routes>  
     
     // <main className="main-content">

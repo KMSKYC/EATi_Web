@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { foodApi } from '../api/foodApi';
 // import { useAuth } from '../context/AuthContext'; 
-import './css/HomPage.css'; // (★) CSS 파일 이름 변경 확인!
+import './css/HomePage.css'; // (★) CSS 파일 이름 변경 확인!
 import AICard from '../components/AI_Card';
 import AIPopup from '../components/AI_Popup';
 
@@ -79,11 +79,11 @@ function HomePage() {
     await fetchMenus(category.id);
   };
 
-  // 3. AI 팝업 관련
-  const openAiPopup = () => {
-    if (!localStorage.getItem(POPUP_CLOSED_KEY)) setIsAiPopupOpen(true);
-    else alert("오늘은 이미 AI 추천을 받았습니다.");
-  };
+  // // 3. AI 팝업 관련
+  // const openAiPopup = () => {
+  //   if (!localStorage.getItem(POPUP_CLOSED_KEY)) setIsAiPopupOpen(true);
+  //   else alert("오늘은 이미 AI 추천을 받았습니다.");
+  // };
   const closeAiPopup = () => { //팝업 닫기
     setIsAiPopupOpen(false);
     localStorage.setItem(POPUP_CLOSED_KEY, 'true');

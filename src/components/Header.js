@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom'; 
 import { useAuth } from '../context/AuthContext';
 import { useRequireAuth } from '../hooks/useRequireAuth';
@@ -19,7 +19,7 @@ function Header() {
     }
   };
 
-  // 3. 'AI 채팅' 클릭 시 로그인 체크 (새로 추가된 기능)
+
   const handleAiClick = () => {
     // 로그인이 안 되어 있으면 로그인 창 뜸
     withAuth(() => navigate('/chat'));
@@ -33,7 +33,6 @@ function Header() {
         <div className="brand-logo" onClick={() => navigate('/')}>
           <img src="/EATi.png" alt="EATi" className="logo-img" />
         </div>
-
         {/* (2) 메뉴 네비게이션 */}
         <nav className="web-nav">
           <Link to="/" className={`nav-link ${isActive('/')}`}>
@@ -53,37 +52,22 @@ function Header() {
           </Link>
         </nav>
 
-        <div className="header-actions">
-          
-          {/* <button className="ai-chat-btn" onClick={handleAiClick}>
-            🤖 AI 추천받기
-          </button> */}
-
+<div className="header-actions">
           {user ? (
-            // [로그인 상태] -> 프로필 표시 (누르면 마이페이지)
-            <div
-              className="user-profile"
+            // ✅ (수정) 로그아웃 버튼 삭제 & 클릭 시 마이페이지 이동
+            <div 
+              className="user-profile-area clickable" 
               onClick={() => navigate('/mypage')}
-              style={{ cursor: 'pointer' }}
             >
-              <div className="avatar">👤</div>
-              <span>{user.nickname || '사용자'}님</span>
+              <div className="user-profile">
+                <div className="avatar">👤</div>
+                <span className="user-name"><strong>{user.nickname}</strong>님</span>
+              </div>
             </div>
           ) : (
-            // [비로그인 상태] -> 로그인, 회원가입 버튼 표시
             <div className="auth-buttons">
-              <button
-                className="login-btn"
-                onClick={() => navigate('/login')}
-              >
-                로그인
-              </button>
-              <button
-                className="signup-btn"
-                onClick={() => navigate('/signup')}
-              >
-                회원가입
-              </button>
+              <button className="text-btn" onClick={() => navigate('/login')}>로그인</button>
+              <button className="btn-black-small" onClick={() => navigate('/signup')}>회원가입</button>
             </div>
           )}
         </div>

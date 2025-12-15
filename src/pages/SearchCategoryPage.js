@@ -18,8 +18,6 @@ function SearchCategoryPage() {
 
   return (
     <div className="category-page-container">
-      
-      {/* 1. 헤더 (주변 맛집 탐색 페이지와 동일한 스타일) */}
       <div className="category-header-section">
         <div className="header-top-row">
            <button onClick={() => navigate(-1)} className="back-btn-unified">←</button>

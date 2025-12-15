@@ -1,11 +1,15 @@
 /* 전체 레이아웃: 주변 맛집 탐색과 너비/여백 통일 */
 .category-page-container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  
+  /* 헤더 높이(약 80px)를 고려한 여백 */
+  padding: 80px 20px 20px 20px; 
+  
   font-family: 'Pretendard', sans-serif;
   min-height: 100vh;
   box-sizing: border-box;
+  background-color: #fff; /* 배경색 명시 */
 }
 
 /* 1. 헤더 영역 */

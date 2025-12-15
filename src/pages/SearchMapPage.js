@@ -28,7 +28,6 @@ function SearchMapPage() {
 
   return (
     <div className="search-map-container">
-      
       {/* 1. 헤더 영역 (뒤로가기 + 검색) */}
       <div className="map-header-section">
         <div className="header-top-row">

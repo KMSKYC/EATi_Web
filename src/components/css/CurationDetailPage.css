@@ -1,0 +1,80 @@
+/* 전체 컨테이너 */
+.curation-detail-container {
+  min-height: 100vh;
+  font-family: 'Pretendard', sans-serif;
+  background-color: #fff;
+}
+
+/* 1. 상단 테마 헤더 (배경색은 JS에서 인라인으로 들어옴) */
+.theme-header {
+  padding: 100px 20px 50px 20px; /* 상단 여백 넉넉히 */
+  text-align: center;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.back-btn-theme {
+  position: absolute; top: 100px; left: 20px; /* 위치 고정 */
+  width: 40px; height: 40px;
+  border-radius: 50%; border: none; background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-size: 22px; cursor: pointer; color: #333;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s;
+}
+.back-btn-theme:hover { transform: translateX(-2px); }
+
+.theme-title-area h1 {
+  font-size: 32px; font-weight: 800; margin: 10px 0; color: #333;
+}
+.theme-title-area p {
+  font-size: 16px; color: #666; margin: 0;
+}
+.theme-icon-large {
+  font-size: 48px; display: block; margin-bottom: 10px;
+  animation: bounce 2s infinite; /* 귀여운 애니메이션 */
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+
+/* 2. 리스트 컨텐츠 영역 */
+.theme-content-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 60px 20px;
+}
+
+.list-status {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px;
+}
+.count-badge { font-weight: bold; color: #333; font-size: 15px; }
+.sort-option { font-size: 13px; color: #888; cursor: pointer; }
+
+
+/* 그리드 (홈 화면과 동일한 AICard 사용) */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+/* 📱 모바일 반응형 */
+@media (max-width: 1024px) {
+  .theme-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .theme-header { padding-top: 80px; padding-bottom: 30px; }
+  .back-btn-theme { top: 80px; }
+  .theme-title-area h1 { font-size: 24px; }
+  .theme-icon-large { font-size: 36px; }
+  
+  .theme-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+}
+@media (max-width: 480px) {
+  .theme-grid { grid-template-columns: 1fr; } /* 아주 작은 화면은 1열 */
+}

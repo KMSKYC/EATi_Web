@@ -1,0 +1,98 @@
+.ranking-page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  /* 헤더 높이(약 80px)를 고려한 여백 */
+  padding: 100px 20px 20px 20px; 
+  
+  font-family: 'Pretendard', sans-serif;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-color: #fff; /* 배경색 명시 */
+}
+
+.ranking-header { text-align: center; margin-bottom: 30px; }
+.ranking-header h2 { font-size: 28px; margin-bottom: 10px; }
+.ranking-header p { color: #666; }
+
+/* 메인 탭 스타일 */
+.ranking-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+.ranking-tabs button {
+  background: #f1f3f5;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ranking-tabs button.active {
+  background: #333;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* 서브 필터 (연령, 지역) */
+.sub-filter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+.sub-filter button {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap;
+}
+.sub-filter button.on {
+  border-color: #CC1213;
+  color: #CC1213;
+  background-color: #fff0f0;
+  font-weight: bold;
+}
+
+/* 랭킹 리스트 아이템 */
+.rank-item-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.rank-item-card:hover { transform: translateY(-3px); }
+
+/* 등수 뱃지 (1,2,3등 색상 다르게) */
+.rank-badge {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800;
+  margin-right: 20px;
+  background: #f1f3f5; color: #555;
+}
+.rank-badge.rank-1 { background: #FFD700; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.2); } /* 금 */
+.rank-badge.rank-2 { background: #C0C0C0; color: #fff; } /* 은 */
+.rank-badge.rank-3 { background: #CD7F32; color: #fff; } /* 동 */
+
+.rank-info { flex: 1; }
+.rank-info h3 { margin: 0 0 5px 0; font-size: 18px; }
+.rank-info p { margin: 0; font-size: 13px; color: #888; }
+
+.rank-diff { font-size: 14px; font-weight: bold; color: #666; width: 40px; text-align: center; }

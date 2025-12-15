@@ -1,11 +1,15 @@
 /* 전체 레이아웃 */
 .search-map-container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  
+  /* 헤더 높이(약 80px)를 고려한 여백 */
+  padding: 80px 20px 20px 20px; 
+  
   font-family: 'Pretendard', sans-serif;
   min-height: 100vh;
   box-sizing: border-box;
+  background-color: #fff; /* 배경색 명시 */
 }
 
 /* 1. 헤더 영역 */
@@ -21,20 +25,20 @@
   height: 44px; 
   border-radius: 50%;
   border: none;
-  background: #f0f0f0; /* 흰 배경에서는 연한 회색이 잘 어울림 */
+  background: #f0f0f0; 
   color: #333;
-  font-size: 24px; /* 화살표 크기 통일 */
+  font-size: 24px; 
   display: flex; 
   align-items: center; 
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  padding-bottom: 2px; /* 화살표 시각적 중앙 정렬 보정 */
+  padding-bottom: 2px;
 }
 
 .back-btn-map:hover { 
-  background: #e0e0e0; /* 마우스 올리면 조금 더 진하게 */
-  transform: translateX(-2px); /* 살짝 왼쪽으로 움직이는 효과 */
+  background: #e0e0e0; 
+  transform: translateX(-2px);
 }
 
 .header-title { font-size: 24px; font-weight: 800; color: #333; margin: 0; }
@@ -56,6 +60,7 @@
   border: 1px solid #eee; background: white;
   font-size: 13px; font-weight: 600; color: #666;
   cursor: pointer; transition: all 0.2s;
+  white-space: nowrap; /* 줄바꿈 방지 */
 }
 .filter-pill.active {
   background: #333; color: white; border-color: #333;
@@ -65,7 +70,7 @@
 /* 2. 지도 + 카드 래퍼 (웹에서 좌우 배치) */
 .map-content-wrapper {
   display: flex; gap: 30px;
-  height: 600px; /* 고정 높이 */
+  height: 600px; /* PC 고정 높이 */
 }
 
 /* (Left) 레이더 지도 */
@@ -85,6 +90,7 @@
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   border: 1px solid #ececec; border-radius: 50%;
+  pointer-events: none; /* 마우스 이벤트 통과 */
 }
 .circle-1 { width: 25%; height: 25%; background: rgba(255, 127, 80, 0.03); }
 .circle-2 { width: 55%; height: 55%; }
@@ -95,6 +101,7 @@
   position: absolute; transform: translate(-50%, -50%);
   display: flex; flex-direction: column; align-items: center;
   cursor: pointer; transition: transform 0.2s;
+  z-index: 10;
 }
 .map-marker-item:hover { transform: translate(-50%, -60%) scale(1.1); z-index: 20; }
 
@@ -105,13 +112,14 @@
 }
 .marker-label {
   margin-top: 6px; font-size: 12px; font-weight: 600; color: #888;
-  background: rgba(255,255,255,0.8); padding: 2px 6px; border-radius: 8px;
-  transition: all 0.2s;
+  background: rgba(255,255,255,0.9); padding: 4px 8px; border-radius: 8px;
+  transition: all 0.2s; white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 /* 내 위치 (중앙) */
 .map-marker-item.center .marker-dot { background: #333; width: 18px; height: 18px; }
-.map-marker-item.center .marker-label { display: none; } /* 내 위치 글자는 숨김 */
+.map-marker-item.center .marker-label { display: none; } 
 
 /* 타겟 마커 */
 .map-marker-item.target .marker-dot { background: #ff7f50; }
@@ -120,11 +128,12 @@
 .map-marker-item.active .marker-dot {
   background: #ff7f50; width: 20px; height: 20px;
   box-shadow: 0 0 0 4px rgba(255, 127, 80, 0.2);
-  animation: pulse 2s infinite; /* 펄스 애니메이션 */
+  animation: pulse 2s infinite; 
 }
 .map-marker-item.active .marker-label {
   color: #333; font-weight: bold; background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 4px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15); padding: 5px 12px;
+  z-index: 30;
 }
 
 @keyframes pulse {
@@ -140,12 +149,13 @@
   font-weight: bold; font-size: 14px; color: #333;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer;
   display: flex; align-items: center; gap: 5px;
+  z-index: 50;
 }
 
 
 /* (Right) 식당 카드 영역 */
 .side-card-section {
-  flex: 1; /* 너비 1 차지 */
+  flex: 1; 
   display: flex; flex-direction: column; justify-content: center;
 }
 
@@ -180,52 +190,60 @@
 
 /* 📱 모바일 반응형 (세로 배치) */
 @media (max-width: 768px) {
+  .search-map-container {
+    padding-top: 80px; /* 모바일 헤더 높이에 맞춤 */
+  }
+
   .map-content-wrapper {
     flex-direction: column; /* 세로 배치 */
-    height: auto; /* 고정 높이 해제 (내용만큼 늘어나게) */
+    height: auto; 
+    gap: 20px;
   }
   
   /* 지도 영역 */
   .radar-map-section {
-    /* 🚨 핵심 수정: flex 설정을 끄고, 높이를 강제로 줍니다 */
     flex: none; 
     width: 100%;
-    height: 350px; /* 모바일에서 지도 높이 고정 */
-    min-height: 350px; /* 최소 높이 보장 (찌그러짐 방지) */
-    margin-bottom: 20px;
+    height: 350px; /* 모바일 지도 높이 고정 */
+    min-height: 350px; 
   }
   
   /* 카드 영역 */
   .side-card-section { 
     width: 100%; 
-    flex: none; /* flex 해제 */
+    flex: none; 
   }
   
   /* 모바일용 가로형 카드 스타일 */
   .restaurant-card-item {
+    display: flex; /* (★) 중요: Flex를 켜줘야 가로 정렬됨 */
     flex-direction: row; 
     align-items: center; 
     gap: 15px; 
     padding: 15px;
-    height: auto; /* 높이 자동 */
+    height: auto;
   }
   
   .card-thumb { 
     width: 80px; 
     height: 80px; 
     margin: 0; 
+    flex-shrink: 0; /* 이미지 찌그러짐 방지 */
   }
   
   .card-info-box { 
     flex: 1; 
   }
   
-  /* 모바일에서 상세 설명/버튼은 숨겨서 심플하게 */
+  /* 모바일에서 상세 설명/버튼은 숨김 */
   .card-desc, .card-actions { 
     display: none; 
   } 
   
   .card-name { 
     font-size: 18px; 
+    margin-bottom: 4px;
   }
+  
+  .card-meta { margin-bottom: 0; font-size: 13px; }
 }

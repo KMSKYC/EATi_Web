@@ -1,8 +1,15 @@
 /* 페이지 컨테이너 */
 .eat-together-container {
-  /* (★) 메인 컨텐츠 규격 따르기 */
-  /* max-width 등은 App.js의 main-content가 이미 잡아주지만,
-     여기서는 내부 여백과 정렬을 담당합니다. */
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  /* 헤더 높이(약 80px)를 고려한 여백 */
+  padding: 60px 20px 20px 20px; 
+  
+  font-family: 'Pretendard', sans-serif;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-color: #fff; /* 배경색 명시 */
 }
 
 /* 헤더 */
