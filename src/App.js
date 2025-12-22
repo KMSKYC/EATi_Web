@@ -16,6 +16,7 @@ import RandomPickPage from './components/RandomPickPage';
 import CurationPage from './components/CurationPage';
 import CurationDetailPage from './components/CurationDetailPage';
 import RankingPage from './pages/RankingPage';
+import AdminPage from './pages/admin/AdminPage';
 
 function App() {
   
@@ -36,6 +37,7 @@ function App() {
        <Route path="/login" element={<LoginPage />} />
        <Route path="/signup" element={<SignupPage />} />
        <Route path="/random" element={<RandomPickPage />} />
+       <Route path="/admin" element={<AdminPage />} />
        {/* <Route path="/curation" elemen={<CurationPage/>} /> */}
     </Routes>  
     

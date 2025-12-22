@@ -1,0 +1,175 @@
+/* =========================================
+   1. 전체 레이아웃 & 사이드바
+   ========================================= */
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f6f8;
+  font-family: 'Pretendard', sans-serif;
+}
+
+/* 사이드바 */
+.admin-sidebar {
+  width: 260px;
+  background-color: #2c3e50; /* 진한 남색 */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.admin-logo {
+  font-size: 24px; font-weight: 800; margin-bottom: 50px;
+  display: flex; align-items: center; gap: 8px;
+}
+.admin-badge {
+  font-size: 12px; background: #e74c3c; padding: 2px 6px; border-radius: 4px;
+}
+
+/* 네비게이션 메뉴 */
+.admin-nav { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.nav-item {
+  background: none; border: none; color: #bdc3c7;
+  text-align: left; padding: 12px 15px; font-size: 16px;
+  cursor: pointer; border-radius: 8px; transition: all 0.2s;
+}
+.nav-item:hover, .nav-item.active {
+  background: #34495e; color: white; font-weight: bold;
+}
+
+/* 로그아웃 영역 */
+.admin-logout button {
+  width: 100%; padding: 10px; background: #e74c3c;
+  border: none; color: white; border-radius: 8px; cursor: pointer;
+}
+
+
+/* =========================================
+   2. 메인 콘텐츠 영역
+   ========================================= */
+.admin-content {
+  flex: 1; padding: 40px; overflow-y: auto;
+}
+
+.admin-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 30px;
+}
+.admin-header h2 { font-size: 28px; margin: 0; color: #333; }
+.admin-profile { display: flex; align-items: center; gap: 10px; font-weight: bold; }
+.mini-logout {
+    font-size: 12px; padding: 4px 8px; background: #eee; border: none; border-radius: 4px; cursor: pointer;
+}
+
+/* =========================================
+   3. 대시보드 (KPI 카드)
+   ========================================= */
+.dashboard-wrapper {
+  display: flex; flex-direction: column; gap: 20px;
+}
+
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+}
+
+.kpi-card {
+  background: white; padding: 20px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  position: relative; overflow: hidden;
+}
+/* 신고 알림 카드 강조 */
+.kpi-card.alert { border: 1px solid #ffe3e3; background: #fff5f5; }
+
+.kpi-icon {
+  width: 50px; height: 50px; background: #f8f9fa; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 24px;
+}
+.kpi-card.alert .kpi-icon { background: white; }
+
+.kpi-info p { margin: 0 0 5px 0; color: #888; font-size: 13px; }
+.kpi-info h3 { margin: 0; font-size: 24px; font-weight: 800; color: #333; }
+.kpi-card.alert h3 { color: #e03131; }
+
+.kpi-badge {
+  font-size: 12px; font-weight: bold; padding: 4px 8px; border-radius: 10px;
+}
+.kpi-badge.up { background: #e6fcf5; color: #0ca678; }
+.kpi-badge.danger { background: #ffc9c9; color: #c92a2a; }
+
+
+/* =========================================
+   4. 대시보드 (차트 & 랭킹)
+   ========================================= */
+.chart-rank-section {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 20px;
+}
+
+.dashboard-box {
+  background: white; padding: 25px; border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+.dashboard-box h3 { margin: 0 0 20px 0; font-size: 18px; color: #333; }
+
+/* 막대 그래프 스타일 */
+.chart-row {
+  display: flex; align-items: center; margin-bottom: 15px;
+}
+.chart-label { width: 50px; font-size: 14px; font-weight: bold; color: #555; }
+.chart-bar-bg {
+  flex: 1; height: 12px; background: #f1f3f5; border-radius: 6px; margin: 0 15px; overflow: hidden;
+}
+.chart-bar-fill { height: 100%; border-radius: 6px; }
+.chart-value { width: 40px; text-align: right; font-size: 14px; color: #888; }
+
+/* 랭킹 리스트 스타일 */
+.rank-list { list-style: none; padding: 0; margin: 0; }
+.rank-list li {
+  display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f8f9fa;
+}
+.rank-list li:last-child { border-bottom: none; }
+
+.rank-num {
+  width: 24px; height: 24px; border-radius: 6px; background: #eee;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 12px; margin-right: 10px; color: #555;
+}
+.rank-num.rank-1 { background: #ffd43b; color: white; }
+.rank-num.rank-2 { background: #ced4da; color: white; }
+.rank-num.rank-3 { background: #e6996e; color: white; }
+
+.rank-keyword { flex: 1; font-size: 15px; color: #333; }
+.rank-status { font-size: 12px; font-weight: bold; width: 40px; text-align: center; }
+.rank-status.up { color: #e03131; }
+.rank-status.down { color: #1c7ed6; }
+.rank-status.new { 
+  color: #e03131; font-size: 10px; border: 1px solid #e03131; border-radius: 4px; padding: 1px 3px; 
+}
+
+
+/* =========================================
+   5. 하단 테이블 (신고 내역 등)
+   ========================================= */
+.box-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.text-btn { background: none; border: none; color: #888; cursor: pointer; }
+
+.mini-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.mini-table th { text-align: left; color: #888; padding-bottom: 10px; font-weight: 500; }
+.mini-table td { padding: 12px 0; border-bottom: 1px solid #f8f9fa; color: #555; }
+
+.report-tag {
+  background: #f1f3f5; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; color: #495057;
+}
+.status-dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;
+}
+.status-dot.red { background: #e03131; }
+.status-dot.green { background: #0ca678; }
+
+.btn-xs {
+  font-size: 12px; padding: 4px 10px; background: white; border: 1px solid #ddd;
+  border-radius: 4px; cursor: pointer;
+}
+.btn-xs:hover { background: #333; color: white; border-color: #333; }

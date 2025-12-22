@@ -25,6 +25,10 @@ function Header() {
     withAuth(() => navigate('/chat'));
   };
 
+  if (location.pathname.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <header className="web-header">
       <div className="header-inner">

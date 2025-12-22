@@ -53,7 +53,9 @@ function MyPage() {
         </div>
 
         <hr className="divider" />
-
+        <button onClick={() => navigate('/admin')} style={{marginTop: '50px', opacity: 0.3}}>
+          ⚙️ 관리자 페이지 이동 (개발자용)
+        </button>
         {/* (★) 로그아웃 버튼 */}
         <button 
           onClick={handleLogout} 
