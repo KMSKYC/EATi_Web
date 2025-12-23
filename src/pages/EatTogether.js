@@ -14,17 +14,17 @@ function EatTogetherPage() {
 
   return (
     <div className="eat-together-container">
-      
+
       {/* 1. 페이지 헤더 */}
       <div className="eat-header">
-        <h2>같이 먹기 🍚</h2>
-        <p>주변 동료들과 함께 배달비를 아끼고 즐겁게 식사하세요!</p>
+        <h2>같이 먹기</h2>
+        <p>주변 동료들과 함께 배달비를 아끼고 즐겁게 식사하세요.</p>
       </div>
 
-      {/* 2. 글쓰기 버튼 (플로팅 버튼 느낌) */}
+      {/* 2. 글쓰기 버튼 */}
       <div className="create-post-wrapper">
         <button className="create-post-btn" onClick={() => alert('글쓰기 기능은 준비 중입니다!')}>
-          + 모집 글 쓰기
+          모집 글 쓰기
         </button>
       </div>
 
@@ -32,25 +32,25 @@ function EatTogetherPage() {
       <div className="posts-grid">
         {mockPosts.map(post => (
           <div key={post.id} className={`post-card ${post.status === 'closed' ? 'closed' : ''}`}>
-            
+
             <div className="post-header">
               <span className={`status-badge ${post.status}`}>
                 {post.status === 'recruiting' ? '모집중' : '마감'}
               </span>
-              <span className="post-time">⏰ {post.time}</span>
+              <span className="post-time">{post.time}</span>
             </div>
 
             <h3 className="post-title">{post.title}</h3>
-            <p className="post-restaurant">📍 {post.restaurant}</p>
+            <p className="post-restaurant">{post.restaurant}</p>
 
             <div className="post-footer">
               <div className="participant-info">
-                <span className="host-name">👑 {post.host}</span>
+                <span className="host-name">{post.host}</span>
                 <span className="count-text">{post.current} / {post.max}명</span>
               </div>
               <div className="progress-bar-bg">
-                <div 
-                  className="progress-bar-fill" 
+                <div
+                  className="progress-bar-fill"
                   style={{ width: `${(post.current / post.max) * 100}%` }}
                 ></div>
               </div>

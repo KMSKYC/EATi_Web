@@ -460,7 +460,10 @@
 }
 
 /* 하단 리스트 영역 */
-.menu-list-container { margin-bottom: 80px; }
+.menu-list-container {
+    margin-bottom: 80px;
+    padding-bottom: 80px;
+}
 
 .section-header {
   display: flex;
@@ -500,7 +503,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 200px;
+  min-height: 60vh;
   background: #f9f9f9;
   border-radius: 12px;
   border: 1px dashed #ddd;
@@ -508,6 +511,8 @@
 .empty-menu-message p {
   color: #888;
   font-size: 15px;
+  margin: 0;
+  padding: 40px 20px;
 }
 
 /* 화면 작아지면 반응형 처리 */
