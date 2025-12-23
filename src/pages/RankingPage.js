@@ -46,7 +46,7 @@ function RankingPage() {
       <div className={`rank-badge rank-${item.rank}`}>{item.rank}</div>
       <div className="rank-info">
         <h3>{item.name}</h3>
-        <p>인기 점수 🔥 {item.score}</p>
+        <p>인기 점수 {item.score}</p>
       </div>
       <div className="rank-diff">{item.diff || '-'}</div>
     </div>
@@ -55,15 +55,15 @@ function RankingPage() {
   return (
     <div className="ranking-page-container">
       <div className="ranking-header">
-        <h2>🔥 실시간 랭킹</h2>
-        <p>지금 가장 핫한 맛집은 어디일까요?</p>
+        <h2>실시간 랭킹</h2>
+        <p>지금 가장 인기있는 맛집을 확인하세요.</p>
       </div>
 
       {/* 메인 탭 메뉴 */}
       <div className="ranking-tabs">
-        <button className={activeTab === 'menu' ? 'active' : ''} onClick={() => setActiveTab('menu')}>🏆 전체 인기</button>
-        <button className={activeTab === 'age' ? 'active' : ''} onClick={() => setActiveTab('age')}>🎂 연령별</button>
-        <button className={activeTab === 'region' ? 'active' : ''} onClick={() => setActiveTab('region')}>📍 지역별</button>
+        <button className={activeTab === 'menu' ? 'active' : ''} onClick={() => setActiveTab('menu')}>전체 인기</button>
+        <button className={activeTab === 'age' ? 'active' : ''} onClick={() => setActiveTab('age')}>연령별</button>
+        <button className={activeTab === 'region' ? 'active' : ''} onClick={() => setActiveTab('region')}>지역별</button>
       </div>
 
       {/* 탭 내용 영역 */}

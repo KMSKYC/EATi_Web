@@ -1,140 +1,243 @@
 /* 페이지 컨테이너 */
 .eat-together-container {
-  max-width: 1200px;
+  max-width: 1080px;
   margin: 0 auto;
-  
-  /* 헤더 높이(약 80px)를 고려한 여백 */
-  padding: 60px 20px 20px 20px; 
-  
-  font-family: 'Pretendard', sans-serif;
+  padding: 72px 32px 48px 32px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'SF Pro Display', sans-serif;
   min-height: 100vh;
   box-sizing: border-box;
-  background-color: #fff; /* 배경색 명시 */
+  background-color: #fafafa;
 }
 
 /* 헤더 */
 .eat-header {
-  margin-bottom: 24px;
+  margin-bottom: 40px;
 }
+
 .eat-header h2 {
-  font-size: 28px;
+  font-size: 40px;
+  font-weight: 700;
+  color: #000000;
   margin-bottom: 8px;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
 }
+
 .eat-header p {
-  color: #666;
+  font-size: 17px;
+  color: #6e6e73;
+  letter-spacing: -0.3px;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 /* 글쓰기 버튼 */
 .create-post-wrapper {
-  margin-bottom: 20px;
-  text-align: right;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: flex-end;
 }
+
 .create-post-btn {
-  background-color: #2577fc; /* 파란색 */
+  background-color: #000000;
   color: white;
   border: none;
-  padding: 12px 20px;
-  border-radius: 30px;
-  font-weight: bold;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(37, 119, 252, 0.3);
-  transition: transform 0.2s;
+  transition: all 0.15s ease;
+  letter-spacing: -0.2px;
 }
+
 .create-post-btn:hover {
-  transform: translateY(-2px);
+  background-color: #1d1d1f;
+  transform: translateY(-1px);
+}
+
+.create-post-btn:active {
+  transform: scale(0.98);
 }
 
 /* 그리드 레이아웃 */
 .posts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 반응형 그리드 */
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
 }
 
 /* 게시글 카드 */
 .post-card {
   background: white;
-  border: 1px solid #eee;
-  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  transition: transform 0.2s;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   display: flex;
   flex-direction: column;
 }
+
 .post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  background: #fafafa;
+  border-color: #d2d2d7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.post-card:active {
+  transform: scale(0.98);
 }
 
 /* 마감된 카드 스타일 */
 .post-card.closed {
-  background-color: #f9f9f9;
-  opacity: 0.7;
+  background-color: #f5f5f7;
+  opacity: 0.6;
+}
+
+.post-card.closed:hover {
+  background-color: #f5f5f7;
+  border-color: #ebebeb;
+  transform: none;
+  box-shadow: none;
 }
 
 /* 카드 헤더 */
 .post-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  align-items: center;
+  margin-bottom: 16px;
 }
+
 .status-badge {
   font-size: 12px;
-  font-weight: bold;
-  padding: 4px 8px;
-  border-radius: 4px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 8px;
+  letter-spacing: -0.1px;
 }
+
 .status-badge.recruiting {
-  background-color: #e3f2fd;
-  color: #2577fc;
+  background-color: #000000;
+  color: #ffffff;
 }
+
 .status-badge.closed {
-  background-color: #eee;
-  color: #888;
+  background-color: #f5f5f7;
+  color: #6e6e73;
 }
+
 .post-time {
-  font-size: 14px;
-  color: #888;
+  font-size: 13px;
+  color: #6e6e73;
   font-weight: 500;
+  letter-spacing: -0.1px;
 }
 
 /* 카드 내용 */
 .post-title {
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 600;
   margin: 0 0 8px 0;
-  color: #333;
+  color: #000000;
+  letter-spacing: -0.3px;
+  line-height: 1.4;
 }
+
 .post-restaurant {
   font-size: 14px;
-  color: #666;
+  color: #6e6e73;
   margin: 0 0 20px 0;
+  letter-spacing: -0.1px;
+  font-weight: 400;
 }
 
 /* 카드 푸터 (인원수) */
 .post-footer {
-  margin-top: auto; /* 하단 고정 */
+  margin-top: auto;
 }
+
 .participant-info {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 13px;
-  color: #555;
-  margin-bottom: 6px;
+  color: #6e6e73;
+  margin-bottom: 10px;
+  letter-spacing: -0.1px;
 }
-.host-name { font-weight: 600; }
+
+.host-name {
+  font-weight: 600;
+  color: #000000;
+}
+
+.count-text {
+  font-weight: 600;
+  color: #CC1213;
+}
 
 /* 게이지 바 */
 .progress-bar-bg {
   width: 100%;
-  height: 8px;
-  background-color: #eee;
-  border-radius: 4px;
+  height: 6px;
+  background-color: #f5f5f7;
+  border-radius: 3px;
   overflow: hidden;
 }
+
 .progress-bar-fill {
   height: 100%;
-  background-color: #FF9800; /* 오렌지색 게이지 */
-  border-radius: 4px;
+  background-color: #CC1213;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .eat-together-container {
+    padding: 60px 20px 40px 20px;
+  }
+
+  .eat-header h2 {
+    font-size: 32px;
+    letter-spacing: -1.2px;
+  }
+
+  .eat-header p {
+    font-size: 15px;
+  }
+
+  .create-post-wrapper {
+    margin-bottom: 24px;
+  }
+
+  .create-post-btn {
+    padding: 9px 20px;
+    font-size: 14px;
+  }
+
+  .posts-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .post-card {
+    padding: 18px;
+  }
+
+  .post-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .post-title {
+    font-size: 16px;
+  }
+
+  .post-restaurant {
+    font-size: 13px;
+  }
 }
