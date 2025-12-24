@@ -184,15 +184,25 @@ const handleSendEmail = () => { //이메일 인증번호
     }
   };
 
+  const handleGoBack = () => {
+    navigate('/');
+  };
+
   return (
     <div className="auth-wrapper">
+      <button className="back-button" onClick={handleGoBack} aria-label="뒤로가기">
+        ←
+      </button>
       <div className="auth-logo">
-        <Link to="/">EATI</Link>
+        <img src="/EATi.png" alt="EATI" />
       </div>
     <div className="page-container">
       <h2>회원가입</h2>
+      <p style={{ fontSize: '13px', color: '#999', textAlign: 'right', maxWidth: '400px', margin: '0 auto 24px' }}>
+        <span style={{ color: '#CC1213' }}>*</span> 는 필수입력항목입니다
+      </p>
       <div className="login-form">
-          <label className="input-label">이메일 (아이디)</label>
+          <label className="input-label">이메일 (아이디) <span style={{ color: '#CC1213' }}>*</span></label>
                     <div style={{ display: 'flex', gap: '8px' }}>
                       <input 
                         type="email" name="email" 
@@ -258,7 +268,7 @@ const handleSendEmail = () => { //이메일 인증번호
                                 )}
 
 
-        <label className="input-label">비밀번호 (필수)</label>
+        <label className="input-label">비밀번호 <span style={{ color: '#CC1213' }}>*</span></label>
         <input 
           type="password" name="password" 
           placeholder="비밀번호"
@@ -284,15 +294,13 @@ const handleSendEmail = () => { //이메일 인증번호
           value={formData.confirmPassword} onChange={handleChange} 
         />
 
-        <label className="input-label">닉네임 (필수)</label>
-        <input 
-          type="text" name="nickname" 
+        <label className="input-label">닉네임 <span style={{ color: '#CC1213' }}>*</span></label>
+        <input
+          type="text" name="nickname"
           placeholder="별명"
-          value={formData.nickname} onChange={handleChange} 
+          value={formData.nickname} onChange={handleChange}
         />
 
-        <hr className="divider-small" />
-        
         <label className="input-label">생년월일 (선택)</label>
         <input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} />
 

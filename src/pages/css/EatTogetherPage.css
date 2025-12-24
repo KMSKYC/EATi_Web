@@ -1,6 +1,6 @@
 /* 페이지 컨테이너 */
 .eat-together-container {
-  max-width: 1080px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 72px 32px 48px 32px;
   font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'SF Pro Display', sans-serif;

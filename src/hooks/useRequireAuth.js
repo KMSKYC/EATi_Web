@@ -9,28 +9,38 @@ export const useRequireAuth = () => {
  const withAuth = (action) => {
     if (!user) {
       Swal.fire({
-        icon: 'info', 
-        iconColor: '#CC1213', // 보라색 아이콘
-        
+        icon: 'info',
+        iconColor: '#CC1213',
+
         title: '로그인이 필요해요!',
-        html: '해당 기능을 사용하려면<br/>먼저 로그인해주세요.', // 줄바꿈 추가
-        
+        html: '해당 기능을 사용하려면<br/>먼저 로그인해주세요.',
+
         showCancelButton: true,
-        
-        // (★ 수정 2) 버튼 텍스트와 색상 조정
+
         confirmButtonText: '로그인 하러가기',
-        confirmButtonColor: '#CC1213', // 브랜드 보라색
-        
-        cancelButtonText: '나중에 할게요', // 좀 더 부드러운 말투
-        cancelButtonColor: '#9e9e9e',  // (★) 취소는 회색으로 (로그인 버튼 강조)
-        
-        // (★ 수정 3) 버튼 스타일 둥글게, 간격 조정
+        confirmButtonColor: '#CC1213',
+
+        cancelButtonText: '나중에 할게요',
+        cancelButtonColor: '#9e9e9e',
+
         width: 400,
         padding: '2em',
         background: '#fff',
-        backdrop: `
-          rgba(0,0,0,0.4)
-        `
+        backdrop: 'rgba(0,0,0,0.4)',
+
+        scrollbarPadding: false,
+        heightAuto: false,
+
+        willOpen: () => {
+          document.body.dataset.swalPrevStyle = document.body.getAttribute('style') || '';
+        },
+        didOpen: () => {
+          document.body.setAttribute('style', document.body.dataset.swalPrevStyle);
+          document.documentElement.style.removeProperty('overflow');
+        },
+        didClose: () => {
+          delete document.body.dataset.swalPrevStyle;
+        }
       }).then((result) => {
         if (result.isConfirmed) {
           navigate('/login');

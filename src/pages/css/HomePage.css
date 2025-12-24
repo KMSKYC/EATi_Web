@@ -143,14 +143,18 @@
 }
 
 .badge-today {
+  position: absolute;
+  top: 20px;
+  left: 20px;
   background: #CC1213;
-  padding: 5px 10px;
-  border-radius: 4px;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
   font-weight: 600;
-  font-size: 11px;
-  margin-bottom: 12px;
-  display: inline-block;
-  letter-spacing: 0.3px;
+  font-size: 12px;
+  letter-spacing: -0.2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 3;
 }
 
 .hero-text-overlay h1 {
