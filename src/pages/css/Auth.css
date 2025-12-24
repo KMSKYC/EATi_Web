@@ -5,45 +5,68 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 60px 20px;
+  margin: -16px;
   background-color: #fafafa;
   font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'SF Pro Display', sans-serif;
+  position: relative;
+}
+
+/* === 뒤로가기 버튼 === */
+.back-button {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 44px;
+  height: 44px;
+  background-color: #ffffff;
+  border: 1px solid #d2d2d7;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 20px;
+  color: #000000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.back-button:hover {
+  background-color: #f5f5f7;
+  border-color: #000000;
+  transform: translateX(-2px);
+}
+
+.back-button:active {
+  transform: scale(0.95);
 }
 
 /* === 1. 로고 === */
 .auth-logo {
-  margin-bottom: 48px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.auth-logo a {
-  text-decoration: none;
-  font-size: 36px;
-  font-weight: 800;
-  color: #000000;
-  letter-spacing: -1.5px;
-  transition: opacity 0.15s ease;
-}
-
-.auth-logo a:hover {
-  opacity: 0.7;
+.auth-logo img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
 }
 
 /* === 2. 폼 컨테이너 === */
 .page-container {
   width: 100%;
-  max-width: 400px;
-  padding: 48px 40px;
+  max-width: 600px;
+  padding: 48px 80px;
   background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid #ebebeb;
 }
 
 .page-container h2 {
   text-align: center;
   margin-top: 0;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   color: #000000;
   font-size: 28px;
   font-weight: 700;
@@ -54,17 +77,20 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .input-label {
   font-size: 14px;
   color: #6e6e73;
-  margin-bottom: 6px;
-  margin-top: 12px;
+  margin-bottom: 8px;
+  margin-top: 20px;
   font-weight: 500;
   display: block;
   letter-spacing: -0.2px;
+  text-align: left;
 }
 
 .input-label:first-child {
@@ -94,6 +120,7 @@
 .login-form input::placeholder {
   color: #86868b;
   line-height: 1.5;
+  text-align: center;
 }
 
 /* 로그인 버튼 */
@@ -124,7 +151,8 @@
 .divider {
   border: none;
   border-top: 1px solid #d2d2d7;
-  margin: 32px 0;
+  margin: 32px auto;
+  max-width: 400px;
 }
 
 .divider-small {
@@ -135,7 +163,7 @@
 
 /* 회원가입/로그인 링크 */
 .signup-link-btn {
-  display: inline-block;
+  display: block;
   text-align: center;
   background: none;
   border: none;
@@ -148,7 +176,8 @@
   transition: color 0.15s ease;
   padding: 12px 20px;
   border-radius: 10px;
-  margin-top: 8px;
+  margin: 8px auto 0;
+  max-width: 400px;
 }
 
 .signup-link-btn:hover {
@@ -260,6 +289,14 @@
 @media (max-width: 768px) {
   .auth-wrapper {
     padding: 20px 16px;
+  }
+
+  .back-button {
+    top: 16px;
+    left: 16px;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
   }
 
   .auth-logo {

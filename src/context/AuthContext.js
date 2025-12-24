@@ -9,23 +9,39 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
+      // 서버 응답 형식 (실무 표준):
+      // {
+      //   accessToken: string,
+      //   user: {
+      //     id: string,
+      //     nickname: string,
+      //     email?: string  // 선택적 - 보안상 필요시에만
+      //   }
+      // }
       const data = await authApi.login(email, password);
-      const token = data.accessToken || data.token; 
-      const userData = data.user || { email: email, nickname: '사용자' }; 
 
-      if (token) {
-        localStorage.setItem('accessToken', token);
+      // 토큰 추출 및 저장
+      const token = data.accessToken;
+      if (!token) {
+        throw new Error('토큰이 응답에 포함되지 않았습니다.');
       }
+      localStorage.setItem('accessToken', token);
 
-      // 3. 상태 업데이트 & 쿠키 저장 (로그인 유지용)
+      // 사용자 정보 추출 (닉네임 필수)
+      const userData = {
+        id: data.user?.id,
+        nickname: data.user?.nickname || email.split('@')[0], // fallback: 이메일 앞부분
+        email: data.user?.email || email
+      };
+
+      // 상태 업데이트 & 쿠키 저장 (로그인 유지용)
       setUser(userData);
-      Cookies.set('user', JSON.stringify(userData)); // 1일 유지
+      Cookies.set('user', JSON.stringify(userData), { expires: 7 }); // 7일 유지
 
       return true; // 성공
 
     } catch (error) {
       console.error("❌ 로그인 실패:", error);
-      // 에러 메시지 띄우기 (옵션)
       alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
       return false;
     }

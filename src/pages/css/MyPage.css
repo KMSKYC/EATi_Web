@@ -15,8 +15,6 @@
   max-width: 400px; /* 카드 폭 제한 */
   background: white;
   padding: 40px;
-  border-radius: 24px; /* 둥근 모서리 */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* 그림자 */
   height: fit-content;
   text-align: center;
   border: 1px solid #f0f0f0;

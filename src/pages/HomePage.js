@@ -99,17 +99,17 @@ function HomePage() {
       <main className="main-content">
         <section className="top-grid-section">
           <div className="hero-card">
+            <span className="badge-today">🤖 AI 추천, 오늘의 메뉴!</span>
             <div className="hero-text-overlay">
-              <span className="badge-today">Today's AI Pick ✨</span>
-              <h1>{recommendation ? (recommendation.name || recommendation.menuName) : "오늘은 \"바질 파스타\" 어때요?"}</h1>
-              <p>{recommendation?.description || "비 오는 날엔 따뜻하고 크리미한 소스가 위로가 되죠."}</p>
+              <h1>오늘은 "{recommendation ? (recommendation.name || recommendation.menuName) : '바질 파스타'}" 어때요?</h1>
+              <p>{recommendation?.description || "당신의 최근 선호도와 날씨를 분석해 선별했어요"}</p>
               <button className="btn-detail" onClick={() => navigate(`/restaurant/${recommendation?.id || 1}`)}>
                 보러 가기 →
               </button>
             </div>
-            <img 
-              src={recommendation?.imageUrl || "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80"} 
-              alt="Hero" 
+            <img
+              src={recommendation?.imageUrl || "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80"}
+              alt="Hero"
               className="hero-bg-img"
             />
           </div>

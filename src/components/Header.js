@@ -5,7 +5,7 @@ import { useRequireAuth } from '../hooks/useRequireAuth';
 import './css/Header.css'; // (★중요) 아까 만든 CSS 파일을 연결해야 디자인이 바뀝니다!
 
 function Header() {
-  const { user } = useAuth(); // 로그인 정보
+  const { user, logout } = useAuth(); // 로그인 정보
   const withAuth = useRequireAuth(); // 로그인 강제하는 도구
   const navigate = useNavigate(); // 페이지 이동 도구
   const location = useLocation(); // 현재 주소 확인용 (메뉴 색깔 칠하기)
@@ -58,15 +58,12 @@ function Header() {
 
 <div className="header-actions">
           {user ? (
-            // ✅ (수정) 로그아웃 버튼 삭제 & 클릭 시 마이페이지 이동
-            <div 
-              className="user-profile-area clickable" 
-              onClick={() => navigate('/mypage')}
-            >
-              <div className="user-profile">
+            <div className="user-profile-area">
+              <div className="user-profile clickable" onClick={() => navigate('/mypage')}>
                 <div className="avatar">👤</div>
                 <span className="user-name"><strong>{user.nickname}</strong>님</span>
               </div>
+              <button className="logout-btn" onClick={logout}>로그아웃</button>
             </div>
           ) : (
             <div className="auth-buttons">
