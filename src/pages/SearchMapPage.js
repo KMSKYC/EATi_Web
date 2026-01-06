@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import KakaoMap from '../components/KaKaoMap';
 import './css/SearchMapPage.css';
 
 function SearchMapPage() {
@@ -17,14 +18,14 @@ function SearchMapPage() {
     imageUrl: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500&q=80"
   };
 
-  // 지도 마커들
-  const mapMarkers = [
-    { id: 1, name: "내 위치", top: '50%', left: '50%', type: 'center' },
-    { id: 2, name: "오레노 라멘", top: '35%', left: '42%', type: 'target', active: true },
-    { id: 3, name: "마라공방", top: '30%', left: '65%', type: 'target' },
-    { id: 4, name: "다운타우너", top: '65%', left: '58%', type: 'target' },
-    { id: 5, name: "런던 베이글", top: '72%', left: '30%', type: 'target' },
-  ];
+  // // 지도 마커들
+  // const mapMarkers = [
+  //   { id: 1, name: "내 위치", top: '50%', left: '50%', type: 'center' },
+  //   { id: 2, name: "오레노 라멘", top: '35%', left: '42%', type: 'target', active: true },
+  //   { id: 3, name: "마라공방", top: '30%', left: '65%', type: 'target' },
+  //   { id: 4, name: "다운타우너", top: '65%', left: '58%', type: 'target' },
+  //   { id: 5, name: "런던 베이글", top: '72%', left: '30%', type: 'target' },
+  // ];
 
   return (
     <div className="search-map-container">
@@ -61,28 +62,7 @@ function SearchMapPage() {
         
         {/* (Left) 레이더 지도 */}
         <div className="radar-map-section">
-          <div className="radar-container">
-            {/* 동심원 배경 (애니메이션 효과) */}
-            <div className="radar-circle circle-1"></div>
-            <div className="radar-circle circle-2"></div>
-            <div className="radar-circle circle-3"></div>
-            <div className="radar-scan-effect"></div> {/* 스캔 효과 줄 */}
-
-            {/* 마커 배치 */}
-            {mapMarkers.map(marker => (
-              <div 
-                key={marker.id} 
-                className={`map-marker-item ${marker.type} ${marker.active ? 'active' : ''}`}
-                style={{ top: marker.top, left: marker.left }}
-              >
-                <div className="marker-dot"></div>
-                {/* 활성화된 마커만 이름 크게 보이기 */}
-                <span className="marker-label">{marker.name}</span>
-              </div>
-            ))}
-            
-            <button className="ar-btn">🧭 AR 보기</button>
-          </div>
+          <KakaoMap />
         </div>
 
         {/* (Right) 식당 정보 카드 */}
