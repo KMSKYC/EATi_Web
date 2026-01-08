@@ -20,12 +20,17 @@ export const foodApi = {
     if (!categoryId || categoryId === 'all') {
       const response = await api.get('/menus');
       return response.data;
-    } 
+    }
     // categoryId가 있으면 -> 카테고리별 조회 (/api/menus?categoryId=1)
     else {
       const response = await api.get(`/menus?categoryId=${categoryId}`);
       return response.data;
     }
+  },
+
+  getRandomMenu: async () => {
+    const response = await api.get('/menus/random');
+    return response.data;
   }
 
 };

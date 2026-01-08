@@ -53,12 +53,16 @@ function HomePage() {
   useEffect(() => {
     const initData = async () => {
       try {
-        // (1) 카테고리 로딩
+        // (1) 랜덤 메뉴 추천 가져오기
+        const randomMenu = await foodApi.getRandomMenu();
+        setRecommendation(randomMenu);
+
+        // (2) 카테고리 로딩
         const catData = await foodApi.getCategories();
         const formattedCats = catData.map(c => ({ id: c.categoryId, name: c.categoryName }));
         setCategories([{ id: 'all', name: '전체' }, ...formattedCats]);
 
-        // (2) 초기 메뉴 로딩 (전체)
+        // (3) 초기 메뉴 로딩 (전체)
         await fetchMenus('all');
       } catch (error) {
         console.error("초기 데이터 로딩 실패:", error);
@@ -101,11 +105,20 @@ function HomePage() {
           <div className="hero-card">
             <span className="badge-today">🤖 AI 추천, 오늘의 메뉴!</span>
             <div className="hero-text-overlay">
-              <h1>오늘은 "{recommendation ? (recommendation.name || recommendation.menuName) : '바질 파스타'}" 어때요?</h1>
-              <p>{recommendation?.description || "당신의 최근 선호도와 날씨를 분석해 선별했어요"}</p>
-              <button className="btn-detail" onClick={() => navigate(`/restaurant/${recommendation?.id || 1}`)}>
-                보러 가기 →
-              </button>
+              {recommendation ? (
+                <>
+                  <h1>오늘은 "{recommendation.name || recommendation.menuName}" 어때요?</h1>
+                  <p>{recommendation.description || "당신의 최근 선호도와 날씨를 분석해 선별했어요"}</p>
+                  <button className="btn-detail" onClick={() => navigate(`/restaurant/${recommendation.id}`)}>
+                    보러 가기 →
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h1>오늘의 추천 메뉴를 찾고 있어요...</h1>
+                  <p>잠시만 기다려주세요</p>
+                </>
+              )}
             </div>
             <img
               src={recommendation?.imageUrl || "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80"}

@@ -1,98 +1,142 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { foodApi } from '../api/foodApi';
 import './css/RandomPickPage.css';
 
 function RandomPickPage() {
   const navigate = useNavigate();
-  
-  // 데이터
-  const recommendations = [
-    {
-      id: 1,
-      name: "매콤 로제 떡볶이",
-      tags: ["#스트레스해소", "#매운맛", "#꾸덕함"],
-      matchScore: 92,
-      description: "오늘같이 흐린 날엔 매콤하고 부드러운 로제 소스가 딱이에요. 지민님이 평소 즐겨찾는 맵기입니다.",
-      imageUrl: "https://images.unsplash.com/photo-1580651315530-69c8e0026377?q=80&w=800&auto=format&fit=crop"
-    },
-    {
-      id: 2,
-      name: "육즙 가득 수제버거",
-      tags: ["#미국맛", "#헤비급", "#치즈듬뿍"],
-      matchScore: 88,
-      description: "진한 육향을 느끼고 싶다면 추천해요. 체다 치즈가 듬뿍 들어가 풍미가 살아있습니다.",
-      imageUrl: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop"
-    },
-    {
-      id: 3,
-      name: "숙성 연어 덮밥",
-      tags: ["#다이어트", "#프레시", "#혼밥딱"],
-      matchScore: 95,
-      description: "가볍지만 든든한 한 끼! 신선한 연어의 감칠맛이 입맛을 돋워줄 거예요.",
-      imageUrl: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?q=80&w=800&auto=format&fit=crop"
-    }
-  ];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const currentItem = recommendations[currentIndex];
+  const [currentMenu, setCurrentMenu] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentRound, setCurrentRound] = useState(3);
+  const MAX_CALLS = 3;
+
+  const fetchRandomMenu = async () => {
+    try {
+      setLoading(true);
+      const data = await foodApi.getRandomMenu();
+      setCurrentMenu(data);
+      setError(null);
+    } catch (err) {
+      console.error('랜덤 메뉴 조회 실패:', err);
+      setError('메뉴를 불러오는데 실패했습니다.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRandomMenu();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="random-page-container">
+        <div className="loading-message">로딩 중...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="random-page-container">
+        <div className="error-message">{error}</div>
+      </div>
+    );
+  }
+
+  // 3번 모두 사용한 경우
+  if (currentRound === 0) {
+    return (
+      <div className="random-page-container">
+        <div className="random-main-card" style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <div className="card-right-section" style={{ textAlign: 'center', width: '100%' }}>
+            <div className="text-content">
+              <h1 className="menu-title">오늘 추천 끝났어요! 🎉</h1>
+              <p className="ai-desc">내일 다시 새로운 메뉴를 추천해드릴게요</p>
+            </div>
+            <div className="control-buttons" style={{ justifyContent: 'center' }}>
+              <button className="ctrl-btn like" onClick={() => navigate(-1)}>
+                <span className="label">돌아가기</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!currentMenu && !loading) {
+    return (
+      <div className="random-page-container">
+        <div className="error-message">추천할 메뉴가 없습니다.</div>
+      </div>
+    );
+  }
 
   const handlePass = () => {
-    if (currentIndex < recommendations.length - 1) {
-      setCurrentIndex(prev => prev + 1);
+    if (currentRound > 1) {
+      // 남은 횟수가 있으면 새로운 메뉴 가져오기
+      setCurrentRound(prev => prev - 1);
+      fetchRandomMenu();
     } else {
-      alert("모든 추천을 확인했습니다! 다시 처음으로 돌아갑니다.");
-      setCurrentIndex(0);
+      // currentRound === 1일 때 "다른 거" 누르면 종료 화면으로
+      setCurrentRound(0);
     }
   };
 
   const handleLike = () => {
-    navigate(`/restaurant/${currentItem.id}`);
+    navigate(`/restaurant/${currentMenu.id}`);
   };
+
+  const defaultImage = "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80";
+  const menuImage = currentMenu.imageUrl || defaultImage;
 
   return (
     <div className="random-page-container">
-      
-      {/* 배경에 깔리는 블러 이미지 (고급스러운 느낌 연출) */}
-      <div className="bg-blur-layer" style={{ backgroundImage: `url(${currentItem.imageUrl})` }}></div>
+
+      {/* 배경에 깔리는 블러 이미지 */}
+      <div className="bg-blur-layer" style={{ backgroundImage: `url(${menuImage})` }}></div>
 
       {/* 중앙 메인 카드 (웹 표준 사이즈) */}
       <div className="random-main-card">
-        
+
         {/* [Left] 이미지 영역 */}
         <div className="card-left-section">
-            <img src={currentItem.imageUrl} alt={currentItem.name} className="main-food-img" />
+            <img src={menuImage} alt={currentMenu.name} className="main-food-img" />
             <div className="img-overlay-gradient"></div>
             <button onClick={() => navigate(-1)} className="close-btn-overlay">✕ 닫기</button>
         </div>
 
         {/* [Right] 정보 및 컨트롤 영역 */}
         <div className="card-right-section">
-            
+
             {/* 상단: 진행 상태 */}
             <div className="status-bar">
-                <span className="analysis-badge">✨ AI 취향 분석 중</span>
-                <span className="page-count">{currentIndex + 1} / {recommendations.length}</span>
+                <span className="analysis-badge">🤖 AI 취향 분석 중</span>
+                <span className="page-count">{currentRound} / {MAX_CALLS}</span>
             </div>
 
             {/* 메인 텍스트 */}
             <div className="text-content">
-                <h1 className="menu-title">{currentItem.name}</h1>
+                <h1 className="menu-title">{currentMenu.name || currentMenu.menuName}</h1>
                 <div className="tags-wrapper">
-                    {currentItem.tags.map((tag, idx) => (
+                    {currentMenu.tags && currentMenu.tags.map((tag, idx) => (
                         <span key={idx} className="tag-pill">{tag}</span>
                     ))}
                 </div>
-                <p className="ai-desc">"{currentItem.description}"</p>
+                <p className="ai-desc">"{currentMenu.description || '맛있는 메뉴를 추천해드려요!'}"</p>
             </div>
 
             {/* AI 적합도 그래프 */}
             <div className="ai-score-container">
                 <div className="score-label">
                     <span>AI 예측 적합도</span>
-                    <span className="score-num">{currentItem.matchScore}%</span>
+                    <span className="score-num">{currentMenu.matchScore || 95}%</span>
                 </div>
                 <div className="score-track">
-                    <div className="score-fill" style={{ width: `${currentItem.matchScore}%` }}></div>
+                    <div className="score-fill" style={{ width: `${currentMenu.matchScore || 95}%` }}></div>
                 </div>
             </div>
 
