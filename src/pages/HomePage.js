@@ -121,7 +121,7 @@ function HomePage() {
               )}
             </div>
             <img
-              src={recommendation?.imageUrl || "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80"}
+              src={recommendation?.imageUrl || "https://images.unsplash.com/vector-1757229601027-713f8fce08f3?w=800&q=80"}
               alt="Hero"
               className="hero-bg-img"
             />
