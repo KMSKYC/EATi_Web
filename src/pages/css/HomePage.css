@@ -1,104 +1,53 @@
+/* 기본 리셋 및 모바일 최적화 */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
 
+html {
+  -webkit-text-size-adjust: 100%; /* iOS에서 텍스트 크기 자동 조정 방지 */
+  -ms-text-size-adjust: 100%;
+}
 
-/* ✅ 1. 웹 헤더 (상단 고정) */
-.web-header {
-  position: fixed;
-  top: 0;
-  left: 0;
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* 가로 스크롤 방지 */
   width: 100%;
-  /* height: 70px; */
-  height: var(--header-height-pc);
-  background: white;
-  border-bottom: 1px solid #eee;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  min-width: 320px; /* 최소 너비 설정 */
 }
 
-.header-inner {
-  width: 100%;
-  max-width: 1200px; /* 컨텐츠 최대 너비 제한 */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-}
-
-.brand-logo {
-  font-size: 24px;
-  font-weight: 900;
-  color: #CC1213;
-  cursor: pointer;
-}
-
-.web-nav {
-  display: flex;
-  gap: 30px;
-}
-
-.nav-link {
-  background: none;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  color: #555;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.nav-link:hover, .nav-link.active {
-  color: #CC1213;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.ai-chat-btn {
-  background: #333;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.ai-chat-btn:hover { background: #555; }
-
-.user-profile {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: #333;
-}
-.avatar {
-  width: 32px;
-  height: 32px;
-  background: #eee;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ✅ 2. 히어로 섹션 (배너) */
+/* ✅ 1. 히어로 섹션 (배너) */
+/* 헤더 스타일은 Header.css에서 관리됩니다 */
 /* 전체 레이아웃 잡기 */
 .web-container {
   background-color: #f8f9fa; /* 배경색 살짝 톤다운 (흰색보다 고급짐) */
   min-height: 100vh;
   padding-top: 80px;
   font-family: 'Pretendard', sans-serif;
+  width: 100%;
+  overflow-x: hidden; /* 가로 스크롤 방지 */
+}
+
+@media (max-width: 768px) {
+  .web-container {
+    padding-top: 56px; /* 모바일 헤더 높이에 맞춤 */
+  }
 }
 
 .main-content {
   max-width: 1200px; /* 전체 폭 제한 */
   margin: 0 auto;
   padding: 0 20px;
+  width: 100%;
+  overflow-x: hidden; /* 가로 스크롤 방지 */
+}
+
+/* 모바일에서는 좌우 패딩 줄이기 */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 4px 16px 0 16px;
+  }
 }
 
 /* ✅ 상단 그리드 섹션 (핵심!) */
@@ -108,6 +57,8 @@
   gap: 24px;
   margin-bottom: 50px;
   min-height: 420px; /* 높이 늘림 */
+  width: 100%;
+  overflow: hidden; /* 가로 스크롤 방지 */
 }
 
 /* 1. 왼쪽 히어로 카드 */
@@ -118,6 +69,8 @@
   overflow: hidden;
   display: flex;
   align-items: flex-end;
+  min-height: 420px; /* PC에서 최소 높이 설정 */
+  height: 100%;
 }
 
 .hero-bg-img {
@@ -192,6 +145,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: 100%;
 }
 
 .quick-access-box, .trend-box {
@@ -350,6 +304,8 @@
 /* 상황별 추천 큐레이션 */
 .curation-section {
   margin-bottom: 50px;
+  width: 100%;
+  overflow-x: hidden; /* 가로 스크롤 방지 */
 }
 .curation-header {
   display: flex;
@@ -381,6 +337,8 @@
   position: relative;
   margin: 0 -20px;
   padding: 0 20px;
+  width: calc(100% + 40px); /* 네거티브 마진 보정 */
+  max-width: calc(100% + 40px);
 }
 .curation-track {
   display: flex;
@@ -390,6 +348,7 @@
   padding: 8px 40px;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  width: 100%;
 }
 .curation-track::-webkit-scrollbar {
   display: none;
@@ -467,6 +426,8 @@
 .menu-list-container {
     margin-bottom: 80px;
     padding-bottom: 80px;
+    width: 100%;
+    overflow-x: hidden; /* 가로 스크롤 방지 */
 }
 
 .section-header {
@@ -500,6 +461,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
   gap: 25px;
+  width: 100%;
 }
 
 /* 메뉴 없음 안내 */
@@ -521,70 +483,84 @@
 
 /* 화면 작아지면 반응형 처리 */
 @media (max-width: 1024px) {
-  .top-grid-section { grid-template-columns: 1fr; height: auto; }
-  .side-widgets { flex-direction: row; }
-  .menu-grid-web { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 768px) {
-  .web-header {
-    height: var(--header-height-mobile);
+  .top-grid-section {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .side-widgets {
+    flex-direction: row;
+    gap: 16px;
+  }
+  .menu-grid-web {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
 }
 @media (max-width: 768px) {
+  /* 헤더 스타일은 Header.css에서 관리됩니다 */
 
-  /* 1. 헤더 수정: 좁으니까 간격 줄이고 폰트 줄임 */
-  .header-inner {
-    padding: 0 15px;
-  }
-  .brand-logo {
-    font-size: 20px; /* 로고 크기 줄임 */
-  }
-  .web-nav {
-    display: none; /* 🚨 모바일에서는 중간 메뉴(홈, 맛집탐색 등) 숨김 (공간 부족) */
-    /* 만약 보여주고 싶다면 햄버거 메뉴를 구현해야 하는데, 일단은 숨겨서 깔끔하게 유지 */
-  }
-  .header-actions {
-    gap: 8px; /* 버튼 사이 간격 좁힘 */
-  }
-  .ai-chat-btn {
-    padding: 6px 12px;
-    font-size: 12px; /* 버튼 글자 작게 */
-  }
-  .user-profile span {
-    display: none; /* 공간 없으니 '000님' 글자 숨기고 아이콘만 */
-  }
-
-  /* 2. 상단 그리드 (히어로 + 사이드바) 세로 배치 */
+  /* 1. 상단 그리드 (히어로 + 사이드바) 세로 배치 */
   .top-grid-section {
     grid-template-columns: 1fr; /* 1열로 변경 (세로 배치) */
-    height: auto; /* 높이 고정 해제 (내용만큼 늘어나게) */
-    gap: 20px;
+    min-height: auto; /* 높이 고정 해제 (내용만큼 늘어나게) */
+    gap: 16px;
     margin-bottom: 30px;
   }
 
   /* 히어로 카드 높이 조정 */
   .hero-card {
-    height: 300px; /* 모바일에서는 높이를 조금 줄임 */
+    min-height: 280px; /* 모바일에서는 높이를 조금 줄임 */
+    height: auto;
   }
+
+  .badge-today {
+    top: 14px;
+    left: 14px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .hero-text-overlay {
+    padding: 24px 20px;
+  }
+
   .hero-text-overlay h1 {
-    font-size: 24px; /* 제목 글자 줄임 */
+    font-size: 20px; /* 제목 글자 줄임 */
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+  }
+
+  .hero-text-overlay p {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .btn-detail {
+    padding: 8px 14px;
+    font-size: 12px;
   }
   
   /* 사이드 위젯 (퀵 메뉴, 트렌드) */
   .side-widgets {
-    flex-direction: row; /* 가로로 배치 (퀵메뉴 | 트렌드) */
-    gap: 10px;
+    flex-direction: column; /* 모바일에서는 세로 배치로 변경 */
+    gap: 12px;
+    width: 100%;
   }
   .quick-access-box, .trend-box {
-    padding: 15px; /* 패딩 줄임 */
+    padding: 16px;
+    width: 100%;
   }
   .quick-icons {
-    gap: 5px;
+    gap: 8px;
+    justify-content: space-around;
   }
   .q-icon {
-    width: 40px; height: 40px; font-size: 20px; border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    border-radius: 10px;
   }
-  .q-btn span {
+  .q-btn span:last-child {
     font-size: 11px;
   }
 
@@ -623,6 +599,7 @@
   /* 큐레이션 모바일 */
   .curation-section {
     margin-bottom: 30px;
+    overflow-x: hidden; /* 가로 스크롤 방지 */
   }
   .curation-header h2 {
     font-size: 18px;
@@ -631,8 +608,14 @@
     font-size: 12px;
   }
   .curation-slider {
-    margin: 0 -15px;
-    padding: 0 15px;
+    margin: 0 -16px; /* main-content 패딩과 동일 */
+    padding: 0;
+    width: calc(100% + 32px);
+    max-width: calc(100% + 32px);
+  }
+  .curation-track {
+    padding: 8px 16px;
+    gap: 10px;
   }
   .slider-btn {
     display: none;
@@ -656,26 +639,49 @@
   .section-header {
     flex-direction: column; /* 제목과 카테고리 탭을 위아래로 */
     align-items: flex-start;
-    gap: 15px;
+    gap: 12px;
+    margin-bottom: 20px;
   }
-  
+
+  .section-header h2 {
+    font-size: 20px;
+  }
+
   .category-pills {
     width: 100%;
     overflow-x: auto; /* 가로 스크롤 가능하게 */
     padding-bottom: 5px; /* 스크롤바 공간 */
     white-space: nowrap; /* 줄바꿈 방지 */
+    gap: 8px;
+    -webkit-overflow-scrolling: touch; /* iOS 스크롤 부드럽게 */
+  }
+
+  .category-pills::-webkit-scrollbar {
+    display: none; /* 스크롤바 숨기기 */
+  }
+
+  .pill-btn {
+    padding: 7px 14px;
+    font-size: 13px;
+    border-radius: 18px;
+  }
+
+  .menu-list-container {
+    margin-bottom: 50px;
+    padding-bottom: 50px;
   }
 
   .menu-grid-web {
     grid-template-columns: repeat(2, 1fr); /* 한 줄에 2개씩 */
-    gap: 15px;
+    gap: 12px;
   }
-  
-  /* 아주 작은 화면(아이폰 미니 등)에서는 한 줄에 1개 */
-  @media (max-width: 400px) {
-    .menu-grid-web {
-      grid-template-columns: 1fr; 
-    }
+}
+
+/* 아주 작은 화면(아이폰 미니 등)에서는 한 줄에 1개 */
+@media (max-width: 400px) {
+  .menu-grid-web {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
 

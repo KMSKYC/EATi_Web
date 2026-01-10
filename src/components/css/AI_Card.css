@@ -109,6 +109,67 @@
   letter-spacing: -0.2px;
 }
 
+/* 모바일 반응형 스타일 */
+@media (max-width: 768px) {
+  .ai-card-item {
+    border-radius: 10px;
+  }
+
+  .ai-card-content {
+    padding: 12px;
+  }
+
+  .ai-card-title {
+    font-size: 14px;
+    margin: 0 0 5px 0;
+  }
+
+  .ai-card-description {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .ai-card-category-badge {
+    top: 10px;
+    left: 10px;
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .placeholder-emoji {
+    font-size: 36px;
+  }
+
+  /* 호버 효과 모바일에서 줄이기 */
+  .ai-card-item:hover {
+    transform: none;
+  }
+
+  .ai-card-item:active {
+    opacity: 0.8;
+  }
+}
+
+/* 작은 모바일 화면 (400px 이하) */
+@media (max-width: 400px) {
+  .ai-card-content {
+    padding: 10px;
+  }
+
+  .ai-card-title {
+    font-size: 13px;
+  }
+
+  .ai-card-description {
+    font-size: 11px;
+    -webkit-line-clamp: 2; /* 설명을 2줄로 제한 */
+  }
+
+  .placeholder-emoji {
+    font-size: 32px;
+  }
+}
+
 /* .ai-card-view-detail-btn {
   background-color: #6a11cb;
   color: white;
@@ -119,7 +180,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  align-self: flex-start; 
+  align-self: flex-start;
 }
 
 .ai-card-view-detail-btn:hover {
