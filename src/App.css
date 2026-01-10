@@ -42,13 +42,16 @@
 }
 
 body {
-  padding-top: var(--header-height-pc);
+  /* padding-top 제거 - 각 페이지 컨테이너에서 개별 처리 */
   /* 모바일에서 가로 스크롤 생기는 것 방지 */
-  overflow-x: hidden; 
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
   body {
-    padding-top: var(--header-height-mobile);
+    /* 모바일에서도 padding-top 제거 */
   }
 }

@@ -9,6 +9,7 @@ function Header() {
   const withAuth = useRequireAuth(); // 로그인 강제하는 도구
   const navigate = useNavigate(); // 페이지 이동 도구
   const location = useLocation(); // 현재 주소 확인용 (메뉴 색깔 칠하기)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // 모바일 메뉴 상태
 
   const isActive = (path) => location.pathname === path ? 'active' : '';
 
@@ -32,11 +33,25 @@ function Header() {
   return (
     <header className="web-header">
       <div className="header-inner">
-        
+
+        {/* 햄버거 메뉴 버튼 (모바일에서만 표시) */}
+        <button
+          className="mobile-menu-btn"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="메뉴"
+        >
+          <span className={`hamburger ${mobileMenuOpen ? 'open' : ''}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+
         {/* (1) 로고 영역 */}
         <div className="brand-logo" onClick={() => navigate('/')}>
           <img src="/EATi.png" alt="EATi" className="logo-img" />
         </div>
+
         {/* (2) 메뉴 네비게이션 */}
         <nav className="web-nav">
           <Link to="/" className={`nav-link ${isActive('/')}`}>
@@ -72,8 +87,36 @@ function Header() {
             </div>
           )}
         </div>
-        
+
       </div>
+
+      {/* 모바일 메뉴 (드롭다운) */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu">
+          <Link to="/" className={`mobile-nav-link ${isActive('/')}`} onClick={() => setMobileMenuOpen(false)}>
+            홈
+          </Link>
+          <Link to="/" className={`mobile-nav-link ${isActive('/recommend')}`} onClick={() => setMobileMenuOpen(false)}>
+            메뉴추천
+          </Link>
+          <Link to="/menu" className={`mobile-nav-link ${isActive('/menu')}`} onClick={() => setMobileMenuOpen(false)}>
+            메뉴찾기
+          </Link>
+          <Link to="/ranking" className={`mobile-nav-link ${isActive('/ranking')}`} onClick={() => setMobileMenuOpen(false)}>
+            랭킹
+          </Link>
+          <Link
+            to="/together"
+            className={`mobile-nav-link ${isActive('/together')}`}
+            onClick={(e) => {
+              setMobileMenuOpen(false);
+              handleEatTogetherClick(e);
+            }}
+          >
+            같이먹기
+          </Link>
+        </div>
+      )}
     </header>
   );
 }
