@@ -9,15 +9,6 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      // 서버 응답 형식 (실무 표준):
-      // {
-      //   accessToken: string,
-      //   user: {
-      //     id: string,
-      //     nickname: string,
-      //     email?: string  // 선택적 - 보안상 필요시에만
-      //   }
-      // }
       const data = await authApi.login(email, password);
 
       // 토큰 추출 및 저장
@@ -58,7 +49,7 @@ export function AuthProvider({ children }) {
   // (★) 앱 켤 때 복구
   useEffect(() => {
     const storedUser = Cookies.get('user');
-    const storedToken = sessionStorage.getItem('accessToken');
+    const storedToken = localStorage.getItem('accessToken');
 
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));

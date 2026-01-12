@@ -77,3 +77,157 @@
 .modal-actions button { flex: 1; padding: 12px; border-radius: 8px; cursor: pointer; border: none; font-weight: bold; }
 .btn-cancel { background: #f1f3f5; color: #333; }
 .btn-save { background: #333; color: white; }
+
+
+/* src/components/css/RestaurantManagement.css */
+
+/* 모달 뒷배경 (어두운 막) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 모달 하얀 박스 */
+.modal-box {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 500px; /* 기본 크기 */
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 모달 헤더 (제목 + 닫기버튼) */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+}
+
+.btn-close:hover {
+  color: #333;
+}
+
+/* 입력창들 공통 스타일 */
+.modal-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
+  font-size: 14px;
+}
+
+.modal-input:focus {
+  border-color: #333;
+  outline: none;
+}
+
+/* 검색 버튼 */
+.btn-search {
+  padding: 0 20px;
+  background-color: #FEE500; /* 카카오 노랑 */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.btn-search:hover {
+  background-color: #fdd835;
+}
+
+/* 하단 버튼 영역 */
+.modal-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* 취소 버튼 */
+.btn-cancel {
+  padding: 12px 20px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #666;
+}
+
+.btn-cancel:hover {
+  background-color: #e0e0e0;
+}
+
+/* 저장/추가 버튼 */
+.btn-save {
+  padding: 12px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-save:hover {
+  background-color: #000;
+}
+
+/* 메뉴 리스트 아이템 */
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+/* 삭제 버튼 (빨간색) */
+.btn-delete {
+  padding: 5px 10px;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.btn-delete:hover {
+  background-color: #fa5252;
+}

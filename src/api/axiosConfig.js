@@ -11,4 +11,22 @@ const api = axios.create({
   withCredentials: true,
 });
 
+// 요청이 날아가기 전에 '가로채서(Intercept)' 토큰을 주머니에 넣어줍니다.
+api.interceptors.request.use(
+  (config) => {
+    // 1. 저장된 토큰 꺼내기
+    const token = localStorage.getItem('accessToken');
+
+    // 2. 토큰이 있으면 헤더에 붙이기 (이게 없어서 403이 뜬 겁니다)
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export default api;

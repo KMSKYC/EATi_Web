@@ -1,81 +1,106 @@
-import React, { useState } from 'react';
-import './css/MemberManagement.css';
+import React, { useState, useEffect } from 'react';
+import { adminApi } from '../../api/adminApi';
+import './css/MemberManagement.css'; // 👈 방금 만드신 CSS 파일 경로 확인!
 
-function MemberManagement() {
-  // 1. 더미 데이터
-  const [members, setMembers] = useState([
-    { id: 1, name: '김지민', nickname: '지민', email: 'jimin@test.com', gender: '여성', region: '서울 강남구', joinDate: '2024-03-15', status: '정상' },
-    { id: 2, name: '박민수', nickname: '관리자1', email: 'admin@eat.com', gender: '남성', region: '경기 성남시', joinDate: '2024-01-01', status: '정상' },
-    { id: 3, name: '이영희', nickname: '맛집탐방러', email: 'yummy@food.com', gender: '여성', region: '부산 해운대구', joinDate: '2024-07-02', status: '정상' },
-    { id: 4, name: '최철수', nickname: '불만제로', email: 'bad@user.com', gender: '남성', region: '서울 마포구', joinDate: '2024-05-20', status: '정지' },
-  ]);
+const MemberManagement = () => {
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showModal, setShowModal] = useState(false);
-
-  // 2. (수정) 비밀번호(password) 필드 추가
-  const [newMember, setNewMember] = useState({
-    name: '', nickname: '', email: '', password: '', gender: '남성', region: ''
+  // 🟢 모달(팝업) 상태 관리
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // 🟢 입력 폼 데이터 관리
+  const [newUser, setNewUser] = useState({
+    email: '',
+    password: '',
+    nickname: '',
+    gender: '남성',
+    region: ''
   });
 
-  const toggleStatus = (id) => {
-    setMembers(members.map(m => m.id === id ? { ...m, status: m.status === '정상' ? '정지' : '정상' } : m));
+  // 초기 데이터 로딩
+  useEffect(() => {
+    fetchMembers();
+  }, []);
+
+  const fetchMembers = async () => {
+    try {
+      const data = await adminApi.getUsers();
+      setMembers(data);
+    } catch (err) {
+      console.error("로딩 실패:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleAddMember = () => {
-    // 3. (수정) 비밀번호 입력 확인 로직 추가
-    if (!newMember.name || !newMember.nickname || !newMember.email || !newMember.password) {
-      alert('필수 정보를 모두 입력해주세요.');
+  // 🟢 입력값 변경 핸들러
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewUser({ ...newUser, [name]: value });
+  };
+
+  // 🟢 회원 등록 실행
+  const handleCreateUser = async () => {
+    // 유효성 검사
+    if (!newUser.email || !newUser.password || !newUser.nickname) {
+      alert("이메일, 비밀번호, 별명은 필수 입력값입니다.");
       return;
     }
-    const id = members.length + 1;
-    const today = new Date().toISOString().split('T')[0];
-    
-    // 실제로는 비밀번호는 암호화해서 서버로 보내야 하지만, 여기선 화면 표시용 데이터에만 추가합니다.
-    // (보안상 테이블 리스트에는 비밀번호를 보여주지 않는 것이 원칙입니다!)
-    setMembers([{ id, ...newMember, joinDate: today, status: '정상' }, ...members]);
-    
-    setShowModal(false);
-    // 초기화
-    setNewMember({ name: '', nickname: '', email: '', password: '', gender: '남성', region: '' });
-    alert('회원이 등록되었습니다.');
+
+    try {
+      // API 호출
+      await adminApi.createUser(newUser);
+      
+      alert(`✅ 회원 [${newUser.nickname}]님이 등록되었습니다.`);
+      setIsModalOpen(false); // 모달 닫기
+      setNewUser({ email: '', password: '', nickname: '', gender: '남성', region: '' }); // 폼 초기화
+      fetchMembers(); // 목록 새로고침
+      
+    } catch (err) {
+      console.error(err);
+      alert("회원 등록 실패! (이메일 중복 등을 확인해주세요)");
+    }
   };
 
-  const filteredMembers = members.filter(m => 
-    m.name.includes(searchTerm) || m.nickname.includes(searchTerm) || m.email.includes(searchTerm)
-  );
+  // 상태 변경 (기존 기능)
+  const handleStatusChange = async (userId, currentStatus) => {
+    const newStatus = currentStatus === '정지' ? '정상' : '정지';
+    if (window.confirm(`상태를 [${newStatus}]로 변경하시겠습니까?`)) {
+      try {
+        await adminApi.updateUserStatus(userId, newStatus);
+        fetchMembers(); // 간단하게 목록 새로고침
+      } catch (err) {
+        alert("상태 변경 실패");
+      }
+    }
+  };
 
   return (
     <div className="member-manage-container">
-      
-      {/* 상단 헤더 */}
+      {/* 1. 상단 헤더 */}
       <div className="page-header">
         <div className="header-left">
-            <h3>👥 회원 관리</h3>
-            <span className="member-count">총 {members.length}명</span>
+          <h3>👥 회원 관리</h3>
+          <span className="member-count">총 {members.length}명</span>
         </div>
         
         <div className="header-right">
-            <div className="search-box">
-                <input 
-                    type="text" 
-                    placeholder="이름, 별명, 이메일 검색" 
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-            </div>
-            <button className="primary-btn" onClick={() => setShowModal(true)}>
-                + 회원 등록
-            </button>
+          <div className="search-box">
+            <input placeholder="이름, 별명, 이메일 검색" />
+          </div>
+          {/* 모달 열기 버튼 */}
+          <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
+            + 회원 등록
+          </button>
         </div>
       </div>
 
-      {/* 테이블 영역 */}
+      {/* 2. 회원 리스트 테이블 */}
       <div className="table-container">
         <table className="member-table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>사용자 정보</th>
               <th>별명</th>
               <th>성별</th>
@@ -86,95 +111,111 @@ function MemberManagement() {
             </tr>
           </thead>
           <tbody>
-            {filteredMembers.map(member => (
-              <tr key={member.id}>
-                <td>{member.id}</td>
-                <td>
+            {members.length === 0 ? (
+              <tr><td colSpan="7" style={{textAlign:'center', padding:'30px'}}>데이터가 없습니다.</td></tr>
+            ) : (
+              members.map((m) => (
+                <tr key={m.user_id}>
+                  <td>
                     <div className="user-info-cell">
-                        <div className="avatar-circle">{member.name[0]}</div>
-                        <div className="user-text">
-                            <div className="u-name">{member.name}</div>
-                            <div className="u-email">{member.email}</div>
-                        </div>
+                      <div className="avatar-circle">
+                        {m.nickname ? m.nickname.substring(0,1) : 'U'}
+                      </div>
+                      <div className="user-text">
+                        <span className="u-name">{m.nickname || '이름없음'}</span>
+                        <span className="u-email">{m.email}</span>
+                      </div>
                     </div>
-                </td>
-                <td>{member.nickname}</td>
-                <td>{member.gender}</td>
-                <td>{member.region}</td>
-                <td className="text-gray">{member.joinDate}</td>
-                <td>
-                  <span className={`status-badge ${member.status === '정상' ? 'green' : 'red'}`}>
-                    {member.status}
-                  </span>
-                </td>
-                <td>
-                  <button className="action-btn" onClick={() => toggleStatus(member.id)}>
-                    {member.status === '정상' ? '⛔ 정지' : '✅ 해제'}
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td>{m.nickname}</td>
+                  <td>{m.gender}</td>
+                  <td>{m.region || '-'}</td>
+                  <td className="text-gray">{m.created_at ? m.created_at.split('T')[0] : '-'}</td>
+                  <td>
+                    <span className={`status-badge ${m.status === '정지' ? 'red' : 'green'}`}>
+                      {m.status || '정상'}
+                    </span>
+                  </td>
+                  <td>
+                    <button 
+                      className="action-btn"
+                      onClick={() => handleStatusChange(m.user_id, m.status)}
+                    >
+                      {m.status === '정지' ? '✅ 해제' : '⛔ 정지'}
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* 회원 등록 모달 */}
-      {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-            <h3>신규 회원 등록</h3>
+      {/* 3. 회원 등록 모달 (CSS 클래스 활용) */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h3>새 회원 등록</h3>
             
             <div className="modal-form-grid">
-                <div className="form-group">
-                    <label>이름</label>
-                    <input type="text" placeholder="예: 홍길동" 
-                        value={newMember.name} onChange={(e) => setNewMember({...newMember, name: e.target.value})} />
-                </div>
-                <div className="form-group">
-                    <label>별명</label>
-                    <input type="text" placeholder="예: 먹방요정" 
-                        value={newMember.nickname} onChange={(e) => setNewMember({...newMember, nickname: e.target.value})} />
-                </div>
-                
-                <div className="form-group full-width">
-                    <label>이메일 (ID)</label>
-                    <input type="email" placeholder="email@example.com" 
-                        value={newMember.email} onChange={(e) => setNewMember({...newMember, email: e.target.value})} />
-                </div>
+              {/* 이메일 (꽉 찬 너비) */}
+              <div className="form-group full-width">
+                <label>이메일 (ID)</label>
+                <input 
+                  name="email"
+                  value={newUser.email}
+                  onChange={handleInputChange}
+                  placeholder="example@email.com" 
+                />
+              </div>
 
-                {/* 🚨 (추가됨) 비밀번호 입력 필드 */}
-                <div className="form-group full-width">
-                    <label>비밀번호</label>
-                    <input 
-                        type="password" 
-                        placeholder="초기 비밀번호를 입력하세요" 
-                        value={newMember.password} 
-                        onChange={(e) => setNewMember({...newMember, password: e.target.value})} 
-                    />
-                </div>
+              {/* 비밀번호 (꽉 찬 너비) */}
+              <div className="form-group full-width">
+                <label>비밀번호</label>
+                <input 
+                  type="password"
+                  name="password"
+                  value={newUser.password}
+                  onChange={handleInputChange}
+                  placeholder="비밀번호 입력" 
+                />
+              </div>
 
-                <div className="form-group">
-                    <label>성별</label>
-                    <select value={newMember.gender} onChange={(e) => setNewMember({...newMember, gender: e.target.value})}>
-                        <option value="남성">남성</option>
-                        <option value="여성">여성</option>
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>거주지역</label>
-                    <select value={newMember.region} onChange={(e) => setNewMember({...newMember, region: e.target.value})}>
-                        <option value="">선택하세요</option>
-                        <option value="서울 강남구">서울 강남구</option>
-                        <option value="서울 마포구">서울 마포구</option>
-                        <option value="경기 성남시">경기 성남시</option>
-                        <option value="부산 해운대구">부산 해운대구</option>
-                    </select>
-                </div>
+              {/* 닉네임 */}
+              <div className="form-group">
+                <label>별명</label>
+                <input 
+                  name="nickname"
+                  value={newUser.nickname}
+                  onChange={handleInputChange}
+                  placeholder="홍길동" 
+                />
+              </div>
+
+              {/* 성별 */}
+              <div className="form-group">
+                <label>성별</label>
+                <select name="gender" value={newUser.gender} onChange={handleInputChange}>
+                  <option value="남성">남성</option>
+                  <option value="여성">여성</option>
+                </select>
+              </div>
+
+              {/* 지역 (꽉 찬 너비) */}
+              <div className="form-group full-width">
+                <label>거주 지역</label>
+                <input 
+                  name="region"
+                  value={newUser.region}
+                  onChange={handleInputChange}
+                  placeholder="예: 서울 강남구" 
+                />
+              </div>
             </div>
 
             <div className="modal-actions">
-              <button className="btn-cancel" onClick={() => setShowModal(false)}>취소</button>
-              <button className="btn-save" onClick={handleAddMember}>등록하기</button>
+              <button className="btn-cancel" onClick={() => setIsModalOpen(false)}>취소</button>
+              <button className="btn-save" onClick={handleCreateUser}>등록하기</button>
             </div>
           </div>
         </div>
@@ -182,6 +223,6 @@ function MemberManagement() {
 
     </div>
   );
-}
+};
 
 export default MemberManagement;
