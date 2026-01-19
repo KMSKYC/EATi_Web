@@ -31,6 +31,20 @@ export const foodApi = {
   getRandomMenu: async () => {
     const response = await api.get('/menus/random');
     return response.data;
+  },
+
+  // 메뉴 상세 정보 조회
+  getMenuById: async (menuId) => {
+    const response = await api.get(`/menus/${menuId}`);
+    return response.data;
+  },
+
+  // 특정 메뉴를 제공하는 레스토랑 목록 조회
+  // GET /menus/{menuId}/restaurants
+  // 응답 예시: { menuInfo: {...}, restaurants: [...] }
+  getRestaurantsByMenuId: async (menuId) => {
+    const response = await api.get(`/menus/${menuId}/restaurants`);
+    return response.data;
   }
 
 };

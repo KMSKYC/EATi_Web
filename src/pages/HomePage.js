@@ -109,7 +109,7 @@ function HomePage() {
                 <>
                   <h1>오늘은 "{recommendation.name || recommendation.menuName}" 어때요?</h1>
                   <p>{recommendation.description || "당신의 최근 선호도와 날씨를 분석해 선별했어요"}</p>
-                  <button className="btn-detail" onClick={() => navigate(`/restaurant/${recommendation.id}`)}>
+                  <button className="btn-detail" onClick={() => navigate(`/menu/${recommendation.menuId}/restaurants`)}>
                     보러 가기 →
                   </button>
                 </>
@@ -285,7 +285,7 @@ function HomePage() {
         {/* 하단: 메뉴 리스트 */}
         <section className="menu-list-container">
            <div className="section-header">
-              <h2><span className="highlight">{activeCategory}</span> 맛집 리스트</h2>
+              <h2><span className="highlight">{activeCategory}</span> 메뉴 리스트</h2>
               
               {/* 카테고리 탭을 우측 상단으로 이동 */}
               <div className="category-pills">

@@ -17,6 +17,7 @@ import CurationPage from './components/CurationPage';
 import CurationDetailPage from './components/CurationDetailPage';
 import RankingPage from './pages/RankingPage';
 import AdminPage from './pages/admin/AdminPage';
+import MenuRestaurantsPage from './pages/MenuRestaurantsPage';
 
 function App() {
   
@@ -31,6 +32,7 @@ function App() {
         <Route path="/curation/:id" element={<CurationDetailPage />} />
         <Route path="/ranking" element={< RankingPage/>} />
         <Route path="/restaurant/:id" element={<RestaurantDetailPage />} />
+        <Route path="/menu/:menuId/restaurants" element={<MenuRestaurantsPage />} />
         <Route path="/menu/category" element={<SearchCategoryPage />} />
         <Route path="/menu/map" element={<SearchMapPage />} />
        </Route>
