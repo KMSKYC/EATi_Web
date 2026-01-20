@@ -57,9 +57,9 @@ function Header() {
           <Link to="/" className={`nav-link ${isActive('/')}`}>
             홈
           </Link>
-          <Link to="/" className={`nav-link ${isActive('/recommend')}`}>
-            메뉴추천
-          </Link>
+          {/*<Link to="/" className={`nav-link ${isActive('/recommend')}`}>*/}
+          {/*  메뉴추천*/}
+          {/*</Link>*/}
           <Link to="/menu" className={`nav-link ${isActive('/menu')}`}>
             메뉴찾기
           </Link>
@@ -96,9 +96,9 @@ function Header() {
           <Link to="/" className={`mobile-nav-link ${isActive('/')}`} onClick={() => setMobileMenuOpen(false)}>
             홈
           </Link>
-          <Link to="/" className={`mobile-nav-link ${isActive('/recommend')}`} onClick={() => setMobileMenuOpen(false)}>
-            메뉴추천
-          </Link>
+          {/*<Link to="/" className={`mobile-nav-link ${isActive('/recommend')}`} onClick={() => setMobileMenuOpen(false)}>*/}
+          {/*  메뉴추천*/}
+          {/*</Link>*/}
           <Link to="/menu" className={`mobile-nav-link ${isActive('/menu')}`} onClick={() => setMobileMenuOpen(false)}>
             메뉴찾기
           </Link>
