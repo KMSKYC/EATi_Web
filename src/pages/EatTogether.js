@@ -12,6 +12,7 @@ const mockPosts = [
 function EatTogetherPage() {
 
 
+  
   return (
     <div className="eat-together-container">
 
