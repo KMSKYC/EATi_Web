@@ -1,212 +1,313 @@
 import React, { useState, useEffect } from 'react';
-import DaumPostcode from 'react-daum-postcode';
-import './css/AdminPage.css'; // 기존 어드민 스타일
-import './css/RestaurantManagement.css'; // 👈 (NEW) 방금 만든 CSS 불러오기!
+import DaumPostcode from 'react-daum-postcode'; // 👈 주소 검색 기능 살리기!
+import { adminApi } from '../../api/adminApi';     // 👈 진짜 DB API 사용
+import './css/AdminPage.css'; 
+import './css/RestaurantManagement.css';        // 👈 예쁜 디자인 적용
 
 const RestaurantManagement = () => {
-  // ... (상태 관리 로직은 기존과 100% 동일합니다. 복잡하니 생략 안 하고 전체 다 적어드릴게요) ...
+  // 1️⃣ 상태 관리
   const [restaurants, setRestaurants] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const savedData = localStorage.getItem('eatiData');
-    if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      
-      // 🛠️ 마이그레이션: menus가 없는 옛날 데이터에 빈 배열([])을 강제로 넣어줌
-      const fixedData = parsedData.map(item => ({
-        ...item,
-        menus: item.menus || [] // menus가 있으면 쓰고, 없으면 빈 배열 넣어라!
-      }));
-
-      setRestaurants(fixedData);
-    }
-  }, []);
-  
+  // 모달 상태
   const [isResModalOpen, setIsResModalOpen] = useState(false);
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
-  const [isPostOpen, setIsPostOpen] = useState(false);
-  const [selectedResId, setSelectedResId] = useState(null);
-  const [inputs, setInputs] = useState({ name: '', category: '한식', address: '' });
-  const [coords, setCoords] = useState({ lat: null, lng: null });
-  const [menuInput, setMenuInput] = useState({ name: '', price: '', desc: '' });
+  const [isPostOpen, setIsPostOpen] = useState(false); // 주소 검색창 열기/닫기
 
-  // ... (로직 함수들: handleCompletePost, handleSaveRestaurant 등 기존과 동일) ...
-  const handleCompletePost = (data) => {
-    let fullAddress = data.address;
-    if (data.addressType === 'R' && data.bname !== '') fullAddress += ` (${data.bname})`;
-    setInputs({ ...inputs, address: fullAddress });
-    setIsPostOpen(false);
-    if (window.kakao && window.kakao.maps) {
-      const geocoder = new window.kakao.maps.services.Geocoder();
-      geocoder.addressSearch(fullAddress, (result, status) => {
-        if (status === window.kakao.maps.services.Status.OK) {
-          setCoords({ lat: result[0].y, lng: result[0].x });
+  // 선택된 식당 정보 (메뉴 관리용)
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  
+  // 식당 입력 폼
+  const [newRes, setNewRes] = useState({ name: '', category: '한식', address: '', desc: '' });
+  
+  // 메뉴 관련 상태 (DB는 메뉴가 따로 있으므로 별도 관리)
+  const [restaurantMenus, setRestaurantMenus] = useState([]);
+  const [newMenu, setNewMenu] = useState({ name: '', price: '', desc: '' });
+
+  // 🔄 초기 로딩: 진짜 DB에서 식당 목록 가져오기
+  useEffect(() => {
+    loadRestaurants();
+  }, []);
+
+//  const loadRestaurants = async () => {
+//   try {
+//     const data = await adminApi.getRestaurants();
+//     setRestaurants(data);
+//   } catch (err) {
+//     console.error("❌ 식당 목록 로드 실패:", err);
+//     // 🚨 에러가 나면 빈 배열을 넣거나, 가짜 데이터를 넣어서 화면이 멈추지 않게 함
+//     setRestaurants([]); 
+//     alert("서버에서 식당 목록을 불러오지 못했습니다. (500 에러)");
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+
+const loadRestaurants = async () => {
+    try {
+      const data = await adminApi.getRestaurants();
+
+      if (data && data.length > 0) {
+        setRestaurants(data);
+      } else {
+        // 데이터가 빈 배열([])일 경우
+        console.log("데이터가 0개입니다.");
+        setRestaurants([]); 
+      }
+    } catch (err) {
+      console.error("에러 발생, 가짜 데이터 사용:", err);
+      
+      // 🛠️ [임시] DB 연결 안 될 때 테스트용 가짜 데이터
+      setRestaurants([
+        { 
+          restaurant_id: 1, 
+          restaurant_name: '임시 식당 1', 
+          category_id: '한식', 
+          address: '서울시 강남구 테스트동', 
+          description: 'DB 연결 확인 전 테스트입니다.' 
+        },
+        { 
+          restaurant_id: 2, 
+          restaurant_name: '임시 식당 2', 
+          category_id: '일식', 
+          address: '서울시 마포구 테스트동', 
+          description: '화면이 잘 나오나 보세요.' 
         }
-      });
+      ]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSaveRestaurant = () => {
-    if (!inputs.name || !inputs.address || !coords.lat) return alert("정보 부족!");
-    const newRes = { id: Date.now(), name: inputs.name, category: inputs.category, address: inputs.address, lat: coords.lat, lng: coords.lng, menus: [], status: '영업중' };
-    saveData([...restaurants, newRes]);
-    setIsResModalOpen(false);
-    setInputs({ name: '', category: '한식', address: '' });
+  // 🏠 [주소 검색] 다음 우편번호 API 연동 (기존 코드 살림 ✨)
+  const handleCompletePost = (data) => {
+    let fullAddress = data.address;
+    if (data.addressType === 'R' && data.bname !== '') {
+      fullAddress += ` (${data.bname})`;
+    }
+    // 주소 입력칸에 자동으로 채워줌
+    setNewRes({ ...newRes, address: fullAddress });
+    setIsPostOpen(false); // 검색창 닫기
   };
 
-  const handleDeleteRestaurant = (id) => {
-    if (window.confirm("삭제하시겠습니까?")) saveData(restaurants.filter(r => r.id !== id));
+  // 💾 [식당 저장] API 호출
+  const handleCreateRestaurant = async () => {
+    if (!newRes.name || !newRes.address) return alert("이름과 주소는 필수입니다!");
+    
+    try {
+      // 백엔드로 데이터 전송
+      await adminApi.createRestaurant({
+        restaurant_name: newRes.name,
+        category_id: newRes.category,
+        address: newRes.address,
+        description: newRes.desc
+      });
+      
+      alert("✅ 식당이 등록되었습니다!");
+      setIsResModalOpen(false);
+      setNewRes({ name: '', category: '한식', address: '', desc: '' }); // 초기화
+      loadRestaurants(); // 목록 새로고침
+    } catch (err) {
+      console.error(err);
+      alert("등록 실패! (서버 에러)");
+    }
   };
 
-  const saveData = (newData) => {
-    setRestaurants(newData);
-    localStorage.setItem('eatiData', JSON.stringify(newData));
+  // 🗑️ [식당 삭제]
+  const handleDeleteRestaurant = async (id) => {
+    if(window.confirm("정말 이 식당을 삭제하시겠습니까? 관련 메뉴도 모두 삭제됩니다.")) {
+        try {
+            await adminApi.deleteRestaurant(id);
+            loadRestaurants();
+        } catch(err) { alert("삭제 실패"); }
+    }
   };
 
-  const openMenuModal = (resId) => {
-    setSelectedResId(resId);
-    setMenuInput({ name: '', price: '', desc: '' });
+  // 📋 [메뉴 모달 열기] 클릭 시 해당 식당의 메뉴 가져오기
+  const openMenuModal = async (restaurant) => {
+    setSelectedRestaurant(restaurant);
     setIsMenuModalOpen(true);
+    setNewMenu({ name: '', price: '', desc: '' }); // 입력폼 초기화
+
+    try {
+      // 이 식당의 메뉴만 DB에서 가져옴!
+      const menus = await adminApi.getRestaurantMenus(restaurant.restaurant_id);
+      setRestaurantMenus(menus);
+    } catch (err) {
+      console.error("메뉴 로드 실패:", err);
+      setRestaurantMenus([]);
+    }
   };
 
-  const handleAddMenu = () => {
-    if (!menuInput.name || !menuInput.price) return alert("메뉴명/가격 필수!");
-    const updated = restaurants.map(res => {
-      if (res.id === selectedResId) {
-        return { ...res, menus: [...res.menus, { id: Date.now(), name: menuInput.name, price: Number(menuInput.price), desc: menuInput.desc }] };
-      }
-      return res;
-    });
-    saveData(updated);
-    setMenuInput({ name: '', price: '', desc: '' });
+  // ➕ [메뉴 추가] API 호출
+  const handleAddMenu = async () => {
+    if (!newMenu.name || !newMenu.price) return alert("메뉴명과 가격을 입력해주세요.");
+
+    try {
+      await adminApi.addMenu(selectedRestaurant.restaurant_id, {
+        restaurant_menu_name: newMenu.name,
+        price: parseInt(newMenu.price),
+        description: newMenu.desc
+      });
+      
+      // 메뉴 목록 새로고침 (방금 추가한거 보여주기)
+      const updatedMenus = await adminApi.getRestaurantMenus(selectedRestaurant.restaurant_id);
+      setRestaurantMenus(updatedMenus);
+      setNewMenu({ name: '', price: '', desc: '' }); // 입력창 비우기
+    } catch (err) {
+      alert("메뉴 추가 실패");
+    }
   };
 
-  const handleDeleteMenu = (menuId) => {
-    const updated = restaurants.map(res => {
-      if (res.id === selectedResId) return { ...res, menus: res.menus.filter(m => m.id !== menuId) };
-      return res;
-    });
-    saveData(updated);
+  // ➖ [메뉴 삭제]
+  const handleDeleteMenu = async (menuId) => {
+    if(window.confirm("메뉴를 삭제하시겠습니까?")) {
+        try {
+            await adminApi.deleteMenu(menuId);
+            // 목록 갱신
+            const updatedMenus = await adminApi.getRestaurantMenus(selectedRestaurant.restaurant_id);
+            setRestaurantMenus(updatedMenus);
+        } catch(err) { alert("삭제 실패"); }
+    }
   };
 
-  const targetRestaurant = restaurants.find(r => r.id === selectedResId);
-
-  // -----------------------------------------------------------
-  // 👇 여기가 진짜 바뀐 부분입니다! (style={} 대신 className="")
-  // -----------------------------------------------------------
   return (
     <div className="dashboard-wrapper">
-      <div className="box-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <h3>🍽️ 식당 및 메뉴 관리</h3>
-        <button className="btn-primary" onClick={() => setIsResModalOpen(true)} style={{padding:'10px 20px', backgroundColor:'#333', color:'#fff', border:'none', borderRadius:'5px', cursor:'pointer'}}>
-          + 식당 등록
-        </button>
+      <div className="box-header" style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+        <h3>🍽️ 식당 관리 <span style={{fontSize:'14px', color:'#888', marginLeft:'10px'}}>총 {restaurants.length}개</span></h3>
+        <button className="btn-primary" onClick={() => setIsResModalOpen(true)}>+ 식당 등록</button>
       </div>
 
-      {/* 리스트 테이블 (기존 유지) */}
+      {/* 메인 리스트 테이블 */}
       <div className="dashboard-box">
-        <table className="mini-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+        {loading ? ( <div style={{padding:'20px', textAlign:'center'}}>로딩 중...</div> ) : (
+        <table className="mini-table" style={{width:'100%'}}>
           <thead>
-            <tr style={{ borderBottom: '2px solid #eee', textAlign: 'left' }}>
-              <th style={{ padding: '12px' }}>가게명</th>
-              <th>카테고리</th>
+            <tr style={{textAlign:'left', color:'#666', borderBottom:'1px solid #eee'}}>
+              <th style={{padding:'10px'}}>카테고리</th>
+              <th>이름</th>
               <th>주소</th>
-              <th>메뉴 수</th>
-              <th>관리</th>
+              <th>설명</th>
+              <th style={{textAlign:'right'}}>관리</th>
             </tr>
           </thead>
           <tbody>
             {restaurants.map((res) => (
-              <tr key={res.id} style={{ borderBottom: '1px solid #eee' }}>
-                <td style={{ padding: '12px', fontWeight: 'bold' }}>{res.name}</td>
-                <td>{res.category}</td>
-                <td style={{ fontSize: '14px', color: '#666' }}>{res.address}</td>
-                <td><span style={{ fontWeight: 'bold' }}>{res.menus ? res.menus.length : 0}개</span></td>
-                <td>
-                  <div style={{ display: 'flex', gap: '5px' }}>
-                    <button onClick={() => openMenuModal(res.id)} style={{ padding: '5px 10px', backgroundColor: '#4ecdc4', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>📋 메뉴판</button>
-                    <button onClick={() => handleDeleteRestaurant(res.id)} className="btn-delete">삭제</button>
-                  </div>
+              <tr key={res.restaurant_id} style={{borderBottom:'1px solid #f9f9f9', height:'50px'}}>
+                <td style={{padding:'10px'}}><span className="category-badge">{res.category_id}</span></td>
+                <td style={{fontWeight:'bold'}}>{res.restaurant_name}</td>
+                <td style={{color:'#666', fontSize:'14px'}}>{res.address}</td>
+                <td style={{color:'#999', fontSize:'13px', maxWidth:'200px', overflow:'hidden', whiteSpace:'nowrap', textOverflow:'ellipsis'}}>{res.description}</td>
+                <td style={{textAlign:'right'}}>
+                  <button className="btn-secondary" onClick={() => openMenuModal(res)}>📋 메뉴 관리</button>
+                  <button className="btn-danger" onClick={() => handleDeleteRestaurant(res.restaurant_id)}>삭제</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        )}
       </div>
 
-      {/* 🟡 1. 식당 등록 모달 */}
+      {/* 🟢 [모달 1] 식당 등록 (주소 검색 기능 포함!) */}
       {isResModalOpen && (
         <div className="modal-overlay">
           <div className="modal-box">
             <div className="modal-header">
-              <h2>새 식당 등록</h2>
-              <button onClick={() => setIsResModalOpen(false)} className="btn-close">✖</button>
+                <h3>새 식당 등록</h3>
+                <button onClick={() => setIsResModalOpen(false)} className="close-btn">✖</button>
             </div>
             
-            <input className="modal-input" placeholder="식당 이름" value={inputs.name} onChange={(e) => setInputs({...inputs, name: e.target.value})} />
-            
-            <select className="modal-input" value={inputs.category} onChange={(e) => setInputs({...inputs, category: e.target.value})}>
-               <option>한식</option><option>일식</option><option>중식</option><option>양식</option><option>디저트</option>
-            </select>
-            
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <input className="modal-input" placeholder="주소" value={inputs.address} readOnly style={{ flex: 1, backgroundColor: '#f9f9f9' }} />
-              <button onClick={() => setIsPostOpen(!isPostOpen)} className="btn-search">🔍</button>
+            <div className="modal-body">
+                {/* 이름 입력 */}
+                <input 
+                    placeholder="식당 이름 (예: 오레노라멘)" 
+                    value={newRes.name} 
+                    onChange={(e) => setNewRes({...newRes, name: e.target.value})} 
+                />
+                
+                {/* 카테고리 선택 */}
+                <select value={newRes.category} onChange={(e) => setNewRes({...newRes, category: e.target.value})}>
+                    <option value="한식">한식</option>
+                    <option value="일식">일식</option>
+                    <option value="중식">중식</option>
+                    <option value="양식">양식</option>
+                    <option value="분식">분식</option>
+                    <option value="카페">카페</option>
+                </select>
+
+                {/* 주소 검색 부분 (중요!) */}
+                <div style={{display:'flex', gap:'5px'}}>
+                    <input 
+                        placeholder="주소 (검색 버튼을 눌러주세요)" 
+                        style={{flex:1, backgroundColor:'#f8f9fa'}} 
+                        value={newRes.address} 
+                        readOnly 
+                    />
+                    <button className="search-btn" onClick={() => setIsPostOpen(!isPostOpen)}>🔍</button>
+                </div>
+
+                {/* 주소 검색창 열렸을 때만 보임 */}
+                {isPostOpen && (
+                    <div style={{border:'1px solid #ddd', maxHeight:'300px', overflowY:'auto'}}>
+                        <DaumPostcode onComplete={handleCompletePost} />
+                    </div>
+                )}
+
+                <textarea 
+                    placeholder="간단한 설명 (선택)" 
+                    rows="3" 
+                    value={newRes.desc} 
+                    onChange={(e) => setNewRes({...newRes, desc: e.target.value})}
+                ></textarea>
             </div>
-            
-            {isPostOpen && <div style={{border:'1px solid #ddd', marginBottom:'10px'}}><DaumPostcode onComplete={handleCompletePost} style={{ height: '300px' }} /></div>}
-            
+
             <div className="modal-footer">
-              <button onClick={() => setIsResModalOpen(false)} className="btn-cancel">취소</button>
-              <button onClick={handleSaveRestaurant} className="btn-save">저장</button>
+                <button className="btn-cancel" onClick={() => setIsResModalOpen(false)}>취소</button>
+                <button className="btn-save" onClick={handleCreateRestaurant}>저장</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* 🔵 2. 메뉴 관리 모달 */}
-      {isMenuModalOpen && targetRestaurant && (
+      {/* 🟠 [모달 2] 메뉴 관리 (DB 연동 버전) */}
+      {isMenuModalOpen && selectedRestaurant && (
         <div className="modal-overlay">
-          <div className="modal-box" style={{ width: '600px' }}>
+          <div className="modal-box" style={{width:'500px'}}>
             <div className="modal-header">
-              <h2>📋 메뉴 관리 : <span style={{ color: '#4ecdc4' }}>{targetRestaurant.name}</span></h2>
-              <button onClick={() => setIsMenuModalOpen(false)} className="btn-close">✖</button>
+                <h3>📋 메뉴 관리 : <span style={{color:'#0ca678'}}>{selectedRestaurant.restaurant_name}</span></h3>
+                <button onClick={() => setIsMenuModalOpen(false)} className="close-btn">✖</button>
+            </div>
+            
+            {/* 메뉴 입력 폼 */}
+            <div className="menu-input-area">
+                <div style={{display:'flex', gap:'10px', marginBottom:'10px'}}>
+                    <input placeholder="메뉴명" style={{flex:2}} value={newMenu.name} onChange={(e) => setNewMenu({...newMenu, name: e.target.value})} />
+                    <input placeholder="가격" type="number" style={{flex:1}} value={newMenu.price} onChange={(e) => setNewMenu({...newMenu, price: e.target.value})} />
+                    <button className="btn-add-menu" onClick={handleAddMenu}>추가</button>
+                </div>
+                <input placeholder="설명 (선택)" style={{width:'100%'}} value={newMenu.desc} onChange={(e) => setNewMenu({...newMenu, desc: e.target.value})} />
             </div>
 
-            {/* 메뉴 추가 폼 */}
-            <div style={{ backgroundColor: '#f9f9f9', padding: '15px', borderRadius: '8px', marginBottom: '20px' }}>
-              <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                <input className="modal-input" style={{marginBottom:0, flex:2}} placeholder="메뉴명" value={menuInput.name} onChange={(e) => setMenuInput({...menuInput, name: e.target.value})} />
-                <input className="modal-input" style={{marginBottom:0, flex:1}} type="number" placeholder="가격" value={menuInput.price} onChange={(e) => setMenuInput({...menuInput, price: e.target.value})} />
-                <button onClick={handleAddMenu} className="btn-save" style={{ margin: 0, whiteSpace:'nowrap' }}>추가</button>
-              </div>
-              <input className="modal-input" style={{marginBottom:0}} placeholder="설명 (선택)" value={menuInput.desc} onChange={(e) => setMenuInput({...menuInput, desc: e.target.value})} />
+            {/* 메뉴 리스트 */}
+            <div className="menu-list-area">
+                {restaurantMenus.length === 0 ? (
+                    <div style={{textAlign:'center', padding:'20px', color:'#999'}}>등록된 메뉴가 없습니다.</div>
+                ) : (
+                    restaurantMenus.map(menu => (
+                        <div key={menu.restaurant_menu_id} className="menu-item">
+                            <div className="menu-info">
+                                <div className="menu-name">{menu.restaurant_menu_name}</div>
+                                <div className="menu-desc">{menu.description || '-'}</div>
+                            </div>
+                            <div className="menu-price-action">
+                                <span className="menu-price">{Number(menu.price).toLocaleString()}원</span>
+                                <button className="btn-delete-mini" onClick={() => handleDeleteMenu(menu.restaurant_menu_id)}>삭제</button>
+                            </div>
+                        </div>
+                    ))
+                )}
             </div>
-
-            {/* 👇👇👇 [여기가 수정된 부분입니다] 👇👇👇 */}
-            {/* targetRestaurant.menus 뒤에 || [] 를 붙여서 에러를 막았습니다 */}
-            <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
-              {(targetRestaurant.menus || []).length === 0 ? (
-                <div style={{ textAlign: 'center', color: '#999', padding: '20px' }}>등록된 메뉴가 없습니다.</div>
-              ) : (
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {(targetRestaurant.menus || []).map(menu => (
-                    <li key={menu.id} className="menu-item">
-                      <div>
-                        <div style={{ fontWeight: 'bold' }}>{menu.name}</div>
-                        <div style={{ fontSize: '12px', color: '#666' }}>{menu.desc}</div>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <span style={{ fontWeight: 'bold' }}>{menu.price.toLocaleString()}원</span>
-                        <button onClick={() => handleDeleteMenu(menu.id)} className="btn-delete">삭제</button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            {/* 👆👆👆 [수정 끝] 👆👆👆 */}
-
           </div>
         </div>
       )}

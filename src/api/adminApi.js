@@ -18,5 +18,45 @@ export const adminApi = {
     // userData = { email, password, nickname, ... }
     const response = await api.post('/auth/signup', userData);
     return response.data;
+  },
+
+  
+  // 🏪 [식당 관리]
+  // 1. 전체 식당 목록 조회
+  getRestaurants: async () => {
+    const response = await api.get('/restaurants');
+    return response.data;
+  },
+
+  // 2. 식당 추가 (DB 스키마: name, category_id, address, description 등)
+  createRestaurant: async (restaurantData) => {
+    const response = await api.post('/admin/restaurants', restaurantData);
+    return response.data;
+  },
+
+  // 3. 식당 삭제
+  deleteRestaurant: async (restaurantId) => {
+    const response = await api.delete(`/admin/restaurants/${restaurantId}`);
+    return response.data;
+  },
+
+  // 📋 [메뉴 관리]
+  // 1. 특정 식당의 메뉴 목록 조회
+  getRestaurantMenus: async (restaurantId) => {
+    const response = await api.get(`/admin/restaurants/${restaurantId}/menus`);
+    return response.data;
+  },
+
+  // 2. 메뉴 추가 (DB 스키마: restaurant_id, menu_name, price, description)
+  addMenu: async (restaurantId, menuData) => {
+    const response = await api.post(`/admin/restaurants/${restaurantId}/menus`, menuData);
+    return response.data;
+  },
+
+  // 3. 메뉴 삭제
+  deleteMenu: async (menuId) => {
+    const response = await api.delete(`/admin/menus/${menuId}`);
+    return response.data;
   }
+
 };

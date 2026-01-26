@@ -5,6 +5,7 @@ import './css/MemberManagement.css'; // 👈 방금 만드신 CSS 파일 경로 
 const MemberManagement = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // 🟢 모달(팝업) 상태 관리
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,14 +26,37 @@ const MemberManagement = () => {
 
   const fetchMembers = async () => {
     try {
+      setLoading(true);
+      setError(null);
+      
+      // 1. API 호출
       const data = await adminApi.getUsers();
-      setMembers(data);
+    
+      // 2. 데이터 저장
+      if (Array.isArray(data)) {
+        setMembers(data);
+      } else {
+        // 데이터가 배열이 아닐 경우 (혹시 모를 에러 방지)
+        console.warn("데이터가 배열 형식이 아닙니다!", data);
+        setMembers([]);
+      }
+
     } catch (err) {
-      console.error("로딩 실패:", err);
+      console.error("회원 목록 로딩 실패:", err);
+      setError("데이터를 불러오지 못했습니다.");
+      // 에러 나면 빈 배열로 초기화 (화면 안 깨지게)
+      setMembers([]);
     } finally {
       setLoading(false);
     }
   };
+
+  // 날짜 예쁘게 보여주기
+  const formatDate = (dateString) => {
+    if (!dateString) return '-';
+    return dateString.split('T')[0]; // 2024-05-20T... -> 2024-05-20
+  };
+
 
   // 🟢 입력값 변경 핸들러
   const handleInputChange = (e) => {
