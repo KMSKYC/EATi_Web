@@ -105,7 +105,7 @@ const MemberManagement = () => {
       {/* 1. 상단 헤더 */}
       <div className="page-header">
         <div className="header-left">
-          <h3>👥 회원 관리</h3>sdsd
+          <h3>👥 회원 관리</h3>
           <span className="member-count">총 {members.length}명</span>
         </div>
         
