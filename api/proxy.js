@@ -2,10 +2,10 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = (req, res) => {
-  const target = process.env.REAL_API_URL;
+  const target = process.env.REACT_APP_API_URL;
 
   if (!target) {
-    return res.status(500).json({ error: "REAL_API_URL 설정 안됨" });
+    return res.status(500).json({ error: "REACT_APP_API_URL 설정 안됨" });
   }
 
   createProxyMiddleware({

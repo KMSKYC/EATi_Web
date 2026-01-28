@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DaumPostcode from 'react-daum-postcode'; // 👈 주소 검색 기능 살리기!
 import { adminApi } from '../../api/adminApi';     // 👈 진짜 DB API 사용
 import './css/AdminPage.css'; 
-import './css/sss.css';        // 👈 예쁜 디자인 적용
+import './css/RestaurantManagement.css';        // 👈 예쁜 디자인 적용
 
 const RestaurantManagement = () => {
   // 1️⃣ 상태 관리
