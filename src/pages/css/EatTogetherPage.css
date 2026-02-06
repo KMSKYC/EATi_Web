@@ -1,104 +1,241 @@
-/* 페이지 컨테이너 */
-.eat-together-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 72px 32px 48px 32px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'SF Pro Display', sans-serif;
+/* ==========================================
+   같이먹기 페이지 - 메인화면 스타일 통일
+   ========================================== */
+
+.eat-together-page {
+  width: 100%;
   min-height: 100vh;
-  box-sizing: border-box;
-  background-color: #fafafa;
+  background: #f8f9fa;
+  font-family: 'Pretendard', sans-serif;
 }
 
-/* 헤더 */
-.eat-header {
-  margin-bottom: 40px;
+/* ==========================================
+   히어로 섹션
+   ========================================== */
+.eat-hero-section {
+  position: relative;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  padding: 80px 20px 60px;
+  overflow: hidden;
 }
 
-.eat-header h2 {
-  font-size: 40px;
-  font-weight: 700;
-  color: #000000;
-  margin-bottom: 8px;
-  letter-spacing: -1.5px;
-  line-height: 1.1;
+.eat-hero-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1529543544277-750e4b20a6eb?w=800&q=80') center/cover;
+  opacity: 0.3;
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
 }
 
-.eat-header p {
-  font-size: 17px;
-  color: #6e6e73;
-  letter-spacing: -0.3px;
-  font-weight: 400;
-  line-height: 1.5;
+.eat-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* 글쓰기 버튼 */
-.create-post-wrapper {
-  margin-bottom: 32px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.create-post-btn {
-  background-color: #000000;
+.eat-badge {
+  display: inline-block;
+  background: #CC1213;
   color: white;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 10px;
-  font-size: 15px;
+  padding: 8px 16px;
+  font-size: 12px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s ease;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.eat-hero-content h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.eat-hero-content p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
   letter-spacing: -0.2px;
 }
 
-.create-post-btn:hover {
-  background-color: #1d1d1f;
-  transform: translateY(-1px);
+/* ==========================================
+   메인 콘텐츠
+   ========================================== */
+.eat-main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
 }
 
-.create-post-btn:active {
-  transform: scale(0.98);
-}
-
-/* 그리드 레이아웃 */
-.posts-grid {
+/* ==========================================
+   상단 그리드 (통계 + CTA)
+   ========================================== */
+.eat-top-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 30px 0 40px;
+}
+
+/* 통계 카드 행 */
+.eat-stats-row {
+  display: flex;
   gap: 16px;
 }
 
-/* 게시글 카드 */
+.stat-card {
+  flex: 1;
+  background: white;
+  border: 1px solid #e8e8e8;
+  padding: 24px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: #CC1213;
+  letter-spacing: -1px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #888;
+  font-weight: 500;
+}
+
+/* CTA 카드 */
+.eat-cta-card {
+  background: white;
+  border: 1px solid #e8e8e8;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.cta-content h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.3px;
+}
+
+.cta-content p {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+}
+
+.create-post-btn {
+  background: #CC1213;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.create-post-btn:hover {
+  background: #a80f10;
+}
+
+/* ==========================================
+   필터 섹션
+   ========================================== */
+.eat-filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-tabs button {
+  background: white;
+  border: 1px solid #e8e8e8;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-tabs button:hover {
+  border-color: #ccc;
+  color: #333;
+}
+
+.filter-tabs button.active {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+  color: white;
+}
+
+/* ==========================================
+   게시글 그리드
+   ========================================== */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* ==========================================
+   게시글 카드
+   ========================================== */
 .post-card {
   background: white;
-  border: 1px solid #ebebeb;
-  border-radius: 12px;
-  padding: 20px;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #e8e8e8;
+  padding: 24px;
   cursor: pointer;
+  transition: all 0.2s;
   display: flex;
   flex-direction: column;
 }
 
 .post-card:hover {
-  background: #fafafa;
-  border-color: #d2d2d7;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border-color: #CC1213;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(204, 18, 19, 0.08);
 }
 
-.post-card:active {
-  transform: scale(0.98);
-}
-
-/* 마감된 카드 스타일 */
 .post-card.closed {
-  background-color: #f5f5f7;
   opacity: 0.6;
 }
 
 .post-card.closed:hover {
-  background-color: #f5f5f7;
-  border-color: #ebebeb;
+  border-color: #e8e8e8;
   transform: none;
   box-shadow: none;
 }
@@ -112,70 +249,83 @@
 }
 
 .status-badge {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 8px;
+  padding: 5px 10px;
   letter-spacing: -0.1px;
 }
 
 .status-badge.recruiting {
-  background-color: #000000;
-  color: #ffffff;
+  background: #CC1213;
+  color: white;
 }
 
 .status-badge.closed {
-  background-color: #f5f5f7;
-  color: #6e6e73;
+  background: #f5f5f5;
+  color: #888;
 }
 
-.post-time {
-  font-size: 13px;
-  color: #6e6e73;
+.post-category {
+  font-size: 12px;
+  color: #888;
   font-weight: 500;
-  letter-spacing: -0.1px;
 }
 
-/* 카드 내용 */
+/* 카드 타이틀 */
 .post-title {
   font-size: 17px;
   font-weight: 600;
-  margin: 0 0 8px 0;
-  color: #000000;
+  margin: 0 0 16px 0;
+  color: #1a1a1a;
   letter-spacing: -0.3px;
   line-height: 1.4;
 }
 
-.post-restaurant {
-  font-size: 14px;
-  color: #6e6e73;
-  margin: 0 0 20px 0;
-  letter-spacing: -0.1px;
-  font-weight: 400;
+/* 카드 정보 */
+.post-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
-/* 카드 푸터 (인원수) */
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #666;
+}
+
+.info-icon {
+  font-size: 14px;
+  width: 20px;
+  text-align: center;
+}
+
+/* 카드 푸터 */
 .post-footer {
   margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
 }
 
 .participant-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 13px;
-  color: #6e6e73;
-  margin-bottom: 10px;
-  letter-spacing: -0.1px;
+  margin-bottom: 12px;
 }
 
 .host-name {
+  font-size: 13px;
   font-weight: 600;
-  color: #000000;
+  color: #333;
 }
 
 .count-text {
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   color: #CC1213;
 }
 
@@ -183,40 +333,138 @@
 .progress-bar-bg {
   width: 100%;
   height: 6px;
-  background-color: #f5f5f7;
-  border-radius: 3px;
+  background: #f0f0f0;
   overflow: hidden;
+  margin-bottom: 16px;
 }
 
 .progress-bar-fill {
   height: 100%;
-  background-color: #CC1213;
-  border-radius: 3px;
+  background: #CC1213;
   transition: width 0.3s ease;
 }
 
-/* 모바일 반응형 */
+/* 참여 버튼 */
+.join-btn {
+  width: 100%;
+  padding: 12px;
+  background: #1a1a1a;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.join-btn:hover {
+  background: #333;
+}
+
+/* 빈 상태 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+}
+
+.empty-state p {
+  font-size: 15px;
+  margin: 0;
+}
+
+/* ==========================================
+   반응형 (태블릿)
+   ========================================== */
+@media (max-width: 1024px) {
+  .eat-top-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+/* ==========================================
+   반응형 (모바일)
+   ========================================== */
 @media (max-width: 768px) {
-  .eat-together-container {
-    padding: 60px 20px 40px 20px;
+  .eat-hero-section {
+    padding: 60px 16px 40px;
   }
 
-  .eat-header h2 {
-    font-size: 32px;
-    letter-spacing: -1.2px;
+  .eat-hero-bg {
+    width: 100%;
+    opacity: 0.2;
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
   }
 
-  .eat-header p {
-    font-size: 15px;
+  .eat-hero-content h1 {
+    font-size: 28px;
   }
 
-  .create-post-wrapper {
-    margin-bottom: 24px;
+  .eat-hero-content p {
+    font-size: 14px;
+  }
+
+  .eat-badge {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  .eat-main-content {
+    padding: 0 16px 60px;
+  }
+
+  .eat-top-grid {
+    margin: 24px 0 30px;
+  }
+
+  .eat-stats-row {
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 16px 12px;
+  }
+
+  .stat-number {
+    font-size: 24px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .eat-cta-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 20px;
   }
 
   .create-post-btn {
-    padding: 9px 20px;
-    font-size: 14px;
+    width: 100%;
+    padding: 12px 20px;
+  }
+
+  .eat-filter-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .filter-tabs button {
+    padding: 7px 16px;
+    font-size: 13px;
   }
 
   .posts-grid {
@@ -225,19 +473,33 @@
   }
 
   .post-card {
-    padding: 18px;
+    padding: 20px;
   }
 
   .post-card:hover {
     transform: none;
-    box-shadow: none;
   }
 
   .post-title {
     font-size: 16px;
   }
 
-  .post-restaurant {
-    font-size: 13px;
+  .info-row {
+    font-size: 12px;
+  }
+}
+
+/* 아주 작은 화면 */
+@media (max-width: 400px) {
+  .eat-hero-content h1 {
+    font-size: 24px;
+  }
+
+  .stat-card {
+    padding: 14px 10px;
+  }
+
+  .stat-number {
+    font-size: 20px;
   }
 }
