@@ -27,7 +27,6 @@ function LoginPage() {
     const success = await login(formData.email, formData.password);
 
     if (success) {
-      alert("로그인 성공! 환영합니다.");
       navigate('/');
     }
   };
