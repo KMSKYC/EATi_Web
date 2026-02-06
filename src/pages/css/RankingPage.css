@@ -1,191 +1,309 @@
+/* ==========================================
+   랭킹 페이지 - 홈페이지 스타일 통일
+   ========================================== */
+
 .ranking-page-container {
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'SF Pro Display', sans-serif;
+  width: 100%;
   min-height: 100vh;
-  box-sizing: border-box;
-  background: #fafafa;
+  background: #f8f9fa;
+  font-family: 'Pretendard', sans-serif;
 }
 
-.ranking-header {
-  text-align: left;
-  max-width: 1080px;
+/* ==========================================
+   히어로 섹션
+   ========================================== */
+.ranking-hero-section {
+  position: relative;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  padding: 80px 20px 60px;
+  overflow: hidden;
+}
+
+.ranking-hero-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80') center/cover;
+  opacity: 0.3;
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
+}
+
+.ranking-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 72px 32px 48px 32px;
 }
 
-.ranking-header h2 {
-  font-size: 40px;
+.ranking-badge {
+  display: inline-block;
+  background: #CC1213;
+  color: white;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.ranking-hero-content h1 {
+  font-size: 36px;
   font-weight: 700;
-  color: #000000;
-  margin-bottom: 8px;
-  letter-spacing: -1.5px;
-  line-height: 1.1;
+  color: white;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
 }
 
-.ranking-header p {
-  font-size: 17px;
-  color: #6e6e73;
-  letter-spacing: -0.3px;
-  font-weight: 400;
-  line-height: 1.5;
+.ranking-hero-content p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  letter-spacing: -0.2px;
 }
 
-/* 메인 탭 스타일 */
+/* ==========================================
+   메인 콘텐츠
+   ========================================== */
+.ranking-main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+
+/* 탭 메뉴 */
 .ranking-tabs {
   display: flex;
-  justify-content: flex-start;
   gap: 0;
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 0 32px 32px 32px;
-  background: transparent;
-  border-bottom: 0.5px solid #d2d2d7;
+  padding: 30px 0 20px;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .ranking-tabs button {
   background: transparent;
   border: none;
-  padding: 10px 0;
+  padding: 12px 0;
   margin-right: 32px;
   font-size: 15px;
   font-weight: 500;
-  color: #6e6e73;
+  color: #888;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s;
   letter-spacing: -0.2px;
   position: relative;
   border-bottom: 2px solid transparent;
 }
 
 .ranking-tabs button:hover {
-  color: #000000;
+  color: #333;
 }
 
 .ranking-tabs button.active {
-  color: #000000;
+  color: #1a1a1a;
   font-weight: 600;
   border-bottom-color: #CC1213;
 }
 
-/* 랭킹 컨텐츠 영역 */
+/* 랭킹 콘텐츠 */
 .ranking-content {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 48px 32px;
+  padding: 30px 0;
 }
 
-/* 서브 필터 (연령, 지역) */
-.sub-filter {
-  display: inline-flex;
-  gap: 8px;
-  margin-bottom: 40px;
-  background: #f5f5f7;
-  padding: 4px;
-  border-radius: 12px;
+/* ==========================================
+   전체 인기 탭 - 그리드 레이아웃
+   ========================================== */
+.ranking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
 }
 
-.sub-filter button {
-  background: transparent;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 8px;
+/* 1위 하이라이트 카드 */
+.top-rank-card {
+  position: relative;
+  background: #1a1a1a;
+  overflow: hidden;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  color: #6e6e73;
-  white-space: nowrap;
-  transition: all 0.15s ease;
-  letter-spacing: -0.2px;
+  display: flex;
+  align-items: flex-end;
 }
 
-.sub-filter button:hover {
-  color: #000000;
-  background: rgba(0, 0, 0, 0.04);
+.top-rank-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.sub-filter button.on {
-  background: #000000;
-  color: #ffffff;
-  font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+.top-rank-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
 }
 
-/* 랭킹 리스트 컨테이너 */
+.top-rank-card:hover .top-rank-img img {
+  transform: scale(1.05);
+}
+
+.top-rank-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+}
+
+.top-rank-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 48px;
+  height: 48px;
+  background: #CC1213;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.top-rank-info {
+  position: relative;
+  z-index: 2;
+  padding: 32px;
+  width: 100%;
+}
+
+.crown-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.top-rank-info h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.top-rank-info p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* ==========================================
+   랭킹 리스트
+   ========================================== */
 .rank-list {
-  max-width: 100%;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  height: 100%;
 }
 
-/* 랭킹 리스트 아이템 */
+.rank-list.full-width {
+  max-width: 800px;
+  height: auto;
+}
+
+.list-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.3px;
+  flex-shrink: 0;
+}
+
+/* 랭킹 아이템 카드 */
 .rank-item-card {
   display: flex;
   align-items: center;
   background: white;
-  padding: 20px 24px;
-  border: 1px solid #ebebeb;
-  border-radius: 12px;
+  border: 1px solid #e8e8e8;
+  padding: 16px 20px;
   cursor: pointer;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.rank-item-card + .rank-item-card {
+  margin-top: 12px;
 }
 
 .rank-item-card:hover {
-  background: #fafafa;
-  border-color: #d2d2d7;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-color: #CC1213;
+  transform: translateX(6px);
+  box-shadow: 0 4px 12px rgba(204, 18, 19, 0.08);
 }
 
-.rank-item-card:active {
-  transform: scale(0.98);
+/* 랭킹 아이템 이미지 */
+.rank-img-wrapper {
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.rank-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* 등수 뱃지 */
 .rank-badge {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   margin-right: 16px;
-  background: #f5f5f7;
-  color: #6e6e73;
+  background: #f5f5f5;
+  color: #888;
   flex-shrink: 0;
 }
 
 .rank-badge.rank-1 {
   background: #FFD700;
-  color: #000000;
+  color: #1a1a1a;
 }
 
 .rank-badge.rank-2 {
   background: #C0C0C0;
-  color: #000000;
+  color: #1a1a1a;
 }
 
 .rank-badge.rank-3 {
   background: #CD7F32;
-  color: #ffffff;
+  color: white;
 }
 
+/* 랭킹 정보 */
 .rank-info {
   flex: 1;
   min-width: 0;
 }
 
 .rank-info h3 {
-  margin: 0 0 2px 0;
+  margin: 0 0 4px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #000000;
+  color: #222;
   letter-spacing: -0.3px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -194,44 +312,141 @@
 
 .rank-info p {
   margin: 0;
-  font-size: 14px;
-  color: #6e6e73;
+  font-size: 13px;
+  color: #888;
   letter-spacing: -0.1px;
-  font-weight: 400;
 }
 
-.rank-diff {
-  font-size: 14px;
+.score-highlight {
+  color: #CC1213;
   font-weight: 600;
-  color: #6e6e73;
+}
+
+/* 순위 변동 */
+.rank-diff {
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
   min-width: 45px;
   text-align: right;
-  padding: 0;
-  background: transparent;
 }
 
-/* =========================================
-   📱 모바일 반응형 (화면 폭 768px 이하)
-   ========================================= */
+.rank-diff.up {
+  color: #CC1213;
+}
+
+.rank-diff.down {
+  color: #4dabf7;
+}
+
+.rank-diff.new {
+  color: white;
+  background: #CC1213;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ==========================================
+   필터 섹션 (연령별, 지역별)
+   ========================================== */
+.filter-section {
+  width: 100%;
+}
+
+.sub-filter {
+  display: inline-flex;
+  gap: 0;
+  margin-bottom: 24px;
+  background: #f5f5f5;
+  padding: 4px;
+}
+
+.sub-filter button {
+  background: transparent;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #888;
+  white-space: nowrap;
+  transition: all 0.2s;
+  letter-spacing: -0.2px;
+}
+
+.sub-filter button:hover {
+  color: #333;
+}
+
+.sub-filter button.on {
+  background: #1a1a1a;
+  color: white;
+  font-weight: 600;
+}
+
+/* ==========================================
+   반응형 (태블릿)
+   ========================================== */
+@media (max-width: 1024px) {
+  .ranking-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .top-rank-card {
+    min-height: 320px;
+  }
+
+  .rank-list {
+    height: auto;
+  }
+
+  .rank-item-card {
+    flex: none;
+  }
+
+  .rank-item-card + .rank-item-card {
+    margin-top: 10px;
+  }
+}
+
+/* ==========================================
+   반응형 (모바일)
+   ========================================== */
 @media (max-width: 768px) {
-  .ranking-header {
-    padding: 60px 20px 36px 20px;
+  .ranking-hero-section {
+    padding: 60px 16px 40px;
   }
 
-  .ranking-header h2 {
-    font-size: 32px;
-    letter-spacing: -1.2px;
+  .ranking-hero-bg {
+    width: 100%;
+    opacity: 0.2;
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
   }
 
-  .ranking-header p {
-    font-size: 15px;
+  .ranking-hero-content h1 {
+    font-size: 28px;
+  }
+
+  .ranking-hero-content p {
+    font-size: 14px;
+  }
+
+  .ranking-badge {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  .ranking-main-content {
+    padding: 0 16px 60px;
   }
 
   .ranking-tabs {
-    padding: 0 20px 24px 20px;
+    padding: 24px 0 16px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
   }
 
   .ranking-tabs::-webkit-scrollbar {
@@ -239,44 +454,75 @@
   }
 
   .ranking-tabs button {
-    padding: 8px 0;
+    padding: 10px 0;
     margin-right: 24px;
     font-size: 14px;
     white-space: nowrap;
   }
 
   .ranking-content {
-    padding: 40px 20px;
+    padding: 24px 0;
   }
 
-  .sub-filter {
-    gap: 6px;
-    margin-bottom: 32px;
-    padding: 3px;
+  .top-rank-card {
+    min-height: 280px;
   }
 
-  .sub-filter button {
-    padding: 7px 16px;
-    font-size: 13px;
+  .top-rank-badge {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .top-rank-info {
+    padding: 24px;
+  }
+
+  .crown-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .top-rank-info h2 {
+    font-size: 22px;
+  }
+
+  .top-rank-info p {
+    font-size: 14px;
+  }
+
+  .list-title {
+    font-size: 16px;
+    margin-bottom: 12px;
   }
 
   .rank-list {
-    gap: 6px;
+    height: auto;
   }
 
   .rank-item-card {
-    padding: 16px 18px;
+    padding: 14px 16px;
+    flex: none;
+  }
+
+  .rank-item-card + .rank-item-card {
+    margin-top: 8px;
   }
 
   .rank-item-card:hover {
     transform: none;
-    box-shadow: none;
+  }
+
+  .rank-img-wrapper {
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
   }
 
   .rank-badge {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
     margin-right: 12px;
   }
 
@@ -285,11 +531,36 @@
   }
 
   .rank-info p {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .rank-diff {
-    font-size: 13px;
+    font-size: 12px;
     min-width: 40px;
+  }
+
+  .sub-filter {
+    margin-bottom: 20px;
+    padding: 3px;
+  }
+
+  .sub-filter button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+/* 아주 작은 화면 */
+@media (max-width: 400px) {
+  .ranking-hero-content h1 {
+    font-size: 24px;
+  }
+
+  .top-rank-info h2 {
+    font-size: 20px;
+  }
+
+  .rank-img-wrapper {
+    display: none;
   }
 }
