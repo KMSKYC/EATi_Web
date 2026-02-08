@@ -288,10 +288,16 @@
     gap: 12px;
   }
 
+  /* 모바일 순서: 지도 → 카테고리 → 빠른추천 → 키워드 */
+  .grid-map { order: 1; }
+  .grid-category { order: 2; }
+  .grid-quick { order: 3; }
+  .grid-keyword { order: 4; }
+
   /* 히어로 섹션 모바일 */
   .search-hero-section {
     margin: 0 -16px 30px;
-    padding: 40px 24px;
+    padding: 80px 24px 40px;
   }
 
   .search-hero-bg {

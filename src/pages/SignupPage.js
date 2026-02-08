@@ -89,9 +89,8 @@ function SignupPage() {
       alert("먼저 이메일 중복 확인을 해주세요.");
       return;
     }
-    const message = isEmailSent
-      ? `[재전송] ${formData.email}로 인증번호를 다시 보냈습니다!`
-      : `${formData.email}로 인증번호를 발송했습니다!`;
+    const prefix = isEmailSent ? '[재전송] ' : '';
+    const message = `${prefix}${formData.email}로 인증번호를 발송했습니다.\n\n(테스트용: 인증번호 1234를 입력해주세요)`;
 
     alert(message);
     setIsEmailSent(true);
@@ -209,12 +208,19 @@ function SignupPage() {
                   <button type="button" className="small-btn" onClick={handleCheckEmail}>
                     중복확인
                   </button>
+                ) : isEmailVerified ? (
+                  <button
+                    type="button"
+                    className="small-btn secondary"
+                    onClick={handleResetEmail}
+                  >
+                    수정하기
+                  </button>
                 ) : (
                   <button
                     type="button"
                     className={`small-btn ${isEmailSent ? 'secondary' : ''}`}
                     onClick={handleSendEmail}
-                    disabled={isEmailVerified}
                   >
                     {isEmailSent ? '재전송' : '인증요청'}
                   </button>
@@ -227,9 +233,6 @@ function SignupPage() {
               )}
               {isEmailVerified && (
                 <p className="input-message success">이메일 인증이 완료되었습니다.</p>
-              )}
-              {isEmailAvailable && !isEmailVerified && (
-                <span className="reset-link" onClick={handleResetEmail}>이메일 수정</span>
               )}
 
               {isEmailSent && !isEmailVerified && (

@@ -19,8 +19,8 @@ function SearchPage() {
 
       {/* 메인 그리드 영역 - 2x2 배치 */}
       <section className="search-main-grid">
-        {/* 행 1: 지도로 찾기 + 빠른 추천 */}
-        <Link to="/menu/map" className="search-option-card">
+        {/* PC: 왼쪽 상단 / 모바일: 1번 */}
+        <Link to="/menu/map" className="search-option-card grid-map">
           <div className="card-icon-wrapper">
             <span className="card-icon">📍</span>
           </div>
@@ -31,7 +31,8 @@ function SearchPage() {
           <span className="card-arrow">→</span>
         </Link>
 
-        <div className="sidebar-box">
+        {/* PC: 오른쪽 상단 / 모바일: 3번 */}
+        <div className="sidebar-box grid-quick">
           <h4>빠른 추천</h4>
           <div className="quick-buttons">
             <button className="quick-btn" onClick={() => navigate('/random')}>
@@ -45,8 +46,8 @@ function SearchPage() {
           </div>
         </div>
 
-        {/* 행 2: 카테고리로 찾기 + 오늘의 인기 키워드 */}
-        <Link to="/" className="search-option-card">
+        {/* PC: 왼쪽 하단 / 모바일: 2번 */}
+        <Link to="/" className="search-option-card grid-category">
           <div className="card-icon-wrapper">
             <span className="card-icon">🍱</span>
           </div>
@@ -57,7 +58,8 @@ function SearchPage() {
           <span className="card-arrow">→</span>
         </Link>
 
-        <div className="sidebar-box">
+        {/* PC: 오른쪽 하단 / 모바일: 4번 */}
+        <div className="sidebar-box grid-keyword">
           <h4>오늘의 인기 키워드</h4>
           <div className="tag-list">
             <span className="tag"># 혼밥</span>
