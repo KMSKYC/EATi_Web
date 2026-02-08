@@ -78,7 +78,7 @@ function Header() {
                 <div className="avatar">👤</div>
                 <span className="user-name"><strong>{user.nickname}</strong>님</span>
               </div>
-              <button className="logout-btn" onClick={logout}>로그아웃</button>
+              <button className="logout-btn desktop-only" onClick={logout}>로그아웃</button>
             </div>
           ) : (
             <div className="auth-buttons">
@@ -115,6 +115,17 @@ function Header() {
           >
             같이먹기
           </Link>
+          {user && (
+            <button
+              className="mobile-nav-link mobile-logout-btn"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                logout();
+              }}
+            >
+              로그아웃
+            </button>
+          )}
         </div>
       )}
     </header>

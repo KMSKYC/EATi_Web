@@ -306,6 +306,25 @@ font-size: 16px;
   border-left-color: #CC1213;
 }
 
+/* 모바일 메뉴 내 로그아웃 버튼 */
+.mobile-logout-btn {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 8px;
+  padding-top: 20px !important;
+  color: #888;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mobile-logout-btn:hover {
+  color: #CC1213;
+  background: #fff0f0;
+}
+
 /* 모바일 헤더 반응형 */
 @media (max-width: 768px) {
   .web-header {
@@ -316,7 +335,8 @@ font-size: 16px;
     padding: 0 16px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: space-between;
+    position: relative;
   }
 
   /* 햄버거 메뉴 버튼 - 왼쪽 */
@@ -326,10 +346,15 @@ font-size: 16px;
     justify-content: center;
     padding: 8px;
     flex-shrink: 0;
+    width: 40px;
+    height: 40px;
   }
 
-  /* 로고 - 햄버거 메뉴 바로 옆 */
+  /* 로고 - 중앙 배치 */
   .brand-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     flex-shrink: 0;
   }
 
@@ -344,9 +369,9 @@ font-size: 16px;
 
   /* 로그인/회원가입 - 오른쪽 */
   .header-actions {
-    margin-left: auto;
-    gap: 6px;
+    gap: 8px;
     flex-shrink: 0;
+    margin-left: auto;
   }
 
   /* 모바일 메뉴 표시 */
@@ -355,27 +380,29 @@ font-size: 16px;
   }
 
   .auth-buttons {
-    gap: 6px;
+    gap: 2px;
   }
 
   .text-btn {
-    font-size: 12px;
-    padding: 6px 10px;
+    font-size: 10px;
+    padding: 4px 6px;
     white-space: nowrap;
   }
 
   .btn-black-small {
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 4px 8px;
+    font-size: 10px;
     white-space: nowrap;
+    border-radius: 0;
   }
 
   .user-profile-area {
-    gap: 4px;
+    gap: 8px;
   }
 
   .user-profile {
-    padding: 6px 8px;
+    padding: 6px 10px;
+    height: 36px;
   }
 
   .user-name {
@@ -389,9 +416,15 @@ font-size: 16px;
   }
 
   .logout-btn {
-    font-size: 11px;
-    padding: 6px 10px;
+    font-size: 12px;
+    padding: 8px 12px;
     white-space: nowrap;
+    height: 36px;
+  }
+
+  /* 데스크톱 전용 요소 숨김 */
+  .desktop-only {
+    display: none !important;
   }
 }
 
@@ -459,15 +492,15 @@ font-size: 16px;
 }
 .text-btn {
   background: none; border: none;
-  font-size: 14px; color: #555; font-weight: 600;
+  font-size: 12px; color: #555; font-weight: 600;
   cursor: pointer;
 }
 .text-btn:hover { color: #CC1213; }
 
 .btn-black-small {
   background: #333; color: white; border: none;
-  padding: 8px 16px; border-radius: 6px;
-  font-size: 13px; font-weight: bold; cursor: pointer;
+  padding: 8px 8px; border-radius: 0;
+  font-size: 12px; font-weight: bold; cursor: pointer;
   transition: background 0.2s;
 }
 .btn-black-small:hover { background: #555; }
@@ -477,7 +510,7 @@ font-size: 16px;
   border: 1px solid transparent;
   color: #6e6e73;
   padding: 8px 14px;
-  border-radius: 8px;
+  border-radius: 0;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
