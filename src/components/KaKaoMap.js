@@ -86,16 +86,16 @@ if (savedData) {
   }, []);
 
   return (
-    <div 
-      id="myMap" 
-      style={{ 
-        width: '100%', 
-        height: '500px', 
-        backgroundColor: '#eee', 
-        borderRadius: '20px',
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center' 
+    <div
+      id="myMap"
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#eee',
+        borderRadius: '24px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
       }}
     >
       {/* 지도가 뜨면 이 글씨는 덮여서 안 보이게 됩니다 */}

@@ -39,8 +39,10 @@ function SearchMapPage() {
         
         {/* 검색바 */}
         <div className="map-search-bar">
-          <span className="search-icon">🔍</span>
-          <input type="text" placeholder="먹고 싶은 메뉴, 지역 검색" className="search-input" />
+          <div className="search-icon-wrapper">
+            <span>🔍</span>
+          </div>
+          <input type="text" placeholder="메뉴, 식당, 지역을 검색해보세요" className="search-input" />
         </div>
 
         {/* 필터 */}
