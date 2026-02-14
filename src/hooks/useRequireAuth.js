@@ -9,24 +9,31 @@ export const useRequireAuth = () => {
  const withAuth = (action) => {
     if (!user) {
       Swal.fire({
-        icon: 'info',
+        icon: 'warning',
         iconColor: '#CC1213',
 
         title: '로그인이 필요해요!',
-        html: '해당 기능을 사용하려면<br/>먼저 로그인해주세요.',
+        html: '해당 기능을 사용하려면<br/>먼저 로그인해주세요',
 
         showCancelButton: true,
-
         confirmButtonText: '로그인 하러가기',
-        confirmButtonColor: '#CC1213',
-
         cancelButtonText: '나중에 할게요',
-        cancelButtonColor: '#9e9e9e',
+        buttonsStyling: false,
+        reverseButtons: true,
+
+        customClass: {
+          popup: 'auth-required-popup',
+          title: 'auth-required-title',
+          htmlContainer: 'auth-required-text',
+          actions: 'auth-required-actions',
+          confirmButton: 'auth-required-confirm',
+          cancelButton: 'auth-required-cancel',
+        },
 
         width: 400,
-        padding: '2em',
-        background: '#fff',
-        backdrop: 'rgba(0,0,0,0.4)',
+        padding: '1.75rem',
+        background: '#ffffff',
+        backdrop: 'rgba(9, 11, 14, 0.55)',
 
         scrollbarPadding: false,
         heightAuto: false,
