@@ -8,9 +8,10 @@ function AICard({ restaurant }) {
   }
 
   const hasImage = restaurant.imageUrl && restaurant.imageUrl.trim() !== '';
+  const menuId = restaurant.menuId || restaurant.id;
 
   return (
-    <Link to={`/menu/${restaurant.menuId}/restaurants`} className="ai-card-item">
+    <Link to={`/menu/${menuId}/restaurants`} className="ai-card-item">
       <div className="ai-card-image-wrapper">
         {hasImage ? (
           <img

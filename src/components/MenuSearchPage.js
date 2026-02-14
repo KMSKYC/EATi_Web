@@ -29,8 +29,8 @@ function MenuSearchPage() {
         </div>
 
         {/* 2. 카테고리로 찾기 카드 (분홍색) */}
-        <div className="search-card category-card" onClick={() => navigate('/')}> 
-          {/* 카테고리는 보통 홈 화면 필터로 가거나 별도 페이지로 이동 */}
+        <div className="search-card category-card" onClick={() => navigate('/menu/category')}>
+          {/* 카테고리 페이지로 이동 */}
           <div className="icon-circle">
             <span style={{fontSize: '40px'}}>🍱</span>
           </div>

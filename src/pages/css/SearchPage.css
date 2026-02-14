@@ -378,6 +378,138 @@
   }
 }
 
+/* ==========================================
+   메뉴 리스트 섹션
+   ========================================== */
+.search-menu-section {
+  margin-top: 48px;
+}
+
+.search-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.search-menu-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.search-menu-header h2 .highlight {
+  color: #CC1213;
+}
+
+/* 카테고리 필터 */
+.category-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pill-btn {
+  padding: 8px 16px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pill-btn:hover {
+  border-color: #CC1213;
+  color: #CC1213;
+}
+
+.pill-btn.active {
+  background: #CC1213;
+  border-color: #CC1213;
+  color: #fff;
+}
+
+/* 메뉴 그리드 */
+.search-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* 로딩/빈 상태 */
+.search-menu-loading,
+.search-menu-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+}
+
+.search-menu-loading p,
+.search-menu-empty p {
+  font-size: 14px;
+  color: #888;
+}
+
+/* ==========================================
+   반응형 - 메뉴 섹션
+   ========================================== */
+@media (max-width: 1024px) {
+  .search-menu-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-menu-section {
+    margin-top: 32px;
+  }
+
+  .search-menu-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .search-menu-header h2 {
+    font-size: 18px;
+  }
+
+  .category-pills {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    width: 100%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .category-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pill-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .search-menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
 /* 아주 작은 화면 */
 @media (max-width: 400px) {
   .search-hero-content h1 {
@@ -396,5 +528,9 @@
 
   .card-text h3 {
     font-size: 16px;
+  }
+
+  .search-menu-grid {
+    grid-template-columns: 1fr;
   }
 }
