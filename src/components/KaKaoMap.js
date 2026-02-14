@@ -1,7 +1,20 @@
 /* src/components/KakaoMap.js */
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 
-function KakaoMap({ searchKeyword, onPlacesFound, onPlaceSelect, selectedPlace }) {
+const calculateDistanceInMeters = (lat1, lng1, lat2, lng2) => {
+  const toRad = (deg) => (deg * Math.PI) / 180;
+  const earthRadius = 6371000;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return earthRadius * c;
+};
+
+function KakaoMap({ searchKeyword, onPlacesFound, onPlaceSelect, selectedPlace, searchTrigger }) {
   const [status, setStatus] = useState("지도 로딩 중...");
   const mapRef = useRef(null);
   const markersRef = useRef([]);
@@ -14,6 +27,46 @@ function KakaoMap({ searchKeyword, onPlacesFound, onPlaceSelect, selectedPlace }
     markersRef.current.forEach(marker => marker.setMap(null));
     markersRef.current = [];
     markerMapRef.current = {};
+  }, []);
+
+  const getSearchOptions = useCallback(() => {
+    const defaultOptions = {
+      category_group_code: 'FD6' // 음식점
+    };
+
+    if (!mapRef.current || !window.kakao?.maps?.services) {
+      return defaultOptions;
+    }
+
+    const center = mapRef.current.getCenter();
+    const bounds = mapRef.current.getBounds();
+    const northEast = bounds.getNorthEast();
+
+    // 현재 지도 중심 ~ 화면 모서리 거리 기준으로 반경 계산 (최대 20km)
+    const radius = Math.min(
+      20000,
+      Math.max(
+        500,
+        Math.round(
+          calculateDistanceInMeters(
+            center.getLat(),
+            center.getLng(),
+            northEast.getLat(),
+            northEast.getLng()
+          )
+        )
+      )
+    );
+
+    const sortByDistance = window.kakao.maps.services.SortBy?.DISTANCE;
+
+    return {
+      ...defaultOptions,
+      x: center.getLng(),
+      y: center.getLat(),
+      radius,
+      ...(sortByDistance ? { sort: sortByDistance } : {})
+    };
   }, []);
 
   // 장소 검색 함수
@@ -89,11 +142,8 @@ function KakaoMap({ searchKeyword, onPlacesFound, onPlaceSelect, selectedPlace }
           onPlacesFound([], true);
         }
       }
-    }, {
-      // 검색 옵션: 음식점 카테고리 우선
-      category_group_code: 'FD6' // 음식점
-    });
-  }, [clearMarkers, onPlacesFound, onPlaceSelect]);
+    }, getSearchOptions());
+  }, [clearMarkers, getSearchOptions, onPlacesFound, onPlaceSelect]);
 
   // 지도 초기화
   useEffect(() => {
@@ -202,7 +252,7 @@ function KakaoMap({ searchKeyword, onPlacesFound, onPlaceSelect, selectedPlace }
     if (searchKeyword && psRef.current) {
       searchPlaces(searchKeyword);
     }
-  }, [searchKeyword, searchPlaces]);
+  }, [searchKeyword, searchPlaces, searchTrigger]);
 
   // 선택된 장소가 바뀌면 지도에서 해당 위치로 이동
   useEffect(() => {

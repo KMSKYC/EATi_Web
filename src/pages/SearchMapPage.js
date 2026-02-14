@@ -23,6 +23,7 @@ function SearchMapPage() {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [noResults, setNoResults] = useState(false);
   const [showAllResults, setShowAllResults] = useState(false);
+  const [searchTrigger, setSearchTrigger] = useState(0);
 
   // 검색 실행
   const handleSearch = (e) => {
@@ -31,6 +32,7 @@ function SearchMapPage() {
       setNoResults(false);
       setShowAllResults(false);
       setSearchKeyword(searchInput.trim());
+      setSearchTrigger((prev) => prev + 1);
     }
   };
 
@@ -119,6 +121,7 @@ function SearchMapPage() {
                 setSearchKeyword(label);
                 setNoResults(false);
                 setShowAllResults(false);
+                setSearchTrigger((prev) => prev + 1);
               }}
             >
               <span className="filter-icon">{icon}</span>
@@ -153,6 +156,7 @@ function SearchMapPage() {
             onPlacesFound={handlePlacesFound}
             onPlaceSelect={handlePlaceSelect}
             selectedPlace={selectedPlace}
+            searchTrigger={searchTrigger}
           />
         </div>
 
